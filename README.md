@@ -88,4 +88,4 @@ TBD
 
 ## License
 
-  Available under [MIT License(LICENSE)
+  Available under [MIT License](LICENSE)
