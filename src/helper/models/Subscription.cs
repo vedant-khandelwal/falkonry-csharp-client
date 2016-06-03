@@ -8,12 +8,6 @@ namespace falkonry_csharp_client.helper.models
 {
     class Subscription
     {
-        //public void Subscription(Subscription subscription)
-        //{
-        //    //  var _this = this;
-        //    //  _this.raw = subscription || {};
-        //}
-
         public string key
         {
             get;

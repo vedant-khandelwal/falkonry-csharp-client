@@ -8,10 +8,6 @@ namespace falkonry_csharp_client.helper.models
 {
     class Assessment
     {
-   // public Assessment(Assessment assessment) {
-     
-   //// _this.raw = assessment || {};
-   // }
     public string key
     {
         get; set;

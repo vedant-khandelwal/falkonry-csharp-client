@@ -8,10 +8,6 @@ namespace falkonry_csharp_client.helper.models
 {
     class Signal
     {
-    //function Signal(signal) {
-    //  var _this = this;
-    //  _this.raw = signal || {};
-    //}
         private string[] InputSignalTypes = { "Numeric", "Categorical" };
         public string key
         {

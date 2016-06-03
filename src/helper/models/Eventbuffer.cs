@@ -8,21 +8,6 @@ namespace falkonry_csharp_client.helper.models
 {
     class Eventbuffer
     {
-
-        //public class Eventbuffer
-        //{
-        //}
-//function Eventbuffer(eventbuffer) {
-//  var _this = this;
-//  _this.raw = eventbuffer || {};
-
-//  if(Array.isArray(_this.raw.subscriptionList)){
-//    var subscriptions = _.map(_this.raw.subscriptionList, function(subscription){
-//      return new Subscription(subscription);
-//    });
-//    _this.raw.subscriptionList = subscriptions;
-//  }
-//}
         public string id
         {
             get; set;

@@ -8,33 +8,6 @@ namespace falkonry_csharp_client.helper.models
 {
     class Pipeline
     {
-
-//function Pipeline(pipeline) {
-//  var _this = this;
-//  _this.raw = pipeline || {};
-
-//  if(Array.isArray(_this.raw.inputList)){
-//    var inputs = _.map(_this.raw.inputList, function(eachInput){
-//      return new Signal(eachInput);
-//    });
-//    _this.raw.inputList = inputs;
-//  }
-
-//  if(Array.isArray(_this.raw.assessmentList)){
-//    var assessments = _.map(_this.raw.assessmentList, function(eachAssessment){
-//      return new Assessment(eachAssessment);
-//    });
-//    _this.raw.assessmentList = assessments;
-//  }
-
-//  if(Array.isArray(_this.raw.publicationList)){
-//    var publications = _.map(_this.raw.publicationList, function(publication){
-//      return new Publication(publication);
-//    });
-//    _this.raw.publicationList = publications;
-//  }
-//}
-
         public string id
         {
             get;
