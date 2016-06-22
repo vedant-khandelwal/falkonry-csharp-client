@@ -3,11 +3,6 @@
 
 Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
-## Installation
-
-```bash
-TBD
-```
 
 ## Features
 
@@ -23,6 +18,7 @@ TBD
 ## Quick Start
 
     * To create Eventbuffer
+
     ```
               string token="Add your token here";   
          Falkonry falkonry = new Falkonry("http://localhost:8080", token);
@@ -250,6 +246,7 @@ TBD
 
 
     * To get all Eventbuffers
+
             ```
             Falkonry falkonry = new Falkonry("http://localhost:8080", "");
             List<Eventbuffer>=falkonry.getEventbuffers();
@@ -257,12 +254,14 @@ TBD
 
 
     * To get all Pipelines
+
             ```
             Falkonry falkonry = new Falkonry("http://localhost:8080", "");
             List<Pipeline> pipelinelist = falkonry.getPipelines();
             ```
 
     * To add data in Eventbuffer
+
         ```
         string token="Add your token here";   
         Falkonry falkonry = new Falkonry("http://localhost:8080", token);
@@ -286,6 +285,7 @@ TBD
         ```
 
     * To add data from a stream in Eventbuffer
+
         ```
              string token="Add your token here";   
         Falkonry falkonry = new Falkonry("http://localhost:8080", token);
@@ -313,6 +313,7 @@ TBD
 
 
     * To get output of a Pipeline
+
         ```
         string token="Add your token here";   
         Falkonry falkonry = new Falkonry("http://localhost:8080", token);
@@ -331,8 +332,6 @@ TBD
         {
             while ((line = streamreader.ReadLine()) != null)
             {
-
-
                 streamwriter.WriteLine(line);
             }
         }
