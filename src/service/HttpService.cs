@@ -72,7 +72,7 @@ namespace falkonry_csharp_client.service
         
        }
 
-        public string post (string path,object data)
+        public string post (string path,string data)
         {
             var resp = "";
             try 
@@ -87,11 +87,9 @@ namespace falkonry_csharp_client.service
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
                     
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
                     
-                    string restoWrite = serializer.Serialize(data);
                     
-                    streamWriter.Write(restoWrite);
+                    streamWriter.Write(data);
                     
                     streamWriter.Flush();
                     
@@ -123,7 +121,7 @@ namespace falkonry_csharp_client.service
             }
         }
 
-        public string put (string path,object pipeline)
+        public string put (string path,string data)
         {
             try 
             {
@@ -136,10 +134,8 @@ namespace falkonry_csharp_client.service
                 
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
-                    //initiate the request
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    string restoWrite = serializer.Serialize(pipeline);
-                    streamWriter.Write(restoWrite);
+                    
+                    streamWriter.Write(data);
                     streamWriter.Flush();
                     streamWriter.Close();
                 }
@@ -167,50 +163,7 @@ namespace falkonry_csharp_client.service
                 return E.Message.ToString();
             }
         }
-        /*
-        public string sfpost (string path,string data)
-        {   //done
-            try 
-            {
-                var url = this.host + path;
-                WebRequest request = WebRequest.Create(url);
-                request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Token "+this.token);
-			    request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded";
-                byte[] byteArray = Encoding.UTF8.GetBytes(data);
-                request.ContentLength = byteArray.Length;
-                Stream dataStream = request.GetRequestStream();
-                dataStream.Write(byteArray, 0, byteArray.Length);
-                dataStream.Close();
-
-                //form   : {'name' : 'hello'},
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                var resp = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                //dynamic obj = JsonConvert.DeserializeObject(resp);
-                //body = JSON.parse(body);
-                if ( Convert.ToInt32(response.StatusCode) == 401 )
-                {
-                    return "Unauthorized : Invalid token " + response.StatusCode;
-                }
-                else if ( Convert.ToInt32(response.StatusCode) >= 400 )
-                {
-                    // return obj.error.message + response.StatusCode;
-                    //return done(body.message, null, response.statusCode);
-                }
-                else
-                {
-                //    return obj. + response.StatusCode;
-                //    return done(null, body, response.statusCode);
-                }
-                 return request.ToString(); 
-            }
-            catch ( Exception E)
-            {
-                return E.Message.ToString();
-            }
-        }
-        */
+        
         async public Task<string> fpost (string path,SortedDictionary<string,string> options,byte[] stream)
         {
             try 
