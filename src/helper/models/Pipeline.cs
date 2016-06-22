@@ -6,7 +6,7 @@ using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
-    class Pipeline
+    public class Pipeline
     {
         public string id
         {
@@ -28,7 +28,7 @@ namespace falkonry_csharp_client.helper.models
             get;
             set;
         }
-        public int createTime
+        public long createTime
         {
             get;
             set;
@@ -38,7 +38,7 @@ namespace falkonry_csharp_client.helper.models
             get;
             set;
         }
-        public int updateTime
+        public long updateTime
         {
             get;
             set;
@@ -48,11 +48,12 @@ namespace falkonry_csharp_client.helper.models
             get;
             set;
         }
-        public object input
+       /* public object input
         {
             get;
             set;
         }
+        */
         public string inputMeasurement
         {
             get;
@@ -71,8 +72,8 @@ namespace falkonry_csharp_client.helper.models
         public List<Signal> inputList
         {
             get;
-            set
-            {
+            set;
+           /* {
                 List<Signal> singnalL = new List<Signal>();
                 foreach (object eachSignal in value)
                 {
@@ -82,13 +83,13 @@ namespace falkonry_csharp_client.helper.models
                     }
                 }
                 this.inputList = singnalL;
-            }
+            }*/
         }
         public List<Assessment> assessmentList
         {
             get;
-            set
-            {
+            set;
+            /*{
                 List<Assessment> assessmentL = new List<Assessment>();
                 foreach (object eachAssessment in value)
                 {
@@ -99,13 +100,14 @@ namespace falkonry_csharp_client.helper.models
                 }
                 this.assessmentList = assessmentL;
             }
+        */
         }
 
         public List<Publication> publicationList
         {
             get;
-            set
-            {
+            set;
+            /*{
                 List<Publication> publicationL = new List<Publication>();
                 foreach (object eachPublication in value)
                 {
@@ -115,7 +117,7 @@ namespace falkonry_csharp_client.helper.models
                     }
                 }
                 this.publicationList = publicationL;
-            }
+            }*/
         }
         public string status
         {
@@ -128,37 +130,49 @@ namespace falkonry_csharp_client.helper.models
             set;
         }
 
-        public Dictionary<string, string> interval
+        public  Interval interval
         {
             get;
             set;
         }
 
-        public int earliestDataPoint
+        public long earliestDataPoint
         {
             get;
             set;
         }
 
-        public int latestDataPoint
+        public long latestDataPoint
         {
             get;
             set;
         }
-        public string[]  modelRevisionList
+        public List<Object>  modelRevisionList
         {
             get;
             set;
         }
 
-        public string[] outflowHistory
+        public List<Object> outflowHistory
         {
             get;
             set;
         }
+        public string input
+        {
+            get;
+            set;
+        }
+
         public string toJSON()
         {
             return new JavaScriptSerializer().Serialize(this);
         }
+        public string type
+        {
+            get;
+            set;
+        }
+
     }
 }

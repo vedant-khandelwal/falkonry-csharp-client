@@ -5,59 +5,59 @@ using System.Text;
 using System.Web.Script.Serialization;
 namespace falkonry_csharp_client.helper.models
 {
-    class Publication
+    public class Publication
     {
-        public string id
+        public string key
         {
             get;
             set;
         }
-        public string sourceId
+        public string type
         {
             get;
             set;
         }
-        public string name
+        public string topic
         {
             get;
             set;
         }
-        public string tenant
+        public string path
         {
             get;
             set;
         }
-        public int createTime
+        public string username
         {
             get;
             set;
         }
-        public string createdBy
+        public string password
         {
             get;
             set;
         }
-        public int updateTime
+        public string contentType
         {
             get;
             set;
         }
-        public string updatedBy
+        public Boolean streaming
         {
             get;
             set;
         }
-        public object input
+        /*public object input
+        {
+            get;
+            set;
+        }*/
+        public SortedDictionary<string,string> headers
         {
             get;
             set;
         }
-        public string inputMeasurement
-        {
-            get;
-            set;
-        }
-        public string thingIdentifier
+        /*public string thingIdentifier
         {
             get;
             set;
@@ -74,7 +74,7 @@ namespace falkonry_csharp_client.helper.models
         }
         public List<Signal> inputList
         {
-            get;
+            get { }
             set
             {
                 List<Signal> singnalL = new List<Signal>();
@@ -162,6 +162,6 @@ namespace falkonry_csharp_client.helper.models
         public string toJSON()
         {
             return new JavaScriptSerializer().Serialize(this);
-        }
+        }*/
     }
 }

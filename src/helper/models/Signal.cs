@@ -6,9 +6,9 @@ using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
-    class Signal
+    public class Signal
     {
-        private string[] InputSignalTypes = { "Numeric", "Categorical" };
+        //private string[] InputSignalTypes = { "Numeric", "Categorical" };
         public string key
         {
             get;
@@ -19,23 +19,31 @@ namespace falkonry_csharp_client.helper.models
             get;
             set;
         }
-        public object valueType
+        public ValueType valueType
         {
             get;
-            set
-            {
+            set;
+            /*{
                 if(value is string && InputSignalTypes.Contains(value))
                 {
                     valueType= new Dictionary<string, string> {
                     {"type", (string)value}
                 };
                 }
-            }
+            }*/
         }
-        public string toJSON()
+        /*public string toJSON()
         {
             return new JavaScriptSerializer().Serialize(this);
         }
+        */
+        public EventType eventType
+        {
+            get;
+            set;
+        }
+
+
 
     }
 }

@@ -6,68 +6,81 @@ using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
-    class Eventbuffer
+    public class Eventbuffer
     {
+        
+
+
+
         public string id
         {
-            get; set;
+            get;
+            set;
+            
+            
         }
 
         public string sourceId
         {
-            get; set;
+            get;
+            set;
+
         }
 
         public string name
         {
-            get; set;
+            get;
+            set;
+
         }
 
         public string tenant
         {
-            get; set;
+            get;
+            set;
+
         }
 
-        public int createTime
+        public long createTime
         {
-            get; set;
+            get;
+            set;
+
         }
 
         public string createdBy
         {
-            get; set;
+            get;
+            set;
+
         }
 
-        public int updateTime
+        public long updateTime
         {
-            get; set;
+            get;
+            set;
+
         }
 
         public string updatedBy
         {
-            get; set;
+            get;
+            set;
+
         }
 
-        public string getSchemaList
+        public List<Object> schemaList
         {
-            get; set;
+            get;
+            set;
+
         }
 
         public List<Subscription> subscriptionList
         {
             get;
-            set
-            {
-                List<Subscription> subscriptionL = new List<Subscription>();
-                foreach(object eachSubscription in value)
-                {
-                    if (eachSubscription is Subscription)
-                    {
-                        subscriptionL.Add((Subscription)eachSubscription);
-                    }
-                }
-                this.subscriptionList=subscriptionL;
-            }
+            set;
+
         }
 
         public string toJSON()

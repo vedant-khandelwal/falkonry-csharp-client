@@ -6,7 +6,7 @@ using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
-    class Assessment
+    public class Assessment
     {
     public string key
     {

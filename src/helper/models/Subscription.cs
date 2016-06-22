@@ -6,7 +6,7 @@ using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
-    class Subscription
+    public class Subscription
     {
         public string key
         {
@@ -53,11 +53,7 @@ namespace falkonry_csharp_client.helper.models
             get;
             set;
         }
-        public string isHistorian
-        {
-            get;
-            set;
-        }
+        
         public string signalsTagField
         {
             get;
@@ -68,11 +64,7 @@ namespace falkonry_csharp_client.helper.models
             get;
             set;
         }
-        public string signalsLocation
-        {
-            get;
-            set;
-        }
+       
         public string valueColumn
         {
             get;
@@ -82,6 +74,17 @@ namespace falkonry_csharp_client.helper.models
         {
             return new JavaScriptSerializer().Serialize(this);
         }
+        public string signalsDelimiter
+        {
+            get;
+            set;
 
+        }
+        //public string valueColumn
+          public Boolean isHistorian
+        {
+            get;
+            set;
+        }  
     }
 }
