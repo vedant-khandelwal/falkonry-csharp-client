@@ -23,14 +23,12 @@ TBD
 ## Quick Start
 
     * To create Eventbuffer
-    
-             Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+             string token="Add your token here";   
+             Falkonry falkonry = new Falkonry("http://localhost:8080", token);
              List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
-
-             System.Random rnd = new System.Random();
-             string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+             string name="event buffer name here"
              Eventbuffer eb = new Eventbuffer();
-             eb.name = "TestEb" + random_number;
+             eb.name = name;
              SortedDictionary<string, string> options = new SortedDictionary<string, string>();
              options.Add("timeIdentifier", "time");
              options.Add("timeFormat", "iso_8601");
@@ -41,14 +39,14 @@ TBD
     
     
     
-            Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+            string token="Add your token here";   
+            Falkonry falkonry = new Falkonry("http://localhost:8080", token);
         
             List<Pipeline> pipelines = new List<Pipeline>();
             List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
-            System.Random rnd = new System.Random();
-            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            string name="event buffer name here"
             Eventbuffer eb = new Eventbuffer();
-            eb.name = "TestEb" + random_number;
+            eb.name = name;
 
             List<Signal> signals = new List<Signal>();
             Signal signal1 = new Signal();
@@ -105,9 +103,8 @@ TBD
             Interval interval = new Interval();
             interval.duration = "PT1S";
 
-            Pipeline pipeline = new Pipeline();
-            random_number = System.Convert.ToString(rnd.Next(1, 10000));
-            string name = "Test-PL-" + random_number;
+            
+            string name = "PIPELINE NAME HERE";
             pipeline.name = name;
             
 
@@ -126,12 +123,12 @@ TBD
     * To create Subscription
         
         
+                string token="Add your token here";   
+                Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-
-                System.Random rnd = new System.Random();
-                string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+                string name="event buffer name here"
                 Eventbuffer eb = new Eventbuffer();
-                eb.name = "TestEb" + random_number;
+                eb.name = name;
                 SortedDictionary<string, string> options = new SortedDictionary<string, string>();
                 
                 options.Add("timeIdentifier", "time");
@@ -159,13 +156,13 @@ TBD
     * To create Publication
     
 
-            Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+            string token="Add your token here";   
+            Falkonry falkonry = new Falkonry("http://localhost:8080", token);
         
 
-            System.Random rnd = new System.Random();
-            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            string name="event buffer name here"
             Eventbuffer eb = new Eventbuffer();
-            eb.name = "TestEb" + random_number;
+            eb.name = name;
 
             List<Signal> signals = new List<Signal>();
             Signal signal1 = new Signal();
@@ -219,9 +216,9 @@ TBD
             Interval interval = new Interval();
             interval.duration = "PT1S";
             
-            random_number = System.Convert.ToString(rnd.Next(1, 10000));
+           
             Pipeline pipeline = new Pipeline();
-            string name = "Test-PL-" + random_number;
+            string name = "PIPELINE NAME HERE";
             pipeline.name = name;
             
             pipeline.inputList = (signals);
@@ -230,7 +227,7 @@ TBD
             pipeline.assessmentList = (assessments);
             pipeline.interval = (interval);
             pipeline.input = eventbuffer.id;
-            //pipeline.input = eb.name;
+            
             Pipeline pl = falkonry.createPipeline(pipeline);
             
             Publication publication = new Publication();
@@ -249,25 +246,28 @@ TBD
 
     * To get all Eventbuffers
     
-            Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+            string token="Add your token here";   
+            Falkonry falkonry = new Falkonry("http://localhost:8080", token);
             List<Eventbuffer>=falkonry.getEventbuffers();
 
 
 
     * To get all Pipelines
             
-            Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+            string token="Add your token here";   
+            Falkonry falkonry = new Falkonry("http://localhost:8080", token);
             List<Pipeline> pipelinelist = falkonry.getPipelines();
 
 
     * To add data in Eventbuffer
     
-            Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+            string token="Add your token here";   
+            Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+            
             //Creating an event bufffer to add data to later
-            System.Random rnd = new System.Random();
-            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            string name="event buffer name here"
             Eventbuffer eb = new Eventbuffer();
-            eb.name = "TestEb" +random_number;
+            eb.name = name;
             SortedDictionary<string, string> options = new SortedDictionary<string, string>();
             
             options.Add("timeIdentifier", "time");
@@ -285,13 +285,12 @@ TBD
 
     * To add data from a stream in Eventbuffer
 
-            Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+            string token="Add your token here";   
+            Falkonry falkonry = new Falkonry("http://localhost:8080", token);
         
-            System.Random rnd = new System.Random();
-            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
-
+            string name="event buffer name here"
             Eventbuffer eb = new Eventbuffer();
-            eb.name = "TestEb" + random_number;
+            eb.name = name;
             SortedDictionary<string, string> options = new SortedDictionary<string, string>();
             options.Add("timeIdentifier", "time");
             options.Add("timeFormat", "iso_8601");
@@ -313,11 +312,12 @@ TBD
     * To get output of a Pipeline
     
 
-        Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+            string token="Add your token here";   
+            Falkonry falkonry = new Falkonry("http://localhost:8080", token);
         
         
-            
-            Stream streamrecieved = falkonry.getOutput("e9wxrrh4yvwv4p", null, null);
+            string pipeline_id="ID of the pipeline whose output is required"    
+            Stream streamrecieved = falkonry.getOutput(pipeline_id, null, null);
             //The folder path below by default is debug in bin.
             string folder_path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string path = folder + "/outflow.txt";

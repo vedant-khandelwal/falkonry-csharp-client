@@ -184,7 +184,8 @@ namespace falkonry_csharp_client.service
         {
             
             JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string subscription_json = http.put("/eventbuffer/" + eventbuffer + "/subscription/" + subscription.key, subscription);
+            string data = javascript.Serialize(subscription);
+            string subscription_json = http.put("/eventbuffer/" + eventbuffer + "/subscription/" + subscription.key, data);
             return javascript.Deserialize<Subscription>(subscription_json);
         }
         public void deleteEventbuffer(string eventbuffer, string subscription) 
@@ -205,7 +206,8 @@ namespace falkonry_csharp_client.service
         public Publication updatePublication(string pipeline, Publication publication)
         {
             JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string publication_json = http.put("/pipeline" + pipeline + "/publication/" + publication.key, publication);
+            string data = javascript.Serialize(publication);
+            string publication_json = http.put("/pipeline" + pipeline + "/publication/" + publication.key, data);
             return javascript.Deserialize<Publication>(publication_json);
         }
         public void deletePublication(string pipeline, string publication) 
