@@ -72,7 +72,7 @@ namespace falkonry_csharp_client.service
         
        }
 
-        public string post (string path,object data)
+        public string post (string path,string data)
         {
             var resp = "";
             try 
@@ -87,11 +87,9 @@ namespace falkonry_csharp_client.service
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
                     
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
                     
-                    string restoWrite = serializer.Serialize(data);
                     
-                    streamWriter.Write(restoWrite);
+                    streamWriter.Write(data);
                     
                     streamWriter.Flush();
                     

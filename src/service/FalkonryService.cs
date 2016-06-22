@@ -112,9 +112,9 @@ namespace falkonry_csharp_client.service
             pipelineRequest.assessmentList = assessmentRequestList;
             pipelineRequest.singleThingID = pipeline.singleThingID;
 
+            string data = javascript.Serialize(pipelineRequest);
 
-            
-            string pipeline_json = http.post("/pipeline", pipelineRequest);
+            string pipeline_json = http.post("/pipeline", data);
             return javascript.Deserialize<Pipeline>(pipeline_json);
         }
         public List<Pipeline> getPipelines()
@@ -174,7 +174,8 @@ namespace falkonry_csharp_client.service
         public Subscription createSubscription(string eventbuffer, Subscription subscription)
         {   
             JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string subscription_json = http.post("/eventbuffer/" + eventbuffer + "/subscription", subscription);
+             string data = javascript.Serialize(subscription);
+            string subscription_json = http.post("/eventbuffer/" + eventbuffer + "/subscription", data);
             return javascript.Deserialize<Subscription>(subscription_json);
 
        
@@ -197,8 +198,8 @@ namespace falkonry_csharp_client.service
         public Publication createPublication(string pipeline, Publication publication)
         {
             JavaScriptSerializer javascript = new JavaScriptSerializer();
-
-            string publication_json = http.post("/pipeline/" + pipeline + "/publication", publication);
+            string data = javascript.Serialize(publication);
+            string publication_json = http.post("/pipeline/" + pipeline + "/publication", data);
             return javascript.Deserialize<Publication>(publication_json);
         }
         public Publication updatePublication(string pipeline, Publication publication)
