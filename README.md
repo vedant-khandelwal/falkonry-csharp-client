@@ -26,7 +26,7 @@ TBD
              string token="Add your token here";   
              Falkonry falkonry = new Falkonry("http://localhost:8080", token);
              List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
-             string name="event buffer name here"
+             string name="event buffer name here";
              Eventbuffer eb = new Eventbuffer();
              eb.name = name;
              SortedDictionary<string, string> options = new SortedDictionary<string, string>();
@@ -44,7 +44,7 @@ TBD
         
             List<Pipeline> pipelines = new List<Pipeline>();
             List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
-            string name="event buffer name here"
+            string name="event buffer name here";
             Eventbuffer eb = new Eventbuffer();
             eb.name = name;
 
@@ -126,7 +126,7 @@ TBD
                 string token="Add your token here";   
                 Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-                string name="event buffer name here"
+                string name="event buffer name here";
                 Eventbuffer eb = new Eventbuffer();
                 eb.name = name;
                 SortedDictionary<string, string> options = new SortedDictionary<string, string>();
@@ -160,7 +160,7 @@ TBD
             Falkonry falkonry = new Falkonry("http://localhost:8080", token);
         
 
-            string name="event buffer name here"
+            string name="event buffer name here";
             Eventbuffer eb = new Eventbuffer();
             eb.name = name;
 
@@ -265,7 +265,7 @@ TBD
             Falkonry falkonry = new Falkonry("http://localhost:8080", token);
             
             //Creating an event bufffer to add data to later
-            string name="event buffer name here"
+            string name="event buffer name here";
             Eventbuffer eb = new Eventbuffer();
             eb.name = name;
             SortedDictionary<string, string> options = new SortedDictionary<string, string>();
@@ -288,7 +288,7 @@ TBD
             string token="Add your token here";   
             Falkonry falkonry = new Falkonry("http://localhost:8080", token);
         
-            string name="event buffer name here"
+            string name="event buffer name here";
             Eventbuffer eb = new Eventbuffer();
             eb.name = name;
             SortedDictionary<string, string> options = new SortedDictionary<string, string>();
