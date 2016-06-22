@@ -1,7 +1,0 @@
-C:\Users\Rudresh Panchal\Desktop\Falkonry\falkonry-csharp-client\obj\x86\Debug\falkonry-csharp-client.csprojResolveAssemblyReference.cache
-C:\Users\Rudresh Panchal\Desktop\Falkonry\falkonry-csharp-client\bin\Debug\ConsoleApplication.exe.config
-C:\Users\Rudresh Panchal\Desktop\Falkonry\falkonry-csharp-client\bin\Debug\ConsoleApplication.exe
-C:\Users\Rudresh Panchal\Desktop\Falkonry\falkonry-csharp-client\bin\Debug\ConsoleApplication.pdb
-C:\Users\Rudresh Panchal\Desktop\Falkonry\falkonry-csharp-client\obj\x86\Debug\ConsoleApplication.exe
-C:\Users\Rudresh Panchal\Desktop\Falkonry\falkonry-csharp-client\obj\x86\Debug\ConsoleApplication.pdb
-C:\Users\Rudresh Panchal\Desktop\Falkonry\falkonry-csharp-client\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll

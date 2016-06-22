@@ -1,3 +1,9 @@
+///
+/// falkonry-csharp-client
+/// Copyright(c) 2016 Falkonry Inc
+/// MIT Licensed
+///
+
 
 using System.Collections.Generic;
 using System.Linq;
