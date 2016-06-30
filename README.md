@@ -312,6 +312,26 @@ string token="Add your token here";
         }
     }
 ```
+    * To add verification data
+    
+```
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    string data = "time,end,car,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal";
+    string response = falkonry.addVerification(pipeline.getId(),data, options);
+
+```
+   * To add verification data from stream
+    
+```
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    string path = "Insert the path to your file here"
+    byte[] bytes = System.IO.File.ReadAllBytes(path);
+    string response = falkonry.addVerificationStream(pl.id, bytes, null);
+
+```     
+
 
 ## Docs
 

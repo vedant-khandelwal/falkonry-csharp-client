@@ -108,7 +108,15 @@ using falkonry_csharp_client.service;
         {
             return falkonryService.getEventBuffer(id);
         }
+        public string addVerification(string pipeline, string data, SortedDictionary<string, string> options)
+        {
+            return this.falkonryService.addVerification(pipeline, data, options);
+        }
+        public string addVerificationStream(string pipeline, byte[] stream, SortedDictionary<string, string> options)
+        {
+            return this.falkonryService.addVerificationStream(pipeline,stream,options);
+        }
 
-}
+    }
 
 }

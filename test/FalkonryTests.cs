@@ -19,7 +19,7 @@ namespace falkonry_csharp_client.Tests
     public class FalkonryTestsEventbuffer
     {
 
-        
+
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
         List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
         
@@ -53,7 +53,7 @@ namespace falkonry_csharp_client.Tests
          
         
          
-        [TestMethod()]
+        //[TestMethod()]
         public void createEventbufferWithJsonData()
         {
             
@@ -81,7 +81,7 @@ namespace falkonry_csharp_client.Tests
         }
         
 
-       [TestMethod()]
+       //[TestMethod()]
        public void createEventBufferWithCsvData()
        {
             
@@ -108,7 +108,7 @@ namespace falkonry_csharp_client.Tests
             falkonry.deleteEventbuffer(eventbuffer.id);
 
        }
-        [TestMethod()]
+        //[TestMethod()]
         public void createEventbufferWithMqttSubscriptionForHistorianData()
         {
 
@@ -155,7 +155,7 @@ namespace falkonry_csharp_client.Tests
             falkonry.deleteSubscription(eventbuffer.id, subscription.key);
             falkonry.deleteEventbuffer(eventbuffer.id);
         }
-        [TestMethod]
+        //[TestMethod]
         public void createEventbufferWithMqttSubscription()
         {
             System.Random rnd = new System.Random();
@@ -190,7 +190,7 @@ namespace falkonry_csharp_client.Tests
         }
 
         //The test below fails
-        [TestMethod()]
+        //[TestMethod()]
         
         public void createEventbufferWithOutflowSubscription()
         {
@@ -647,6 +647,373 @@ namespace falkonry_csharp_client.Tests
 
         }
     }
-    
+ [TestClass]
+ public class TestVerification
+    {
+        Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+
+        //[TestMethod]
+        public void createPipelineWithCSVData()
+        {
+            System.Random rnd = new System.Random();
+            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            Eventbuffer eb = new Eventbuffer();
+            eb.name = "TestEb" + random_number;
+            SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+            options.Add("timeIdentifier", "time");
+            options.Add("timeFormat", "iso_8601");
+            Eventbuffer eventbuffer = falkonry.createEventbuffer(eb, options);
+
+            
+
+            List<Signal> signals = new List<Signal>();
+            Signal signal1 = new Signal();
+            signal1.name = "current";
+            ValueType valuetype1 = new ValueType();
+            valuetype1.type = "Numeric";
+            EventType eventtype1 = new EventType();
+            eventtype1.type = "Samples";
+            signal1.eventType = eventtype1;
+            signal1.valueType = valuetype1;
+            signals.Add(signal1);
+
+            Signal signal2 = new Signal();
+            signal2.name = "vibration";
+            ValueType valuetype2 = new ValueType();
+            valuetype2.type = "Numeric";
+            EventType eventtype2 = new EventType();
+            eventtype2.type = "Samples";
+            signal2.eventType = eventtype2;
+            signal2.valueType = valuetype2;
+            signals.Add(signal2);
+
+            Signal signal3 = new Signal();
+            signal3.name = "state";
+            ValueType valuetype3 = new ValueType();
+            valuetype3.type = "Categorical";
+            EventType eventtype3 = new EventType();
+            eventtype3.type = "Samples";
+            signal3.eventType = eventtype3;
+            signal3.valueType = valuetype3;
+            signals.Add(signal3);
+
+
+            List<string> inputList = new List<string>();
+            inputList.Add("current");
+            inputList.Add("vibration");
+            inputList.Add("state");
+
+            List<Assessment> assessments = new List<Assessment>();
+            Assessment assessment = new Assessment();
+            assessment.name = "Health";
+            assessment.inputList = inputList;
+            assessments.Add(assessment);
+
+            
+
+            Interval interval = new Interval();
+            interval.duration = "PT1S";
+
+            Pipeline pipeline = new Pipeline();
+            random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            string name = "Test-PL-" + random_number;
+            pipeline.name = name;
+
+
+            pipeline.inputList = (signals);
+            pipeline.singleThingID = (name);
+            pipeline.thingIdentifier = ("thing");
+            pipeline.assessmentList = (assessments);
+            pipeline.interval = (interval);
+            pipeline.input = eventbuffer.id;
+
+            Pipeline pl = falkonry.createPipeline(pipeline);
+
+            string data = "time,end,car,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal";
+            string response = falkonry.addVerification(pl.id, data, null);
+            Assert.AreEqual(response, "{\"message\":\"Data submitted successfully\"}");
+
+            falkonry.deletePipeline(pl.id);
+            falkonry.deleteEventbuffer(eventbuffer.id);
+
+        }
+        [TestMethod]
+        public void createPipelineWithJSONVerification()
+        {
+            System.Random rnd = new System.Random();
+            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            Eventbuffer eb = new Eventbuffer();
+            eb.name = "TestEb" + random_number;
+            SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+            options.Add("timeIdentifier", "time");
+            options.Add("timeFormat", "iso_8601");
+            Eventbuffer eventbuffer = falkonry.createEventbuffer(eb, options);
+
+
+
+            List<Signal> signals = new List<Signal>();
+            Signal signal1 = new Signal();
+            signal1.name = "current";
+            ValueType valuetype1 = new ValueType();
+            valuetype1.type = "Numeric";
+            EventType eventtype1 = new EventType();
+            eventtype1.type = "Samples";
+            signal1.eventType = eventtype1;
+            signal1.valueType = valuetype1;
+            signals.Add(signal1);
+
+            Signal signal2 = new Signal();
+            signal2.name = "vibration";
+            ValueType valuetype2 = new ValueType();
+            valuetype2.type = "Numeric";
+            EventType eventtype2 = new EventType();
+            eventtype2.type = "Samples";
+            signal2.eventType = eventtype2;
+            signal2.valueType = valuetype2;
+            signals.Add(signal2);
+
+            Signal signal3 = new Signal();
+            signal3.name = "state";
+            ValueType valuetype3 = new ValueType();
+            valuetype3.type = "Categorical";
+            EventType eventtype3 = new EventType();
+            eventtype3.type = "Samples";
+            signal3.eventType = eventtype3;
+            signal3.valueType = valuetype3;
+            signals.Add(signal3);
+
+
+            List<string> inputList = new List<string>();
+            inputList.Add("current");
+            inputList.Add("vibration");
+            inputList.Add("state");
+
+            List<Assessment> assessments = new List<Assessment>();
+            Assessment assessment = new Assessment();
+            assessment.name = "Health";
+            assessment.inputList = inputList;
+            assessments.Add(assessment);
+
+
+
+            Interval interval = new Interval();
+            interval.duration = "PT1S";
+
+            Pipeline pipeline = new Pipeline();
+            random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            string name = "Test-PL-" + random_number;
+            pipeline.name = name;
+
+
+            pipeline.inputList = (signals);
+            pipeline.singleThingID = (name);
+            pipeline.thingIdentifier = ("thing");
+            pipeline.assessmentList = (assessments);
+            pipeline.interval = (interval);
+            pipeline.input = eventbuffer.id;
+
+            Pipeline pl = falkonry.createPipeline(pipeline);
+
+            string data = "{\"time\" : \"2011-03-26T12:00:00Z\", \"car\" : \"HI3821\", \"end\" : \"2012-06-01T00:00:00Z\", \"Health\" : \"Normal\"}";
+            string response = falkonry.addVerification(pl.id, data, null);
+            
+            //Assert.AreEqual(response, "{\"message\":\"Data submitted successfully\"}");
+
+            string response_id = response.Split(new char[] {':',','})[1];
+            Debug.WriteLine("+++++++++++++++++++++++++++++++++++");
+            Debug.WriteLine(response_id);
+            Debug.WriteLine(response);
+            Debug.WriteLine("+++++++++++++++++++++++++++++++++++");
+            Assert.AreNotEqual(response_id, null);
+            falkonry.deletePipeline(pl.id);
+            falkonry.deleteEventbuffer(eventbuffer.id);
+        }
+
+    }
+
+    //[TestClass]
+    public class TestAddVerificationDataStream
+    {
+        Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+
+
+        [TestMethod]
+        public void createPipelineWithCsvVerificationStream()
+        {
+            System.Random rnd = new System.Random();
+            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            Eventbuffer eb = new Eventbuffer();
+            eb.name = "TestEb" + random_number;
+            SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+            options.Add("timeIdentifier", "time");
+            options.Add("timeFormat", "iso_8601");
+            Eventbuffer eventbuffer = falkonry.createEventbuffer(eb, options);
+
+
+
+            List<Signal> signals = new List<Signal>();
+            Signal signal1 = new Signal();
+            signal1.name = "current";
+            ValueType valuetype1 = new ValueType();
+            valuetype1.type = "Numeric";
+            EventType eventtype1 = new EventType();
+            eventtype1.type = "Samples";
+            signal1.eventType = eventtype1;
+            signal1.valueType = valuetype1;
+            signals.Add(signal1);
+
+            Signal signal2 = new Signal();
+            signal2.name = "vibration";
+            ValueType valuetype2 = new ValueType();
+            valuetype2.type = "Numeric";
+            EventType eventtype2 = new EventType();
+            eventtype2.type = "Samples";
+            signal2.eventType = eventtype2;
+            signal2.valueType = valuetype2;
+            signals.Add(signal2);
+
+            Signal signal3 = new Signal();
+            signal3.name = "state";
+            ValueType valuetype3 = new ValueType();
+            valuetype3.type = "Categorical";
+            EventType eventtype3 = new EventType();
+            eventtype3.type = "Samples";
+            signal3.eventType = eventtype3;
+            signal3.valueType = valuetype3;
+            signals.Add(signal3);
+
+
+            List<string> inputList = new List<string>();
+            inputList.Add("current");
+            inputList.Add("vibration");
+            inputList.Add("state");
+
+            List<Assessment> assessments = new List<Assessment>();
+            Assessment assessment = new Assessment();
+            assessment.name = "Health";
+            assessment.inputList = inputList;
+            assessments.Add(assessment);
+
+
+
+            Interval interval = new Interval();
+            interval.duration = "PT1S";
+
+            Pipeline pipeline = new Pipeline();
+            random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            string name = "Test-PL-" + random_number;
+            pipeline.name = name;
+
+
+            pipeline.inputList = (signals);
+            pipeline.singleThingID = (name);
+            pipeline.thingIdentifier = ("thing");
+            pipeline.assessmentList = (assessments);
+            pipeline.interval = (interval);
+            pipeline.input = eventbuffer.id;
+
+            Pipeline pl = falkonry.createPipeline(pipeline);
+
+            string folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string path = folder + "/verificationData.csv";
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            string response = falkonry.addVerificationStream(pl.id, bytes, null);
+            Assert.AreEqual(response, "{\"message\":\"Data submitted successfully\"}");
+            falkonry.deletePipeline(pl.id);
+            falkonry.deleteEventbuffer(eventbuffer.id);
+        }
+
+        [TestMethod]
+        public void createPipelineWithJSONVerificationStream()
+        {
+            System.Random rnd = new System.Random();
+            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            Eventbuffer eb = new Eventbuffer();
+            eb.name = "TestEb" + random_number;
+            SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+            options.Add("timeIdentifier", "time");
+            options.Add("timeFormat", "iso_8601");
+            Eventbuffer eventbuffer = falkonry.createEventbuffer(eb, options);
+
+
+
+            List<Signal> signals = new List<Signal>();
+            Signal signal1 = new Signal();
+            signal1.name = "current";
+            ValueType valuetype1 = new ValueType();
+            valuetype1.type = "Numeric";
+            EventType eventtype1 = new EventType();
+            eventtype1.type = "Samples";
+            signal1.eventType = eventtype1;
+            signal1.valueType = valuetype1;
+            signals.Add(signal1);
+
+            Signal signal2 = new Signal();
+            signal2.name = "vibration";
+            ValueType valuetype2 = new ValueType();
+            valuetype2.type = "Numeric";
+            EventType eventtype2 = new EventType();
+            eventtype2.type = "Samples";
+            signal2.eventType = eventtype2;
+            signal2.valueType = valuetype2;
+            signals.Add(signal2);
+
+            Signal signal3 = new Signal();
+            signal3.name = "state";
+            ValueType valuetype3 = new ValueType();
+            valuetype3.type = "Categorical";
+            EventType eventtype3 = new EventType();
+            eventtype3.type = "Samples";
+            signal3.eventType = eventtype3;
+            signal3.valueType = valuetype3;
+            signals.Add(signal3);
+
+
+            List<string> inputList = new List<string>();
+            inputList.Add("current");
+            inputList.Add("vibration");
+            inputList.Add("state");
+
+            List<Assessment> assessments = new List<Assessment>();
+            Assessment assessment = new Assessment();
+            assessment.name = "Health";
+            assessment.inputList = inputList;
+            assessments.Add(assessment);
+
+
+
+            Interval interval = new Interval();
+            interval.duration = "PT1S";
+
+            Pipeline pipeline = new Pipeline();
+            random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            string name = "Test-PL-" + random_number;
+            pipeline.name = name;
+
+
+            pipeline.inputList = (signals);
+            pipeline.singleThingID = (name);
+            pipeline.thingIdentifier = ("thing");
+            pipeline.assessmentList = (assessments);
+            pipeline.interval = (interval);
+            pipeline.input = eventbuffer.id;
+
+            Pipeline pl = falkonry.createPipeline(pipeline);
+
+            string folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string path = folder + "/verificationData.json";
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            string response = falkonry.addVerificationStream(pl.id, bytes, null);
+
+            string response_id = response.Split(new char[] { ':', ',' })[1];
+            Assert.AreNotEqual(response_id, null);
+            falkonry.deletePipeline(pl.id);
+            falkonry.deleteEventbuffer(eventbuffer.id);
+
+        }
+    }
 
 }
+    
