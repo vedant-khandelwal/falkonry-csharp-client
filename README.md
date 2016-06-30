@@ -13,12 +13,16 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     * Retrieve Pipelines
     * Add data to Eventbuffer (json, stream)
     * Retrieve output of a Pipeline
+    * Add verification data to Pipeline.
     
 ## Quick Start
 
     * To create Eventbuffer
     
 ```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+    
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
@@ -34,6 +38,9 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     * To create Pipeline
     
 ```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     List<Pipeline> pipelines = new List<Pipeline>();
@@ -109,7 +116,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     * To create Subscription
     
 ```
-string token="Add your token here";   
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
     string name="event buffer name here";
@@ -142,6 +152,10 @@ string token="Add your token here";
     * To create Publication
     
 ```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
@@ -227,6 +241,10 @@ string token="Add your token here";
     * To get all Eventbuffers
     
 ```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+
     Falkonry falkonry = new Falkonry("http://localhost:8080", "");
     List<Eventbuffer>=falkonry.getEventbuffers();
 ```
@@ -234,6 +252,10 @@ string token="Add your token here";
     * To get all Pipelines
     
 ```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+
     Falkonry falkonry = new Falkonry("http://localhost:8080", "");
     List<Pipeline> pipelinelist = falkonry.getPipelines();
 ```
@@ -241,6 +263,9 @@ string token="Add your token here";
     * To add data in Eventbuffer
     
 ```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
@@ -265,6 +290,9 @@ string token="Add your token here";
     * To add data from a stream in Eventbuffer
     
 ```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
@@ -291,6 +319,9 @@ string token="Add your token here";
     * To get output of a Pipeline
     
 ```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
@@ -315,6 +346,9 @@ string token="Add your token here";
     * To add verification data
     
 ```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string data = "time,end,car,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal";
@@ -324,6 +358,9 @@ string token="Add your token here";
    * To add verification data from stream
     
 ```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string path = "Insert the path to your file here"
@@ -337,11 +374,6 @@ string token="Add your token here";
 
     * [Falkonry APIs](https://service.falkonry.io/api)
      
-## Tests
-  
-```
-TBD
-```
 
 ## License
 
