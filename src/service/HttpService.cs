@@ -158,7 +158,7 @@ namespace falkonry_csharp_client.service
                 }
                 else if (Convert.ToInt32(response.StatusCode) >= 400)
                 {
-                    return resp;
+                    return Convert.ToString(response.StatusDescription);
                 }
                 else
                 {
@@ -173,51 +173,59 @@ namespace falkonry_csharp_client.service
         
         async public Task<string> fpost (string path,SortedDictionary<string,string> options,byte[] stream)
         {
-            
-                
+
+            try
+            {
+
+
                 Random rnd = new Random();
                 string random_number = Convert.ToString(rnd.Next(1, 200));
                 //HttpClient httpClient = new HttpClient();
                 string temp_file_name = "";
                 var url = this.host + path;
-                
-                
+
+
                 string sd = "";
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-                HttpClient client = new HttpClient();               
-                
-                
-                client.DefaultRequestHeaders.Add("Authorization", "Token "+this.token);
-                
-                using (MultipartFormDataContent form = new MultipartFormDataContent())
-                    {
-                        
-                        
-                        form.Add(new StringContent(options["name"]), "name");
-                        
-                        form.Add(new StringContent(options["timeIdentifier"]), "timeIdentifier");
-                        
-                        form.Add(new StringContent(options["timeFormat"]), "timeFormat");
-                        
-                        if (stream != null)
-                        {
-                        
-                        temp_file_name = "input" + random_number + "." + options["fileFormat"];
-                        
-                        ByteArrayContent bytearraycontent = new ByteArrayContent(stream);
-                        bytearraycontent.Headers.Add("Content-Type", "text/"+options["fileFormat"]);
-                        form.Add(bytearraycontent, "data", temp_file_name);
-                        }
-                      
-                        var result = client.PostAsync(url, form).Result;
-                       
-                        sd =await result.Content.ReadAsStringAsync();
-                     
+                HttpClient client = new HttpClient();
 
+
+                client.DefaultRequestHeaders.Add("Authorization", "Token " + this.token);
+
+                using (MultipartFormDataContent form = new MultipartFormDataContent())
+                {
+
+
+                    form.Add(new StringContent(options["name"]), "name");
+
+                    form.Add(new StringContent(options["timeIdentifier"]), "timeIdentifier");
+
+                    form.Add(new StringContent(options["timeFormat"]), "timeFormat");
+
+                    if (stream != null)
+                    {
+
+                        temp_file_name = "input" + random_number + "." + options["fileFormat"];
+
+                        ByteArrayContent bytearraycontent = new ByteArrayContent(stream);
+                        bytearraycontent.Headers.Add("Content-Type", "text/" + options["fileFormat"]);
+                        form.Add(bytearraycontent, "data", temp_file_name);
                     }
 
-                    return sd; 
-            
+                    var result = client.PostAsync(url, form).Result;
+
+                    sd = await result.Content.ReadAsStringAsync();
+
+
+                }
+
+                return sd;
+            }
+            catch(Exception E)
+            {
+                return E.Message.ToString();
+            }
+
             }
          
         
