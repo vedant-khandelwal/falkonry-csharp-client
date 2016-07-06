@@ -172,7 +172,8 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
 
-    Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     List<Eventbuffer> eventBuffers=falkonry.getEventbuffers();
 ```
 
@@ -182,7 +183,8 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
 
-    Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     List<Pipeline> pipelinelist = falkonry.getPipelines();
 ```
 
