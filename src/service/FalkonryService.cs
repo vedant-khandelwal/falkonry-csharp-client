@@ -57,9 +57,7 @@ namespace falkonry_csharp_client.service
             else
             {
                 string eventbuffer_json = http.fpost("/eventbuffer",ops,null).Result;
-                Debug.WriteLine("+++++++++++++++++");
-                Debug.WriteLine(eventbuffer_json);
-                Debug.WriteLine("++++++++++++++++++");
+                
                 return javascript.Deserialize<Eventbuffer>(eventbuffer_json); 
             }
 

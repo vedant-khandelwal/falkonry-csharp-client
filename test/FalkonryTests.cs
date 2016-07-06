@@ -23,13 +23,13 @@ namespace falkonry_csharp_client.Tests
     {
 
 
-        
+
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
         List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
         
 
 
-        //[TestMethod()]
+        [TestMethod()]
          public void createEventBufferTest()
          {
              
@@ -227,7 +227,7 @@ namespace falkonry_csharp_client.Tests
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
         List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
 
-        //[TestMethod()]
+        [TestMethod()]
         public void addDataJson()
         {
             
@@ -248,7 +248,7 @@ namespace falkonry_csharp_client.Tests
             Assert.AreEqual(1, eventbuffer.schemaList.Count);
             falkonry.deleteEventbuffer(eventbuffer.id);
         }
-        //[TestMethod()]
+        [TestMethod()]
         public void addDataCSV()
         {
             
@@ -278,7 +278,7 @@ namespace falkonry_csharp_client.Tests
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
         List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
 
-        //[TestMethod()]
+        [TestMethod()]
         public void addDataFromStreamJSON()
         {
             System.Random rnd = new System.Random();
@@ -307,7 +307,7 @@ namespace falkonry_csharp_client.Tests
             
             
         }
-        //[TestMethod()]
+        [TestMethod()]
         public void addDataFromStreamCSV()
         {
             System.Random rnd = new System.Random();
@@ -337,7 +337,7 @@ namespace falkonry_csharp_client.Tests
         }
         
     }
-    //[TestClass]
+    [TestClass]
     public class TestCreatePipeline
     {
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
@@ -741,7 +741,7 @@ namespace falkonry_csharp_client.Tests
             falkonry.deleteEventbuffer(eventbuffer.id);
 
         }
-        //[TestMethod]
+        [TestMethod]
         public void createPipelineWithJSONVerification()
         {
             System.Random rnd = new System.Random();
@@ -928,7 +928,7 @@ namespace falkonry_csharp_client.Tests
             falkonry.deleteEventbuffer(eventbuffer.id);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void createPipelineWithJSONVerificationStream()
         {
             System.Random rnd = new System.Random();
