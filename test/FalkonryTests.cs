@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using falkonry_csharp_client;
-
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +11,14 @@ using System.Diagnostics;
 using System.IO;
 /*INSTRUCTIONS: TO RUN ANY TESTS, SIMPLY UNCOMMENT THE ' [TESTCLASS()] ' header before every class of tests to run that particular class of tests. 
  * You should try executing method by method in case classwise tests take too long or fail */
+
 /* Also insert your url and your token in the: 
  * Falkonry falkonry = new Falkonry("http://localhost:8080", "");
  *  fields*/
+
 namespace falkonry_csharp_client.Tests
 {
-    [TestClass()]
+    //[TestClass()]
     public class FalkonryTestsEventbuffer
     {
 
@@ -29,7 +29,7 @@ namespace falkonry_csharp_client.Tests
         
 
 
-        [TestMethod()]
+        //[TestMethod()]
          public void createEventBufferTest()
          {
              
@@ -227,7 +227,7 @@ namespace falkonry_csharp_client.Tests
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
         List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
 
-        [TestMethod()]
+        //[TestMethod()]
         public void addDataJson()
         {
             
@@ -248,7 +248,7 @@ namespace falkonry_csharp_client.Tests
             Assert.AreEqual(1, eventbuffer.schemaList.Count);
             falkonry.deleteEventbuffer(eventbuffer.id);
         }
-        [TestMethod()]
+        //[TestMethod()]
         public void addDataCSV()
         {
             
@@ -278,7 +278,7 @@ namespace falkonry_csharp_client.Tests
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
         List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
 
-        [TestMethod()]
+        //[TestMethod()]
         public void addDataFromStreamJSON()
         {
             System.Random rnd = new System.Random();
@@ -307,7 +307,7 @@ namespace falkonry_csharp_client.Tests
             
             
         }
-        [TestMethod()]
+        //[TestMethod()]
         public void addDataFromStreamCSV()
         {
             System.Random rnd = new System.Random();
@@ -650,8 +650,13 @@ namespace falkonry_csharp_client.Tests
 
         }
     }
+<<<<<<< HEAD
  //[TestClass]
  public class TestVerification
+=======
+    //[TestClass]
+    public class TestVerification
+>>>>>>> f11811c86a82f551179c524a7e8edaea9d4f4d12
     {
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
 
@@ -740,7 +745,7 @@ namespace falkonry_csharp_client.Tests
             falkonry.deleteEventbuffer(eventbuffer.id);
 
         }
-        [TestMethod]
+        //[TestMethod]
         public void createPipelineWithJSONVerification()
         {
             System.Random rnd = new System.Random();
@@ -927,7 +932,7 @@ namespace falkonry_csharp_client.Tests
             falkonry.deleteEventbuffer(eventbuffer.id);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void createPipelineWithJSONVerificationStream()
         {
             System.Random rnd = new System.Random();
