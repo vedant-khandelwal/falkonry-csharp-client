@@ -51,14 +51,11 @@ namespace falkonry_csharp_client.service
                 ops.Add("fileFormat", options["fileFormat"]);
                 byte[] a = System.Text.Encoding.UTF8.GetBytes(options["data"]);
                 string eventbuffer_json = http.fpost("/eventbuffer", ops, a).Result;
-                
+                        
                 return javascript.Deserialize<Eventbuffer>(eventbuffer_json);
             }
             else
             {
-                Debug.WriteLine("Here I am");
-
-                
                 string eventbuffer_json = http.fpost("/eventbuffer",ops,null).Result;
                 Debug.WriteLine("+++++++++++++++++");
                 Debug.WriteLine(eventbuffer_json);

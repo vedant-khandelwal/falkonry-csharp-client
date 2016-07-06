@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Net.Http.Headers;
 
+
 namespace falkonry_csharp_client.service
 {
     public class HttpService
@@ -37,7 +38,7 @@ namespace falkonry_csharp_client.service
         public string get (string path)
         {
             try 
-            {
+            {   
                 var url = this.host + path;
                 WebRequest request = WebRequest.Create(url);
                 request.Credentials = CredentialCache.DefaultCredentials;
@@ -168,7 +169,7 @@ namespace falkonry_csharp_client.service
         {
             try 
             {
-                //Debug.WriteLine("Token is+++++="+this.token);
+                
                 Random rnd = new Random();
                 string random_number = Convert.ToString(rnd.Next(1, 200));
                 //HttpClient httpClient = new HttpClient();
@@ -177,10 +178,12 @@ namespace falkonry_csharp_client.service
                 
                 
                 string sd = "";
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
                 HttpClient client = new HttpClient();               
-                    Debug.WriteLine("Print 1");
+                Debug.WriteLine("Print 1");
                 
                 client.DefaultRequestHeaders.Add("Authorization", "Token "+this.token);
+                Debug.WriteLine("after adding headers");
                 using (MultipartFormDataContent form = new MultipartFormDataContent())
                     {
                         
@@ -200,11 +203,12 @@ namespace falkonry_csharp_client.service
                         bytearraycontent.Headers.Add("Content-Type", "text/"+options["fileFormat"]);
                         form.Add(bytearraycontent, "data", temp_file_name);
                         }
-                        
+                        Debug.WriteLine("After adding data to form");
                         var result = client.PostAsync(url, form).Result;
                         Debug.WriteLine("Print 9");
                         sd =await result.Content.ReadAsStringAsync();
-                        
+                        Debug.WriteLine("BELOW IS THE STATUS CODE");
+                        Debug.WriteLine((int)result.StatusCode);
 
                     }
 

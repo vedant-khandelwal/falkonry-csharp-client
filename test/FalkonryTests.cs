@@ -13,13 +13,17 @@ using System.Diagnostics;
 using System.IO;
 /*INSTRUCTIONS: TO RUN ANY TESTS, SIMPLY UNCOMMENT THE ' [TESTCLASS()] ' header before every class of tests to run that particular class of tests. 
  * You should try executing method by method in case classwise tests take too long or fail */
+/* Also insert your url and your token in the: 
+ * Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+ *  fields*/
 namespace falkonry_csharp_client.Tests
 {
-    //[TestClass()]
+    [TestClass()]
     public class FalkonryTestsEventbuffer
     {
 
 
+        
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
         List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
         
@@ -46,14 +50,14 @@ namespace falkonry_csharp_client.Tests
              Assert.AreNotEqual(null, eventbuffer.id);
              Assert.AreEqual(0, eventbuffer.schemaList.Count);
              Assert.AreEqual(1, eventbuffer.subscriptionList.Count);
-            falkonry.deleteEventbuffer(eventbuffer.id);
+             falkonry.deleteEventbuffer(eventbuffer.id);
         }
          
         
          
         
          
-        //[TestMethod()]
+        [TestMethod()]
         public void createEventbufferWithJsonData()
         {
             
@@ -81,7 +85,7 @@ namespace falkonry_csharp_client.Tests
         }
         
 
-       //[TestMethod()]
+       [TestMethod()]
        public void createEventBufferWithCsvData()
        {
             
@@ -100,15 +104,15 @@ namespace falkonry_csharp_client.Tests
            options.Add("fileFormat", "csv");
            Eventbuffer eventbuffer = falkonry.createEventbuffer(eb, options);
            eventbuffers.Add(eventbuffer);
-            
+            Debug.WriteLine(eventbuffer.name);
            Assert.AreEqual(eb.name, eventbuffer.name);
            Assert.AreNotEqual(null, eventbuffer.id);
            Assert.AreEqual(1, eventbuffer.schemaList.Count);
            Assert.AreEqual(1, eventbuffer.subscriptionList.Count);
-            falkonry.deleteEventbuffer(eventbuffer.id);
+           falkonry.deleteEventbuffer(eventbuffer.id);
 
        }
-        //[TestMethod()]
+        [TestMethod()]
         public void createEventbufferWithMqttSubscriptionForHistorianData()
         {
 
@@ -155,7 +159,7 @@ namespace falkonry_csharp_client.Tests
             falkonry.deleteSubscription(eventbuffer.id, subscription.key);
             falkonry.deleteEventbuffer(eventbuffer.id);
         }
-        //[TestMethod]
+        [TestMethod]
         public void createEventbufferWithMqttSubscription()
         {
             System.Random rnd = new System.Random();
@@ -191,7 +195,6 @@ namespace falkonry_csharp_client.Tests
 
         //The test below fails
         //[TestMethod()]
-        
         public void createEventbufferWithOutflowSubscription()
         {
             System.Random rnd = new System.Random();
@@ -647,12 +650,12 @@ namespace falkonry_csharp_client.Tests
 
         }
     }
- [TestClass]
+ //[TestClass]
  public class TestVerification
     {
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
 
-        //[TestMethod]
+        [TestMethod]
         public void createPipelineWithCSVData()
         {
             System.Random rnd = new System.Random();
