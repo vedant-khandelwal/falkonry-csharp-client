@@ -650,13 +650,9 @@ namespace falkonry_csharp_client.Tests
 
         }
     }
-<<<<<<< HEAD
- //[TestClass]
- public class TestVerification
-=======
+
     //[TestClass]
     public class TestVerification
->>>>>>> f11811c86a82f551179c524a7e8edaea9d4f4d12
     {
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
 
