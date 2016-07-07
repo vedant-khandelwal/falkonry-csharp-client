@@ -40,7 +40,8 @@ namespace falkonry_csharp_client.service
             try 
             {   
                 var url = this.host + path;
-                WebRequest request = WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Token "+this.token);
 			    request.Method = "GET";
@@ -78,13 +79,17 @@ namespace falkonry_csharp_client.service
             var resp = "";
             try 
             {
+
                 var url = this.host + path;
-                WebRequest request = WebRequest.Create(url);
+
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Token "+this.token);
 			    request.Method = "POST";
                 request.ContentType = "application/json";
                 
+
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
                     
@@ -114,7 +119,6 @@ namespace falkonry_csharp_client.service
                         using (var reader = new StreamReader(data1))
                         {
                             string text = reader.ReadToEnd();
-                            
                             return text;
                         }
                     }
@@ -191,7 +195,7 @@ namespace falkonry_csharp_client.service
 
 
                 client.DefaultRequestHeaders.Add("Authorization", "Token " + this.token);
-
+                client.DefaultRequestHeaders.ExpectContinue = false;
                 using (MultipartFormDataContent form = new MultipartFormDataContent())
                 {
 
@@ -267,7 +271,8 @@ namespace falkonry_csharp_client.service
             try
             {
                 var url = this.host + path;
-                WebRequest request = WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.ServicePoint.Expect100Continue = false;
 
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Method="POST";
@@ -314,7 +319,8 @@ namespace falkonry_csharp_client.service
             try
             {
                 var url = this.host + path;
-                WebRequest request = WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Token " + this.token);
                 
@@ -338,8 +344,9 @@ namespace falkonry_csharp_client.service
             string resp = "";
             try { 
                 var url = this.host + path;
-                
-                WebRequest request = WebRequest.Create(url);
+
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Token " + this.token);
                 request.Method = "POST";
