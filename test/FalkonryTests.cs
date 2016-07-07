@@ -22,8 +22,8 @@ namespace falkonry_csharp_client.Tests
     public class FalkonryTestsEventbuffer
     {
 
-
-
+        
+        
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
         List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
         
@@ -224,6 +224,7 @@ namespace falkonry_csharp_client.Tests
     //[TestClass]
     public class AddData
     {
+        
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
         List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
 
@@ -275,6 +276,7 @@ namespace falkonry_csharp_client.Tests
     //[TestClass]
     public class AddDataFromStream
     {
+        
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
         List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
 
@@ -337,7 +339,7 @@ namespace falkonry_csharp_client.Tests
         }
         
     }
-    [TestClass]
+    //[TestClass]
     public class TestCreatePipeline
     {
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
