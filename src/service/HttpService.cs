@@ -137,7 +137,8 @@ namespace falkonry_csharp_client.service
             try 
             {
                 var url = this.host + path;
-                WebRequest request = WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Token "+this.token);
 			    request.Method = "PUT";
@@ -239,7 +240,8 @@ namespace falkonry_csharp_client.service
             try 
             {
                 var url = this.host + path;
-                WebRequest request = WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Token "+this.token);
 			    request.Method = "DELETE";
