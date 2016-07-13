@@ -67,8 +67,9 @@ namespace falkonry_csharp_client.helper.models
         }
         public string thingIdentifier
         {
-            get;
             set;
+            get;
+            
         }
         public string singleThingID
         {

@@ -45,14 +45,16 @@ namespace falkonry_csharp_client.helper.models
             set;
         }
         public string timeIdentifier
-        {
+        {   
             get;
             set;
+            
         }
         public string timeFormat
         {
             get;
             set;
+            
         }
         public string streaming
         {
@@ -64,17 +66,20 @@ namespace falkonry_csharp_client.helper.models
         {
             get;
             set;
+            
         }
         public string signalsLocation
         {
             get;
             set;
+            
         }
        
         public string valueColumn
         {
             get;
             set;
+            
         }
         public string toJSON()
         {
@@ -84,6 +89,7 @@ namespace falkonry_csharp_client.helper.models
         {
             get;
             set;
+            
 
         }
         //public string valueColumn

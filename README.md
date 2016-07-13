@@ -29,12 +29,29 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string name="event buffer name here";
     Eventbuffer eb = new Eventbuffer();
     eb.name = name;
-    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
-    options.Add("timeIdentifier", "time");
-    options.Add("timeFormat", "iso_8601");
-    Eventbuffer eventbufferCreated = falkonry.createEventbuffer(eb, options);
+    eb.timeIdentifier = "time";
+    eb.timeFormat = "iso_8601";
+    Eventbuffer eventbufferCreated = falkonry.createEventbuffer(eb);
 ```
+    * To create Eventbuffer with thingIdentifier set
+    
+```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+    
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
+    string name="event buffer name here";
+    string nameOfThingIdentifer = "thing identifier here";
+    Eventbuffer eb = new Eventbuffer();
+    eb.name = name;
+    eb.timeIdentifier = "time";
+    eb.timeFormat = "iso_8601";
+    eb.thingIdentifier= nameOfThingIdentifer;
 
+    Eventbuffer eventbufferCreated = falkonry.createEventbuffer(eb);
+```
     * To create Pipeline
     
 ```
@@ -49,6 +66,18 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string name = "event buffer name here";
     Eventbuffer eb = new Eventbuffer();
     eb.name = name;
+    eb.timeIdentifier = "time";
+    eb.timeFormat = "iso_8601";
+    eb.thingIdentifier = "thing1";
+    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
+    
+    SortedDictionary<string, string> newOptions = new SortedDictionary<string, string>();
+    string data = "time, current, vibration, state\n" + "2016-03-01 01:01:01, 12.4, 3.4, On";
+    newOptions.Add("fileFormat", "csv");
+    newOptions.Add("timeIdentifier", "time");
+    newOptions.Add("thingIdentifier", "thing");
+    InputStatus inputstatus = falkonry.addInput(eventbuffer.id, data, newOptions);
+
     List<Signal> signals = new List<Signal>();
     Signal signal1 = new Signal();
     signal1.name = "current";
@@ -90,14 +119,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     assessment.name = "Health";
     assessment.inputList = inputList;
     assessments.Add(assessment);
-
-    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
-    options.Add("timeIdentifier", "time");
-    options.Add("timeFormat", "iso_8601");
-    options.Add("data", "time, current, vibration, state\n" + "2016-03-01 01:01:01, 12.4, 3.4, On");
-    options.Add("fileFormat", "csv");
-
-    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb, options);
+    
     Interval interval = new Interval();
     interval.duration = "PT1S";
     Pipeline pipeline = new Pipeline();
@@ -105,8 +127,6 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     pipeline.name = pipelineName;
 
     pipeline.inputList = (signals);
-    pipeline.singleThingID = (pipelineName);
-    pipeline.thingIdentifier = ("thing");
     pipeline.assessmentList = (assessments);
     pipeline.interval = (interval);
     pipeline.input = eventbuffer.id;
@@ -125,7 +145,17 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-    //Create Event Buffer First
+    //Creating Event Buffer with subscription First
+    Eventbuffer eb = new Eventbuffer();
+    string name = "Event Buffer Name here";
+    eb.name = name;
+    eb.timeIdentifier = "time";
+    eb.timeFormat="iso_8601";
+    eb.valueColumn = "value";
+    eb.signalsTagField = "tag";
+    eb.signalsLocation = "prefix";
+    eb.signalsDelimiter = "_";
+    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
     
     Subscription sub = new Subscription();
     sub.type = "MQTT";
@@ -133,15 +163,9 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     sub.topic = ("falkonry-eb-1-test");
     sub.username = ("test-user");
     sub.password = ("test");
-    sub.timeFormat = ("YYYY-MM-DD HH:mm:ss");
-    sub.timeIdentifier = ("time");
     sub.isHistorian = (true);
-    sub.valueColumn = ("value");
-    sub.signalsDelimiter = ("_");
-    sub.signalsTagField = ("tag");
-    sub.signalsLocation = ("prefix");
-
-    Subscription subscriptionCreated = falkonry.createSubscription(<EventBuffer ID>, sub);
+    
+    Subscription subscriptionCreated = falkonry.createSubscription(eventbuffer.id, sub);
 ```
 
     * To create Publication
@@ -201,12 +225,16 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string name="event buffer name here";
     Eventbuffer eb = new Eventbuffer();
     eb.name = name;
+    eb.timeIdentifier = "time";
+    eb.timeFormat = "iso_8601";
+    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
+    
+    
+    string data = "{\"time\" :\"2016-03-01 01:01:01\", \"current\" : 12.4, \"vibration\" : 3.4, \"state\" : \"On\"}";
+    
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
-
     options.Add("timeIdentifier", "time");
     options.Add("timeFormat", "iso_8601");
-    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb, options);
-    string data = "{\"time\" :\"2016-03-01 01:01:01\", \"current\" : 12.4, \"vibration\" : 3.4, \"state\" : \"On\"}";
     options.Add("fileFormat", "json");
     InputStatus inputstatus = falkonry.addInput(eventbuffer.id, data, options);
 ```
@@ -220,14 +248,18 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-    string name="event buffer name here";
     Eventbuffer eb = new Eventbuffer();
     eb.name = name;
+    eb.timeIdentifier = "time";
+    eb.timeFormat = "iso_8601";
+    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
+    
+    /*This particular example will read data from a AddData.json file in debug folder in bin*/
+    
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
     options.Add("timeIdentifier", "time");
     options.Add("timeFormat", "iso_8601");
-    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb, options);
-    /*This particular example will read data from a AddData.json file in debug folder in bin*/
+    
     string folder_path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
     string path = folder_path + "/AddData.json";
