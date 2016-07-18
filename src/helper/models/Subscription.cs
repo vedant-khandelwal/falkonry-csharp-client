@@ -86,5 +86,11 @@ namespace falkonry_csharp_client.helper.models
             set;
 
         }
+        //public string valueColumn
+          public Boolean isHistorian
+        {
+            get;
+            set;
+        }  
     }
 }
