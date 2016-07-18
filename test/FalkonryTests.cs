@@ -134,7 +134,6 @@ namespace falkonry_csharp_client.Tests
             sub.password = ("test");
             sub.timeFormat = ("YYYY-MM-DD HH:mm:ss");
             sub.timeIdentifier = ("time");
-            sub.isHistorian = (true);
             sub.valueColumn = ("value");
             sub.signalsDelimiter = ("_");
             sub.signalsTagField = ("tag");
