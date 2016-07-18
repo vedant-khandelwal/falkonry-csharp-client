@@ -113,7 +113,7 @@ namespace falkonry_csharp_client.Tests
 
        }
         [TestMethod()]
-        public void createEventbufferWithMqttSubscriptionForHistorianData()
+        public void createEventbufferWithMqttSubscriptionForNarroeFormatData()
         {
 
 
