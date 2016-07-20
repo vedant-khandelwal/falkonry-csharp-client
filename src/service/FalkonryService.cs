@@ -29,38 +29,15 @@ namespace falkonry_csharp_client.service
             this.http = new HttpService(host, token);
             
         }
-        public Eventbuffer createEventbuffer(Eventbuffer eventbuffer, SortedDictionary<string, string> options)
-        { JavaScriptSerializer javascript = new JavaScriptSerializer();
+        public Eventbuffer createEventbuffer(Eventbuffer eventbuffer)
+        {
+            JavaScriptSerializer javascript = new JavaScriptSerializer();
             
-            SortedDictionary<string, string> ops = new SortedDictionary<string, string>();
+            string data = javascript.Serialize(eventbuffer);
             
-            ops.Add("name", eventbuffer.name);
+            string eventbuffer_json=http.post("/eventbuffer",data);
             
-            if (options.ContainsKey("timeIdentifier"))
-                    ops.Add("timeIdentifier", options["timeIdentifier"]);
-                else
-                    ops.Add("timeIdentifier", "time");
-
-                if (options.ContainsKey("timeFormat"))
-                    ops.Add("timeFormat", options["timeFormat"]);
-                else
-                    ops.Add("timeFormat", "iso_8601");
-                
-            if (options.ContainsKey("data"))
-            {
-                ops.Add("fileFormat", options["fileFormat"]);
-                byte[] a = System.Text.Encoding.UTF8.GetBytes(options["data"]);
-                string eventbuffer_json = http.fpost("/eventbuffer", ops, a).Result;
-                        
-                return javascript.Deserialize<Eventbuffer>(eventbuffer_json);
-            }
-            else
-            {
-                string eventbuffer_json = http.fpost("/eventbuffer",ops,null).Result;
-                
-                return javascript.Deserialize<Eventbuffer>(eventbuffer_json); 
-            }
-
+            return javascript.Deserialize<Eventbuffer>(eventbuffer_json);
         }
 
         public List<Eventbuffer> getEventbuffers()
@@ -103,16 +80,16 @@ namespace falkonry_csharp_client.service
                 assessmentRequestList.Add(assessmentRequest);
             }
             pipelineRequest.name = pipeline.name;
-            pipelineRequest.thingIdentifier = pipeline.thingIdentifier;
             pipelineRequest.interval = pipeline.interval;
             pipelineRequest.input = pipeline.input;
             pipelineRequest.inputList = signalRequestList;
             pipelineRequest.assessmentList = assessmentRequestList;
-            pipelineRequest.singleThingID = pipeline.singleThingID;
+            
 
             string data = javascript.Serialize(pipelineRequest);
 
             string pipeline_json = http.post("/pipeline", data);
+           
             return javascript.Deserialize<Pipeline>(pipeline_json);
         }
         public List<Pipeline> getPipelines()
@@ -174,6 +151,8 @@ namespace falkonry_csharp_client.service
             JavaScriptSerializer javascript = new JavaScriptSerializer();
              string data = javascript.Serialize(subscription);
             string subscription_json = http.post("/eventbuffer/" + eventbuffer + "/subscription", data);
+           
+
             return javascript.Deserialize<Subscription>(subscription_json);
 
        

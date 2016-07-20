@@ -16,7 +16,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Net.Http.Headers;
-
+using falkonry_csharp_client.helper.models;
 
 namespace falkonry_csharp_client.service
 {
