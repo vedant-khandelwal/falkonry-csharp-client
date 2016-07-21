@@ -22,9 +22,9 @@ using falkonry_csharp_client.service;
         this.falkonryService = new FalkonryService(host, token);
         }
 
-        public Eventbuffer createEventbuffer(Eventbuffer eventbuffer, SortedDictionary<string, string> options)
+        public Eventbuffer createEventbuffer(Eventbuffer eventbuffer)
         {
-        return falkonryService.createEventbuffer(eventbuffer, options);
+        return falkonryService.createEventbuffer(eventbuffer);
         }
 
         public List<Eventbuffer> getEventbuffers()
