@@ -125,6 +125,7 @@ namespace falkonry_csharp_client.Tests
             eb.signalsTagField = "tag";
             eb.signalsLocation = "prefix";
             eb.signalsDelimiter = "_";
+            Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
             Subscription sub = new Subscription();
             sub.type = "MQTT";
