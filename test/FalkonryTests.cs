@@ -111,7 +111,7 @@ namespace falkonry_csharp_client.Tests
 
         
         [TestMethod()]
-        public void createEventbufferWithMqttSubscriptionForHistorianData()
+        public void createEventbufferWithMqttSubscriptionForNarrowFormatData()
         {
 
 
@@ -132,7 +132,7 @@ namespace falkonry_csharp_client.Tests
             sub.topic = ("falkonry-eb-1-test");
             sub.username = ("test-user");
             sub.password = ("test");
-            sub.isHistorian = (true);
+            
             
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
             eventbuffers.Add(eventbuffer);
@@ -334,7 +334,7 @@ namespace falkonry_csharp_client.Tests
         }
         
     }
-    [TestClass]
+    //[TestClass]
     public class TestCreatePipeline
     {
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
