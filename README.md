@@ -163,7 +163,6 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     sub.topic = ("falkonry-eb-1-test");
     sub.username = ("test-user");
     sub.password = ("test");
-    sub.isHistorian = (true);
     
     Subscription subscriptionCreated = falkonry.createSubscription(eventbuffer.id, sub);
 ```
