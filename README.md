@@ -3,17 +3,19 @@
 
 Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
+[Releases](https://github.com/Falkonry/falkonry-csharp-client/releases)
+
 ## Features
 
     * Create Eventbuffer
     * Create Pipeline
-    * Create Subscription
-    * Create Publication
     * Retrieve Eventbuffers
     * Retrieve Pipelines
     * Add data to Eventbuffer (json, stream)
     * Retrieve output of a Pipeline
-    * Add verification data to Pipeline.
+    * Add verification data to Pipeline
+    * Create/update/delete subscription for Eventbuffer
+    * Create/update/delete publication for Pipeline
     
 ## Quick Start
 
@@ -48,7 +50,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     eb.name = name;
     eb.timeIdentifier = "time";
     eb.timeFormat = "iso_8601";
-    eb.thingIdentifier= nameOfThingIdentifer;
+    eb.thingIdentifier = "nameOfThingIdentifer";
 
     Eventbuffer eventbufferCreated = falkonry.createEventbuffer(eb);
 ```
@@ -129,8 +131,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     pipeline.inputList = (signals);
     pipeline.assessmentList = (assessments);
     pipeline.interval = (interval);
-    pipeline.input = eventbuffer.id;
-    //pipeline.input should be equal to the event buffer ID
+    pipeline.input = eventbuffer.id; //should be eventbuffer id
     Pipeline createdPipeline = falkonry.createPipeline(pipeline);
 
     
@@ -329,7 +330,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
 ## Docs
 
-    * [Falkonry APIs](https://service.falkonry.io/api)
+    [Falkonry APIs](https://service.falkonry.io/api)
      
 
 ## License
