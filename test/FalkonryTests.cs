@@ -111,7 +111,7 @@ namespace falkonry_csharp_client.Tests
 
         
         [TestMethod()]
-        public void createEventbufferWithMqttSubscriptionForNarroeFormatData()
+        public void createEventbufferWithMqttSubscriptionForNarrowFormatData()
         {
 
 
@@ -125,7 +125,6 @@ namespace falkonry_csharp_client.Tests
             eb.signalsTagField = "tag";
             eb.signalsLocation = "prefix";
             eb.signalsDelimiter = "_";
-            Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
             Subscription sub = new Subscription();
             sub.type = "MQTT";
@@ -133,6 +132,9 @@ namespace falkonry_csharp_client.Tests
             sub.topic = ("falkonry-eb-1-test");
             sub.username = ("test-user");
             sub.password = ("test");
+            
+            
+            Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
             eventbuffers.Add(eventbuffer);
             Subscription subscription = falkonry.createSubscription(eventbuffer.id, sub);
             Assert.AreNotEqual(null, subscription.key);
@@ -332,7 +334,7 @@ namespace falkonry_csharp_client.Tests
         }
         
     }
-    [TestClass]
+    //[TestClass]
     public class TestCreatePipeline
     {
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
