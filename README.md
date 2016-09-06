@@ -13,7 +13,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     * Retrieve Pipelines
     * Add data to Eventbuffer (json, stream)
     * Retrieve output of a Pipeline
-    * Add verification data to Pipeline
+    * Add facts data to Pipeline
     * Create/update/delete subscription for Eventbuffer
     * Create/update/delete publication for Pipeline
     
@@ -35,7 +35,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     eb.timeFormat = "iso_8601";
     Eventbuffer eventbufferCreated = falkonry.createEventbuffer(eb);
 ```
-    * To create Eventbuffer with thingIdentifier set
+    * To create Eventbuffer with entityIdentifier set
     
 ```
     using falkonry_csharp_client;
@@ -45,12 +45,12 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
     string name="event buffer name here";
-    string nameOfThingIdentifer = "thing identifier here";
+    string nameOfEntityIdentifer = "entity identifier here";
     Eventbuffer eb = new Eventbuffer();
     eb.name = name;
     eb.timeIdentifier = "time";
     eb.timeFormat = "iso_8601";
-    eb.thingIdentifier = "nameOfThingIdentifer";
+    eb.entityIdentifier = "nameOfEntityIdentifer";
 
     Eventbuffer eventbufferCreated = falkonry.createEventbuffer(eb);
 ```
@@ -70,14 +70,14 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     eb.name = name;
     eb.timeIdentifier = "time";
     eb.timeFormat = "iso_8601";
-    eb.thingIdentifier = "thing1";
+    eb.entityIdentifier = "thing1";
     Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
     
     SortedDictionary<string, string> newOptions = new SortedDictionary<string, string>();
     string data = "time, current, vibration, state\n" + "2016-03-01 01:01:01, 12.4, 3.4, On";
     newOptions.Add("fileFormat", "csv");
     newOptions.Add("timeIdentifier", "time");
-    newOptions.Add("thingIdentifier", "thing");
+    newOptions.Add("entityIdentifier", "entity");
     InputStatus inputstatus = falkonry.addInput(eventbuffer.id, data, newOptions);
 
     List<Signal> signals = new List<Signal>();
@@ -300,7 +300,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
         }
     }
 ```
-    * To add verification data
+    * To add facts data
     
 ```
     using falkonry_csharp_client;
@@ -310,10 +310,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options = null;
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string data = "time,end,car,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal";
-    string response = falkonry.addVerification(<pipelineID>,data, options);
+    string response = falkonry.addFacts(<pipelineID>,data, options);
 
 ```
-   * To add verification data from stream
+   * To add facts data from stream
     
 ```
     using falkonry_csharp_client;
@@ -323,7 +323,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string path = "Insert the path to your file here";
     byte[] bytes = System.IO.File.ReadAllBytes(path);
-    string response = falkonry.addVerificationStream(<pipelineID>, bytes, null);
+    string response = falkonry.addFactsStream(<pipelineID>, bytes, null);
 
 ```     
 

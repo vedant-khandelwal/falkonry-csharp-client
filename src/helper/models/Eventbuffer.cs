@@ -104,7 +104,7 @@ namespace falkonry_csharp_client.helper.models
             set;
         }
         
-        public string thingIdentifier
+        public string entityIdentifier
         {
             get;
             set;
