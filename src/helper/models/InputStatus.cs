@@ -14,7 +14,7 @@ namespace falkonry_csharp_client.helper.models
 {
     public class InputStatus
     {
-                public string status
+        public string status
         {
             get;
             set;

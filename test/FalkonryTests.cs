@@ -33,6 +33,10 @@ namespace falkonry_csharp_client.Tests
          public void createEventBufferTest()
          {
              
+             Timezone timezone = new Timezone();
+             timezone.zone = "GMT";
+             timezone.offset = 0;
+
              List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
 
              System.Random rnd = new System.Random();
@@ -41,6 +45,7 @@ namespace falkonry_csharp_client.Tests
              eb.name = "TestEb" + random_number;
              eb.timeIdentifier = "time";
              eb.timeFormat = "iso_8601";
+             eb.timezone = timezone;
              Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
              eventbuffers.Add(eventbuffer);

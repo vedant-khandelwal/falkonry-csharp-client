@@ -123,5 +123,10 @@ namespace falkonry_csharp_client.helper.models
             set;
         }
 
+        public Timezone timezone
+        {
+            get;
+            set;
+        }
     }
 }

@@ -27,12 +27,18 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    
+    Timezone timezone = new Timezone();
+    timezone.zone = "GMT";
+    timezone.offset = 0;
+
     List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
     string name="event buffer name here";
     Eventbuffer eb = new Eventbuffer();
     eb.name = name;
     eb.timeIdentifier = "time";
     eb.timeFormat = "iso_8601";
+    eb.timezone = timezone;
     Eventbuffer eventbufferCreated = falkonry.createEventbuffer(eb);
 ```
     * To create Eventbuffer with entityIdentifier set
