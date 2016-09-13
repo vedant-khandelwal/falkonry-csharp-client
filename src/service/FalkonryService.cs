@@ -210,14 +210,14 @@ namespace falkonry_csharp_client.service
             string eventbuffer_json = http.get(url);
             return javascript.Deserialize<Eventbuffer>(eventbuffer_json);
         }
-        public string addVerification(string pipeline, string data, SortedDictionary<string, string> options)
+        public string addFacts(string pipeline, string data, SortedDictionary<string, string> options)
         {
-            string url = "/pipeline/" + pipeline + "/verification";
+            string url = "/pipeline/" + pipeline + "/facts";
             return http.postData(url, data);
         }
-        public string addVerificationStream(string pipeline, byte[] stream, SortedDictionary<string, string> options)
+        public string addFactsStream(string pipeline, byte[] stream, SortedDictionary<string, string> options)
         {
-            string url = "/pipeline/" + pipeline + "/verification";
+            string url = "/pipeline/" + pipeline + "/facts";
             //byte[] data_bytes = IOUtils.toByteArray(stream);
             return http.upstream(url, stream);
         }

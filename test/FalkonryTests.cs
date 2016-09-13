@@ -33,6 +33,10 @@ namespace falkonry_csharp_client.Tests
          public void createEventBufferTest()
          {
              
+             Timezone timezone = new Timezone();
+             timezone.zone = "GMT";
+             timezone.offset = 0;
+
              List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
 
              System.Random rnd = new System.Random();
@@ -41,6 +45,7 @@ namespace falkonry_csharp_client.Tests
              eb.name = "TestEb" + random_number;
              eb.timeIdentifier = "time";
              eb.timeFormat = "iso_8601";
+             eb.timezone = timezone;
              Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
              eventbuffers.Add(eventbuffer);
@@ -85,7 +90,7 @@ namespace falkonry_csharp_client.Tests
         }
 
         [TestMethod()]
-        public void createEventBufferWithThingIdentifierTest()
+        public void createEventBufferWithEntityIdentifierTest()
         {
 
             List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
@@ -96,14 +101,14 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.thingIdentifier = "thing1";
+            eb.entityIdentifier = "thing1";
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
             eventbuffers.Add(eventbuffer);
 
             Assert.AreEqual(eb.name, eventbuffer.name, false);
             Assert.AreNotEqual(null, eventbuffer.id);
-            Assert.AreEqual(eventbuffer.thingIdentifier,eb.thingIdentifier);
+            Assert.AreEqual(eventbuffer.entityIdentifier,eb.entityIdentifier);
             Assert.AreEqual(1, eventbuffer.subscriptionList.Count);
             falkonry.deleteEventbuffer(eventbuffer.id);
         }
@@ -351,7 +356,7 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.thingIdentifier = "thing1";
+            eb.entityIdentifier = "thing1";
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
             List<Signal> signals = new List<Signal>();
@@ -401,7 +406,7 @@ namespace falkonry_csharp_client.Tests
             string data = "time, current, vibration, state, thing1\n" + "2016-03-01 01:01:01, 12.4, 3.4, On,Car";
             newOptions.Add("fileFormat", "csv");
             newOptions.Add("timeIdentifier", "time");
-            newOptions.Add("thingIdentifier", "thing");
+            newOptions.Add("entityIdentifier", "entity");
             InputStatus inputstatus = falkonry.addInput(eventbuffer.id, data, newOptions);
 
             Interval interval = new Interval();
@@ -414,8 +419,8 @@ namespace falkonry_csharp_client.Tests
             
 
             pipeline.inputList = (signals);
-            //pipeline.singleThingID = (name);
-            //pipeline.thingIdentifier = ("thing");
+            //pipeline.entityName = (name);
+            //pipeline.entityIdentifier = ("entity");
             pipeline.assessmentList = (assessments);
             pipeline.interval = (interval);
             pipeline.input = eventbuffer.id;
@@ -426,7 +431,7 @@ namespace falkonry_csharp_client.Tests
             falkonry.deleteEventbuffer(eventbuffer.id);
             Assert.AreEqual(pl.name, pipeline.name);
             Assert.AreEqual(pl.input, pipeline.input);
-            Assert.AreEqual(pl.thingIdentifier, eventbuffer.thingIdentifier);
+            Assert.AreEqual(pl.entityIdentifier, eventbuffer.entityIdentifier);
 
         }
     }
@@ -447,7 +452,7 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.thingIdentifier = "thing1";
+            eb.entityIdentifier = "thing1";
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
             List<Signal> signals = new List<Signal>();
@@ -498,7 +503,7 @@ namespace falkonry_csharp_client.Tests
             string data = "time, current, vibration, state, thing1\n" + "2016-03-01 01:01:01, 12.4, 3.4, On,Car";
             newOptions.Add("fileFormat", "csv");
             newOptions.Add("timeIdentifier", "time");
-            newOptions.Add("thingIdentifier", "thing");
+            newOptions.Add("entityIdentifier", "entity");
             InputStatus inputstatus = falkonry.addInput(eventbuffer.id, data, newOptions);
 
 
@@ -512,8 +517,8 @@ namespace falkonry_csharp_client.Tests
 
 
             pipeline.inputList = (signals);
-            //pipeline.singleThingID = (name);
-            //pipeline.thingIdentifier = ("thing");
+            //pipeline.entityName = (name);
+            //pipeline.entityIdentifier = ("entity");
             pipeline.assessmentList = (assessments);
             pipeline.interval = (interval);
             pipeline.input = eventbuffer.id;
@@ -576,7 +581,7 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.thingIdentifier = "thing";
+            eb.entityIdentifier = "entity";
 
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
@@ -625,10 +630,10 @@ namespace falkonry_csharp_client.Tests
 
             
             SortedDictionary<string, string> newOptions = new SortedDictionary<string, string>();
-            string data = "time, current, vibration, state, thing\n" + "2016-03-01 01:01:01, 12.4, 3.4, On,Car";
+            string data = "time, current, vibration, state, entity\n" + "2016-03-01 01:01:01, 12.4, 3.4, On,Car";
             newOptions.Add("fileFormat", "csv");
             newOptions.Add("timeIdentifier", "time");
-            newOptions.Add("thingIdentifier", "thing");
+            newOptions.Add("entityIdentifier", "entity");
             InputStatus inputstatus = falkonry.addInput(eventbuffer.id, data, newOptions);
 
             Interval interval = new Interval();
@@ -640,8 +645,8 @@ namespace falkonry_csharp_client.Tests
             pipeline.name = name;
             
             pipeline.inputList = (signals);
-            //pipeline.singleThingID = (name);
-            //pipeline.thingIdentifier = ("thing");
+            //pipeline.entityName = (name);
+            //pipeline.entityIdentifier = ("entity");
             pipeline.assessmentList = (assessments);
             pipeline.interval = (interval);
             pipeline.input = eventbuffer.id;
@@ -670,12 +675,12 @@ namespace falkonry_csharp_client.Tests
     }
 
     //[TestClass]
-    public class TestVerification
+    public class TestFacts
     {
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
 
         [TestMethod]
-        public void createPipelineWithCSVVerificationData()
+        public void createPipelineWithCSVFactsData()
         {
             System.Random rnd = new System.Random();
             string random_number = System.Convert.ToString(rnd.Next(1, 10000));
@@ -683,7 +688,7 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.thingIdentifier = "car";
+            eb.entityIdentifier = "car";
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
             SortedDictionary<string, string> newOptions = new SortedDictionary<string, string>();
@@ -748,8 +753,8 @@ namespace falkonry_csharp_client.Tests
 
 
             pipeline.inputList = (signals);
-            //pipeline.singleThingID = (name);
-            //pipeline.thingIdentifier = ("thing");
+            //pipeline.entityName = (name);
+            //pipeline.entityIdentifier = ("entity");
             pipeline.assessmentList = (assessments);
             pipeline.interval = (interval);
             pipeline.input = eventbuffer.id;
@@ -757,7 +762,7 @@ namespace falkonry_csharp_client.Tests
             Pipeline pl = falkonry.createPipeline(pipeline);
 
             string data = "time,end,car,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal"; 
-            string response = falkonry.addVerification(pl.id, data, null);
+            string response = falkonry.addFacts(pl.id, data, null);
             Assert.AreEqual(response, "{\"message\":\"Data submitted successfully\"}");
 
             falkonry.deletePipeline(pl.id);
@@ -765,7 +770,7 @@ namespace falkonry_csharp_client.Tests
 
         }
         [TestMethod]
-        public void createPipelineWithJSONVerification()
+        public void createPipelineWithJSONFacts()
         {
             System.Random rnd = new System.Random();
             string random_number = System.Convert.ToString(rnd.Next(1, 10000));
@@ -773,14 +778,14 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.thingIdentifier = "car";
+            eb.entityIdentifier = "car";
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
             SortedDictionary<string, string> newOptions = new SortedDictionary<string, string>();
             string data1 = "time, current, vibration, state, car\n" + "2016-03-01 01:01:01, 12.4, 3.4, On, HI3821";
             newOptions.Add("fileFormat", "csv");
             newOptions.Add("timeIdentifier", "time");
-            newOptions.Add("thingIdentifier", "thing");
+            newOptions.Add("entityIdentifier", "entity");
             InputStatus inputstatus = falkonry.addInput(eventbuffer.id, data1, newOptions);
 
             List<Signal> signals = new List<Signal>();
@@ -838,8 +843,8 @@ namespace falkonry_csharp_client.Tests
 
 
             pipeline.inputList = (signals);
-            //pipeline.singleThingID = (name);
-            //pipeline.thingIdentifier = ("thing");
+            //pipeline.entityName = (name);
+            //pipeline.entityIdentifier = ("entity");
             pipeline.assessmentList = (assessments);
             pipeline.interval = (interval);
             pipeline.input = eventbuffer.id;
@@ -847,7 +852,7 @@ namespace falkonry_csharp_client.Tests
             Pipeline pl = falkonry.createPipeline(pipeline);
 
             string data = "{\"time\" : \"2011-03-26T12:00:00Z\", \"car\" : \"HI3821\", \"end\" : \"2012-06-01T00:00:00Z\", \"Health\" : \"Normal\"}";
-            string response = falkonry.addVerification(pl.id, data, null);
+            string response = falkonry.addFacts(pl.id, data, null);
             
             string response_id = response.Split(new char[] {':',','})[1];
             Assert.AreNotEqual(response_id, null);
@@ -858,13 +863,13 @@ namespace falkonry_csharp_client.Tests
     }
 
     //[TestClass]
-    public class TestAddVerificationDataStream
+    public class TestAddFactsDataStream
     {
         Falkonry falkonry = new Falkonry("http://localhost:8080", "");
 
 
         [TestMethod]
-        public void createPipelineWithCsvVerificationStream()
+        public void createPipelineWithCsvFactsStream()
         {
             System.Random rnd = new System.Random();
             string random_number = System.Convert.ToString(rnd.Next(1, 10000));
@@ -872,7 +877,7 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.thingIdentifier = "car";
+            eb.entityIdentifier = "car";
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
             SortedDictionary<string, string> newOptions = new SortedDictionary<string, string>();
             string data1 = "time, current, vibration, state, car\n" + "2016-03-01 01:01:01, 12.4, 3.4, On, HI3821";
@@ -936,8 +941,8 @@ namespace falkonry_csharp_client.Tests
 
 
             pipeline.inputList = (signals);
-            //pipeline.singleThingID = (name);
-            //pipeline.thingIdentifier = ("thing");
+            //pipeline.entityName = (name);
+            //pipeline.entityIdentifier = ("entity");
             pipeline.assessmentList = (assessments);
             pipeline.interval = (interval);
             pipeline.input = eventbuffer.id;
@@ -945,17 +950,17 @@ namespace falkonry_csharp_client.Tests
             Pipeline pl = falkonry.createPipeline(pipeline);
 
             string folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            string path = folder + "/verificationData.csv";
+            string path = folder + "/factsData.csv";
             byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-            string response = falkonry.addVerificationStream(pl.id, bytes, null);
+            string response = falkonry.addFactsStream(pl.id, bytes, null);
             Assert.AreEqual(response, "{\"message\":\"Data submitted successfully\"}");
             falkonry.deletePipeline(pl.id);
             falkonry.deleteEventbuffer(eventbuffer.id);
         }
 
         [TestMethod]
-        public void createPipelineWithJSONVerificationStream()
+        public void createPipelineWithJSONFactsStream()
         {
             System.Random rnd = new System.Random();
             string random_number = System.Convert.ToString(rnd.Next(1, 10000));
@@ -963,7 +968,7 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.thingIdentifier = "car";
+            eb.entityIdentifier = "car";
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
             SortedDictionary<string, string> newOptions = new SortedDictionary<string, string>();
             string data1 = "time, current, vibration, state, car\n" + "2016-03-01 01:01:01, 12.4, 3.4, On, HI3821";
@@ -1028,8 +1033,8 @@ namespace falkonry_csharp_client.Tests
 
 
             pipeline.inputList = (signals);
-            //pipeline.singleThingID = (name);
-            //pipeline.thingIdentifier = ("thing");
+            //pipeline.entityName = (name);
+            //pipeline.entityIdentifier = ("entity");
             pipeline.assessmentList = (assessments);
             pipeline.interval = (interval);
             pipeline.input = eventbuffer.id;
@@ -1037,10 +1042,10 @@ namespace falkonry_csharp_client.Tests
             Pipeline pl = falkonry.createPipeline(pipeline);
 
             string folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            string path = folder + "/verificationData.json";
+            string path = folder + "/factsData.json";
             byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-            string response = falkonry.addVerificationStream(pl.id, bytes, null);
+            string response = falkonry.addFactsStream(pl.id, bytes, null);
 
             string response_id = response.Split(new char[] { ':', ',' })[1];
             Assert.AreNotEqual(response_id, null);

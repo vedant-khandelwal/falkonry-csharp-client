@@ -104,7 +104,7 @@ namespace falkonry_csharp_client.helper.models
             set;
         }
         
-        public string thingIdentifier
+        public string entityIdentifier
         {
             get;
             set;
@@ -123,5 +123,10 @@ namespace falkonry_csharp_client.helper.models
             set;
         }
 
+        public Timezone timezone
+        {
+            get;
+            set;
+        }
     }
 }

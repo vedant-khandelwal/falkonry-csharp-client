@@ -63,17 +63,17 @@ namespace falkonry_csharp_client.helper.models
             get;
             set;
         }
-        /*public string thingIdentifier
+        /*public string entityIdentifier
         {
             get;
             set;
         }
-        public string singleThingID
+        public string entityName
         {
             get;
             set;
         }
-        public string thingIdentifier
+        public string entityIdentifier
         {
             get;
             set;
