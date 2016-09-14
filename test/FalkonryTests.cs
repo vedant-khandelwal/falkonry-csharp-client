@@ -101,7 +101,7 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.entityIdentifier = "thing1";
+            eb.entityIdentifier = "entity1";
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
             eventbuffers.Add(eventbuffer);
@@ -356,7 +356,7 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.entityIdentifier = "thing1";
+            eb.entityIdentifier = "entity1";
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
             List<Signal> signals = new List<Signal>();
@@ -403,7 +403,7 @@ namespace falkonry_csharp_client.Tests
             assessments.Add(assessment);
 
             SortedDictionary<string, string> newOptions = new SortedDictionary<string, string>();
-            string data = "time, current, vibration, state, thing1\n" + "2016-03-01 01:01:01, 12.4, 3.4, On,Car";
+            string data = "time, current, vibration, state, entity1\n" + "2016-03-01 01:01:01, 12.4, 3.4, On,Car";
             newOptions.Add("fileFormat", "csv");
             newOptions.Add("timeIdentifier", "time");
             newOptions.Add("entityIdentifier", "entity");
@@ -452,7 +452,7 @@ namespace falkonry_csharp_client.Tests
             eb.name = "TestEb" + random_number;
             eb.timeIdentifier = "time";
             eb.timeFormat = "iso_8601";
-            eb.entityIdentifier = "thing1";
+            eb.entityIdentifier = "entity1";
             Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
 
             List<Signal> signals = new List<Signal>();
@@ -500,7 +500,7 @@ namespace falkonry_csharp_client.Tests
 
             
             SortedDictionary<string, string> newOptions = new SortedDictionary<string, string>();
-            string data = "time, current, vibration, state, thing1\n" + "2016-03-01 01:01:01, 12.4, 3.4, On,Car";
+            string data = "time, current, vibration, state, entity1\n" + "2016-03-01 01:01:01, 12.4, 3.4, On,Car";
             newOptions.Add("fileFormat", "csv");
             newOptions.Add("timeIdentifier", "time");
             newOptions.Add("entityIdentifier", "entity");
