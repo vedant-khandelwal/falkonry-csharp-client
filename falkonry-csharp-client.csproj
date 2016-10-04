@@ -91,6 +91,7 @@
     <Compile Include="src\helper\models\Signal.cs" />
     <Compile Include="src\helper\models\SignalRequest.cs" />
     <Compile Include="src\helper\models\Subscription.cs" />
+    <Compile Include="src\helper\models\Timezone.cs" />
     <Compile Include="src\helper\models\ValueType.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />
     <Compile Include="src\service\FalkonryService.cs" />
