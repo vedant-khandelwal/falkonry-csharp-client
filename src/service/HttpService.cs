@@ -32,7 +32,7 @@ namespace falkonry_csharp_client.service
           
             this.host = host == null ? "https://service.falkonry.io" : host;
             
-            this.token = System.Convert.ToBase64String(Encoding.UTF8.GetBytes(token));
+            this.token = token;
         }
 
         public string get (string path)
@@ -43,7 +43,7 @@ namespace falkonry_csharp_client.service
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Token "+this.token);
+                request.Headers.Add("Authorization", "Bearer "+this.token);
 			    request.Method = "GET";
                 request.ContentType = "application/json";
                 
@@ -85,7 +85,7 @@ namespace falkonry_csharp_client.service
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Token "+this.token);
+                request.Headers.Add("Authorization", "Bearer "+this.token);
 			    request.Method = "POST";
                 request.ContentType = "application/json";
                 
@@ -140,7 +140,7 @@ namespace falkonry_csharp_client.service
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Token "+this.token);
+                request.Headers.Add("Authorization", "Bearer "+this.token);
 			    request.Method = "PUT";
                 request.ContentType = "application/json";
                 
@@ -195,7 +195,7 @@ namespace falkonry_csharp_client.service
                 HttpClient client = new HttpClient();
 
 
-                client.DefaultRequestHeaders.Add("Authorization", "Token " + this.token);
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this.token);
                 client.DefaultRequestHeaders.ExpectContinue = false;
                 using (MultipartFormDataContent form = new MultipartFormDataContent())
                 {
@@ -243,7 +243,7 @@ namespace falkonry_csharp_client.service
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Token "+this.token);
+                request.Headers.Add("Authorization", "Bearer "+this.token);
 			    request.Method = "DELETE";
                 request.ContentType = "application/json";
                 
@@ -278,7 +278,7 @@ namespace falkonry_csharp_client.service
 
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Method="POST";
-                request.Headers.Add("Authorization", "Token " + this.token);
+                request.Headers.Add("Authorization", "Bearer " + this.token);
                 request.ContentType = "text/plain";
                 // Set the ContentLength property of the WebRequest.
                 request.ContentLength = data.Length;
@@ -324,7 +324,7 @@ namespace falkonry_csharp_client.service
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Token " + this.token);
+                request.Headers.Add("Authorization", "Bearer " + this.token);
                 
                 request.Method = "GET";
                 request.ContentType = "application/x-json-stream";
@@ -350,7 +350,7 @@ namespace falkonry_csharp_client.service
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Token " + this.token);
+                request.Headers.Add("Authorization", "Bearer " + this.token);
                 request.Method = "POST";
                 request.ContentType = "text/plain";
                 
