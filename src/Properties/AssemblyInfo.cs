@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Falkonry Inc")]
 [assembly: AssemblyProduct("falkonry_csharp_client")]
-[assembly: AssemblyCopyright("Copyright (c)  2016")]
+[assembly: AssemblyCopyright("Copyright (c)  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

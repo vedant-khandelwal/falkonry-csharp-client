@@ -12,87 +12,89 @@ using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
-    public class Subscription
+    public class Datastream
     {
-        public string key
+        public string id
         {
             get;
             set;
         }
-        public string type
+
+        public string sourceId
         {
             get;
             set;
         }
-        public string topic
+
+        public string name
         {
             get;
             set;
         }
-        public string path
+
+        public string tenant
         {
             get;
             set;
         }
-        public string username
+
+        public long createTime
         {
             get;
             set;
         }
-        public string password
+
+        public string createdBy
         {
             get;
             set;
         }
-        public string timeIdentifier
-        {   
-            get;
-            set;
-            
-        }
-        public string timeFormat
-        {
-            get;
-            set;
-            
-        }
-        public string streaming
+
+        public long updateTime
         {
             get;
             set;
         }
-        
-        public string signalsTagField
+
+        public string updatedBy
         {
             get;
             set;
-            
-        }
-        public string signalsLocation
-        {
-            get;
-            set;
-            
-        }
-       
-        public string valueColumn
-        {
-            get;
-            set;
-            
         }
         public string toJSON()
         {
             return new JavaScriptSerializer().Serialize(this);
         }
-        public string signalsDelimiter
+       
+        public Timezone timezone
         {
             get;
             set;
-            
-
         }
-        //public string valueColumn
-           
+
+        public Stats stats
+        {
+            get;
+            set;
+        }
+
+        public Datatransformation dataTransformation
+        {
+            get;
+            set;
+        }
+
+        public Datasource dataSource
+        {
+            get;
+            set;
+        }
+
+        public List<Input> inputList
+        {
+            get;
+            set;
+        }
+
     }
 }

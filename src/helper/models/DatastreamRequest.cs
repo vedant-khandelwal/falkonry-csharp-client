@@ -12,83 +12,82 @@ using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
-    public class Assessment
+    public class DatastreamRequest
     {
-        public string id
-        {
-            get;
-            set;
-        }
-        public string sourceId
-        {
-            get;
-            set;
-        }
+        
+
         public string name
         {
             get;
             set;
         }
-        public string tenant
-        {
-            get;
-            set;
-        }
-        public long createTime
-        {
-            get;
-            set;
-        }
-        public string createdBy
-        {
-            get;
-            set;
-        }
-        public long updateTime
-        {
-            get;
-            set;
-        }
-        public string updatedBy
-        {
-            get;
-            set;
-        }
-       /* public object input
-        {
-            get;
-            set;
-        }
-        */
+
         public string toJSON()
         {
             return new JavaScriptSerializer().Serialize(this);
         }
-        public string datastream
+       
+        public Timezone timezone
         {
             get;
             set;
         }
 
-        public string live
+        public string signalsTagField
         {
             get;
             set;
         }
 
-        public string factsMeasurement
+        public string signalsDelimiter
         {
             get;
             set;
         }
 
-        public string production
+        public string valueColumn
         {
             get;
             set;
         }
 
-        public string activeModel
+        public string signalsLocation
+        {
+            get;
+            set;
+        }
+
+        public string entityIdentifier
+        {
+            get;
+            set;
+        }
+
+        public string entityName
+        {
+            get;
+            set;
+        }
+
+        public string timeIdentifier
+        {
+            get;
+            set;
+        }
+
+        public string timeFormat
+        {
+            get;
+            set;
+        }
+
+        public Datasource dataSource
+        {
+            get;
+            set;
+        }
+
+        public List<Input> inputList
         {
             get;
             set;

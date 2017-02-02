@@ -10,24 +10,13 @@ using System.Text;
 using System.Web.Script.Serialization;
 namespace falkonry_csharp_client.helper.models
 {
-    public class AssessmentRequest
+    public class InputType
     {
-
-        public string name
-        {
-            get;
-            set;
-        }
-        public List<string> inputList
+        public string type
         {
             get;
             set;
 
-        }
-        public List<string> aprioriConditionList
-        {
-            get;
-            set;
         }
     }
 }

@@ -22,99 +22,66 @@ using falkonry_csharp_client.service;
         this.falkonryService = new FalkonryService(host, token);
         }
 
-        public Eventbuffer createEventbuffer(Eventbuffer eventbuffer)
+        public Datastream createDatastream(DatastreamRequest datastream)
         {
-        return falkonryService.createEventbuffer(eventbuffer);
+        return falkonryService.createDatastream(datastream);
         }
 
-        public List<Eventbuffer> getEventbuffers()
+        public List<Datastream> getDatastreams()
         {
-        return falkonryService.getEventbuffers();
+        return falkonryService.getDatastream();
         }
 
-        public void deleteEventbuffer(string eventbuffer)
+        public void deleteDatastream(string datastream)
         {
-            falkonryService.deleteEventbuffer(eventbuffer);
+            falkonryService.deleteDatastream(datastream);
         }
 
-        public Pipeline createPipeline(Pipeline pipeline)
+        public Assessment createAssessment(Assessment assessment)
         {
-        return falkonryService.createPipeline(pipeline);
+        return falkonryService.createAssessment(assessment);
         }
 
-        public List<Pipeline> getPipelines()
+        public List<Assessment> getAssessments()
         {
-        return falkonryService.getPipelines();
+        return falkonryService.getAssessment();
         }
 
-        public void deletePipeline(string pipeline)
+        public void deleteAssessment(string assessment)
         {
-            falkonryService.deletePipeline(pipeline);
+            falkonryService.deleteAssessment(assessment);
         }
 
-        public InputStatus addInput(string eventbuffer, string data, SortedDictionary<string, string> options)
+        public InputStatus addInput(string datastream, string data, SortedDictionary<string, string> options)
         {
-        return this.falkonryService.addInputData(eventbuffer, data, options);
+        return this.falkonryService.addInputData(datastream, data, options);
         }
 
-        public InputStatus addInputStream(string eventbuffer, byte[] stream, SortedDictionary<string, string> options)
+        public InputStatus addInputStream(string datastream, byte[] stream, SortedDictionary<string, string> options)
         {
-        return this.falkonryService.addInputFromStream(eventbuffer, stream, options);
+        return this.falkonryService.addInputFromStream(datastream, stream, options);
         }
 
-        public Stream getOutput(string pipeline, long? start, long? end)
+        public Stream getOutput(string assessment, long? start, long? end)
         {
-        return this.falkonryService.getOutput(pipeline, start, end);
+        return this.falkonryService.getOutput(assessment, start, end);
         }
 
-        public Subscription createSubscription(string eventbuffer, Subscription subscription)
-        {
-        return falkonryService.createSubscription(eventbuffer, subscription);
-        }
-
-        public Subscription updateSubscription(string eventbuffer, Subscription subscription)
-        {
-        return falkonryService.updateSubscription(eventbuffer, subscription);
-        }
-
-        public void deleteEventbuffer(string eventbuffer, string subscription)
-        {
-            falkonryService.deleteEventbuffer(eventbuffer, subscription);
-        }
-
-        public Publication createPublication(string pipeline, Publication publication)
-        {
-        return falkonryService.createPublication(pipeline, publication);
-        }
-
-        public Publication updatePublication(string pipeline, Publication publication)
-        {
-        return falkonryService.updatePublication(pipeline, publication);
-        }
-
-        public void deletePublication(string pipeline, string publication)
-        {
-            falkonryService.deletePublication(pipeline, publication);
-        }
-        public void deleteSubscription(string eventbuffer, string subscription)
-        {
-            falkonryService.deleteSubscription(eventbuffer, subscription);
-        }
         public static void Main()
         {
 
         }
-        public Eventbuffer getEventBuffer(string id)
+        public Datastream getDatastream(string id)
         {
-            return falkonryService.getEventBuffer(id);
+            return falkonryService.getDatastream(id);
         }
-        public string addFacts(string pipeline, string data, SortedDictionary<string, string> options)
+        public string addFacts(string assessment, string data, SortedDictionary<string, string> options)
         {
-            return this.falkonryService.addFacts(pipeline, data, options);
+            return this.falkonryService.addFacts(assessment, data, options);
         }
-        public string addFactsStream(string pipeline, byte[] stream, SortedDictionary<string, string> options)
+        public string addFactsStream(string assessment, byte[] stream, SortedDictionary<string, string> options)
         {
-            return this.falkonryService.addFactsStream(pipeline,stream,options);
+            return this.falkonryService.addFactsStream(assessment, stream,options);
         }
 
     }

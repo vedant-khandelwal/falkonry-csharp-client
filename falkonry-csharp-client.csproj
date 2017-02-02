@@ -79,18 +79,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\falkonry.cs" />
-    <Compile Include="src\helper\models\AssesmentRequest.cs" />
-    <Compile Include="src\helper\models\Assessment.cs" />
-    <Compile Include="src\helper\models\Eventbuffer.cs" />
+    <Compile Include="src\helper\models\DatastreamRequest.cs" />
+    <Compile Include="src\helper\models\Production.cs" />
+    <Compile Include="src\helper\models\Model.cs" />
+    <Compile Include="src\helper\models\Stats.cs" />
+    <Compile Include="src\helper\models\Datasource.cs" />
+    <Compile Include="src\helper\models\Datastream.cs" />
+    <Compile Include="src\helper\models\Datatransformation.cs" />
+    <Compile Include="src\helper\models\InputType.cs" />
     <Compile Include="src\helper\models\EventType.cs" />
+    <Compile Include="src\helper\models\Input.cs" />
     <Compile Include="src\helper\models\InputStatus.cs" />
     <Compile Include="src\helper\models\Interval.cs" />
-    <Compile Include="src\helper\models\Pipeline.cs" />
-    <Compile Include="src\helper\models\PipelineRequest.cs" />
-    <Compile Include="src\helper\models\Publication.cs" />
+    <Compile Include="src\helper\models\Assessment.cs" />
     <Compile Include="src\helper\models\Signal.cs" />
     <Compile Include="src\helper\models\SignalRequest.cs" />
-    <Compile Include="src\helper\models\Subscription.cs" />
     <Compile Include="src\helper\models\Timezone.cs" />
     <Compile Include="src\helper\models\ValueType.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />

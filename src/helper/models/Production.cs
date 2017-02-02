@@ -1,10 +1,4 @@
-﻿///
-/// falkonry-csharp-client
-/// Copyright(c) 2016 Falkonry Inc
-/// MIT Licensed
-///
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +6,7 @@ using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
-    public class Eventbuffer
+    public class Production
     {
         public string id
         {
@@ -21,12 +15,6 @@ namespace falkonry_csharp_client.helper.models
         }
 
         public string sourceId
-        {
-            get;
-            set;
-        }
-
-        public string name
         {
             get;
             set;
@@ -61,69 +49,42 @@ namespace falkonry_csharp_client.helper.models
             get;
             set;
         }
-
-        public List<Object> schemaList
-        {
-            get;
-            set;
-        }
-
-        public List<Subscription> subscriptionList
-        {
-            get;
-            set;
-        }
-
         public string toJSON()
         {
             return new JavaScriptSerializer().Serialize(this);
         }
-        
-        public string signalsTagField
+
+        public string type
         {
             get;
             set;
         }
 
-        public string signalsDelimiter
-        {
-            get;
-            set;
-
-        }
-
-        public string valueColumn
+        public string message
         {
             get;
             set;
         }
 
-        public string signalsLocation
-        {
-            get;
-            set;
-        }
-        
-        public string entityIdentifier
+        public string status
         {
             get;
             set;
         }
 
-        public string timeIdentifier
-        {
-            get;
-            set;
-
-        }
-
-        public string timeFormat
+        public string pid
         {
             get;
             set;
         }
 
-        public Timezone timezone
+        public string model
+        {
+            get;
+            set;
+        }
+
+        public string assessmentRate
         {
             get;
             set;
