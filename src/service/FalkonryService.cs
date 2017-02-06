@@ -59,12 +59,23 @@ namespace falkonry_csharp_client.service
             string datastream_json = http.get(url);
             return javascript.Deserialize<Datastream>(datastream_json);
         }
+        
         // Add data to DataStream
-
         public InputStatus addInputData(string datastream, string data, SortedDictionary<string, string> options)
         {
             JavaScriptSerializer javascript = new JavaScriptSerializer();
+            string streamingValue = "";
+            string hasMoreDataValue = "";
             string url = "/datastream/" + datastream;
+            if (options.TryGetValue("streaming", out streamingValue))
+            {
+                url += "?streaming=" + streamingValue;
+            }
+            if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
+            {
+                url += "&hasMoreData=" + hasMoreDataValue;
+            }
+
             string status = this.http.postData(url, data);
             return javascript.Deserialize<InputStatus>(status);
         }
@@ -73,6 +84,16 @@ namespace falkonry_csharp_client.service
         {
             JavaScriptSerializer javascript = new JavaScriptSerializer();
             string url = "/datastream/" + datastream;
+            string streamingValue = "";
+            string hasMoreDataValue = "";
+            if (options.TryGetValue("streaming", out streamingValue))
+            {
+                url += "?streaming=" + streamingValue;
+            }
+            if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
+            {
+                url += "&hasMoreData=" + hasMoreDataValue;
+            }
             string status = this.http.upstream(url, data);
             return javascript.Deserialize<InputStatus>(status);
         }
@@ -84,7 +105,6 @@ namespace falkonry_csharp_client.service
         }
 
         // Create Assessment
-
         public Assessment createAssessment(Assessment assessment)
         {
             JavaScriptSerializer javascript = new JavaScriptSerializer();
