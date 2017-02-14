@@ -89,7 +89,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     ds.dataSource = datasource;
     Datastream datastream = falkonry.createDatastream(ds);
     
-    Assessment asmt = new Assessment();
+    AssessmentRequest asmt = new Assessment();
     asmt.name = "assessment name here";
     Assessment assessment = falkonry.createAssessment(asmt);
 
@@ -230,7 +230,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     using falkonry_csharp_client.helper.models;
 
     string token = "Add your token here";   
-    options = null;
+    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string data = "time,end,car,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal";
     string response = falkonry.addFacts(<assessment_id>,data, options);

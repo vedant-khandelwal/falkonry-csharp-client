@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\falkonry.cs" />
+    <Compile Include="src\helper\models\AssessmentRequest.cs" />
     <Compile Include="src\helper\models\DatastreamRequest.cs" />
     <Compile Include="src\helper\models\Stats.cs" />
     <Compile Include="src\helper\models\Datasource.cs" />

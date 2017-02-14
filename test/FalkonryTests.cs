@@ -473,5 +473,60 @@ namespace falkonry_csharp_client.Tests
 
 
     }
+
+    [TestClass]
+    public class AddFacts
+    {
+        Falkonry falkonry = new Falkonry("https://dev.falkonry.ai", "kvtsfp2z9qoggpndf8p5jhk7w0woi580");
+
+        [TestMethod()]
+        public void addFacts()
+        {
+            System.Random rnd = new System.Random();
+            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            Timezone timezone = new Timezone();
+            timezone.zone = "GMT";
+            timezone.offset = 0;
+
+            Datasource datasource = new Datasource();
+            datasource.type = "PI";
+            datasource.host = "https://test.piserver.com/piwebapi";
+            datasource.elementTemplateName = "SampleElementTempalte";
+            DatastreamRequest ds = new DatastreamRequest();
+            ds.timeIdentifier = "time";
+            ds.timeFormat = "iso_8601";
+            ds.valueColumn = "value";
+            ds.signalsTagField = "tag";
+            ds.signalsLocation = "prefix";
+            ds.signalsDelimiter = "_";
+            ds.dataSource = datasource;
+            ds.name = "TestDS" + random_number;
+            ds.timezone = timezone;
+            ds.dataSource = datasource;
+            Datastream datastream = falkonry.createDatastream(ds);
+            Assert.AreEqual(ds.name, datastream.name, false);
+            Assert.AreNotEqual(null, datastream.id);
+            Assert.AreEqual(ds.timeFormat, datastream.dataTransformation.timeFormat);
+            Assert.AreEqual(ds.timeIdentifier, datastream.dataTransformation.timeIdentifier);
+            Assert.AreEqual(ds.dataSource.type, datastream.dataSource.type);
+
+            datastream = falkonry.getDatastream(datastream.id);
+
+            // add assessment
+            AssessmentRequest asmt = new AssessmentRequest();
+            string random_number1 = System.Convert.ToString(rnd.Next(1, 10000));
+            asmt.name = "TestAssessment"+ random_number1;
+            asmt.datastream = datastream.id;
+            SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+            Assessment assessment = falkonry.createAssessment(asmt);
+
+            string data1 = "time,end,"+ datastream.dataTransformation.entityIdentifier
+          + ",Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Unit1,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Unit1,Normal";
+            string response = falkonry.addFacts(assessment.id, data1, options);
+
+            falkonry.deleteDatastream(datastream.id);
+        }
+
+    }
 }
     

@@ -37,7 +37,7 @@ using falkonry_csharp_client.service;
             falkonryService.deleteDatastream(datastream);
         }
 
-        public Assessment createAssessment(Assessment assessment)
+        public Assessment createAssessment(AssessmentRequest assessment)
         {
         return falkonryService.createAssessment(assessment);
         }

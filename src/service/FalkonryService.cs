@@ -105,7 +105,7 @@ namespace falkonry_csharp_client.service
         }
 
         // Create Assessment
-        public Assessment createAssessment(Assessment assessment)
+        public Assessment createAssessment(AssessmentRequest assessment)
         {
             JavaScriptSerializer javascript = new JavaScriptSerializer();
 
