@@ -89,7 +89,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     ds.dataSource = datasource;
     Datastream datastream = falkonry.createDatastream(ds);
     
-    AssessmentRequest asmt = new Assessment();
+    AssessmentRequest asmt = new AssessmentRequest();
     asmt.name = "assessment name here";
     Assessment assessment = falkonry.createAssessment(asmt);
 
