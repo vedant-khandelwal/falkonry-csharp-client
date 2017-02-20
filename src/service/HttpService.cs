@@ -17,6 +17,8 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Net.Http.Headers;
 using falkonry_csharp_client.helper.models;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 namespace falkonry_csharp_client.service
 {
@@ -25,14 +27,29 @@ namespace falkonry_csharp_client.service
         private string host;
         private string token;
         private string user_agent="falkonry/csharp-client";
+        public bool RemoteCertificateValidationCallback(
+
+                  Object sender,
+
+                  X509Certificate certificate,
+
+                  X509Chain chain,
+
+                  SslPolicyErrors sslPolicyErrors
+
+           )
+        { return true; }
+
 
         public HttpService(string host, string token)
         {
           
           
             this.host = host == null ? "https://service.falkonry.io" : host;
-            
+
             this.token = token;
+           
+        ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidationCallback;
         }
 
         public string get (string path)
