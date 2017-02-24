@@ -14,6 +14,8 @@ using falkonry_csharp_client.service;
 using System.Web.Script.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Diagnostics;
+using falkonry_csharp_client.src.helper.models;
+
 namespace falkonry_csharp_client.service
 {
     class FalkonryService
@@ -146,21 +148,23 @@ namespace falkonry_csharp_client.service
 
         // Stream Output
 
-        public Stream getOutput(string pipeline, long? start, long? end)
+        public EventSource GetOutput(string assessmentId, long? start, long? end)
         {
-            string url = "/pipeline/"+pipeline+"/output?";
-            long? starttemp=start;
-            long? endtemp = end;
+            var url = "/assessment/" + assessmentId + "/output";
 
-            if (endtemp != null) {
-                url += "lastTime=" + end;
-                if (starttemp!= null)
-                    url += "&startTime=" + start;
-                            }
-            else {
-                if (starttemp != null)
-                    url += "startTime=" + start;
-                }
+            var starttemp=start;
+            var endtemp = end;
+
+            if (endtemp.HasValue)
+            {
+                url += "?lastTime=" + end.Value;
+                if (starttemp.HasValue) url += "&startTime=" + start.Value;
+            }
+            else
+            {
+                if (starttemp.HasValue) url += "?startTime=" + start.Value;
+            }
+
             return http.downstream(url);
         }
 

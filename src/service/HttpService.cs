@@ -19,6 +19,8 @@ using System.Net.Http.Headers;
 using falkonry_csharp_client.helper.models;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using falkonry_csharp_client.src.helper.models;
+using System.Collections.Specialized;
 
 namespace falkonry_csharp_client.service
 {
@@ -333,23 +335,19 @@ namespace falkonry_csharp_client.service
             }
         }
 
-        public Stream downstream(string path)
+        public EventSource downstream(string path)
         {
             try
             {
-                var url = this.host + path;
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
-                request.ServicePoint.Expect100Continue = false;
-                request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer " + this.token);
-                
-                request.Method = "GET";
-                request.ContentType = "application/x-json-stream";
-               
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                var resp = response.GetResponseStream();
-                
-                return resp; 
+                var url = host + path;
+                var eventSource = new EventSource(url)
+                {
+                    Headers = new NameValueCollection {{ "Authorization", "Bearer " + this.token }}
+                };
+
+                eventSource.Connect();
+
+                return eventSource; 
             }
             catch (Exception E)
             {
