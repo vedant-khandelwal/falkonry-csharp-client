@@ -660,7 +660,7 @@ namespace falkonry_csharp_client.Tests
 
                 // use this tracker for checking the status of the process.
                 options = new SortedDictionary<string, string>();
-                options.Add("tarckerId", __id);
+                options.Add("trackerId", __id);
                 options.Add("responseFormat", "application/json");
 
                 httpResponse = falkonry.getHistoricalOutput(assessment, options);
