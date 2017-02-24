@@ -592,7 +592,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    //[TestClass]
+   //[TestClass]
     public class fetchHistoricalOutput
     {
         Falkonry falkonry = new Falkonry("https://dev.falkonry.ai", "uunov5we8ef8zh19ipt5xvp5y9ccw8x3");
@@ -636,13 +636,13 @@ namespace falkonry_csharp_client.Tests
             asmt.datastream = datastream.id;
             Assessment assessment = falkonry.createAssessment(asmt);
 
-            assessment.id = "lqv606xtcxnlca";
+            //assessment.id = "lqv606xtcxnlca";
             // Got TO Falkonry UI and run a model revision
 
             // Fetch Historical output data for given assessment, startTime , endtime
             SortedDictionary<string, string> options = new SortedDictionary<string, string>();
-            options.Add("startTime", "2011-02-02T01:00:00.000Z"); // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
-            options.Add("endTime", "2011-03-03T01:00:00.000Z");  // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
+            options.Add("startTime", "2011-04-04T01:00:00.000Z"); // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
+            options.Add("endTime", "2011-05-05T01:00:00.000Z");  // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
             options.Add("responseFormat", "application/json");  // also avaibale options 1. text/csv 2. application/json
 
             HttpResponse httpResponse = falkonry.getHistoricalOutput(assessment, options);
@@ -655,6 +655,8 @@ namespace falkonry_csharp_client.Tests
                 Tracker trackerResponse = javascript.Deserialize<Tracker>(httpResponse.response);
                 // get id from the tracker
                 string __id = trackerResponse.__id;
+                //string __id = "phzpfmvwsgiy7ojc";
+
 
                 // use this tracker for checking the status of the process.
                 options = new SortedDictionary<string, string>();

@@ -419,7 +419,7 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer " + this.token);
-                request.Headers.Add("accept", responseFormat);
+                request.Accept = responseFormat;
                 request.Method = "GET";
                 request.ContentType = "application/json";
 

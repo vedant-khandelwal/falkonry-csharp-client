@@ -183,7 +183,7 @@ namespace falkonry_csharp_client.service
         //Stream historical output
         public HttpResponse getHistoricalOutput(Assessment assessment, SortedDictionary<string, string> options)
         {
-            string url = "/assessment/" + assessment + "/output?";
+            string url = "/assessment/" + assessment.id + "/output?";
             string trackerId = "";
             string modelIndex = "";
             string startTime = "";
