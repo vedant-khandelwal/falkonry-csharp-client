@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using falkonry_csharp_client.helper.models;
 using falkonry_csharp_client.service;
 using System.Diagnostics;
+using System.Web.Script.Serialization;
 using System.IO;
 /*INSTRUCTIONS: TO RUN ANY TESTS, SIMPLY UNCOMMENT THE ' [TESTCLASS()] ' header before every class of tests to run that particular class of tests. 
  * You should try executing method by method in case classwise tests take too long or fail */
@@ -474,7 +475,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass]
+    //[TestClass]
     public class AddFacts
     {
         Falkonry falkonry = new Falkonry("https://dev.falkonry.ai", "kvtsfp2z9qoggpndf8p5jhk7w0woi580");
@@ -528,5 +529,152 @@ namespace falkonry_csharp_client.Tests
         }
 
     }
+
+    //[TestClass]
+    public class AddEntityMeta
+    {
+        Falkonry falkonry = new Falkonry("https://dev.falkonry.ai", "uunov5we8ef8zh19ipt5xvp5y9ccw8x3");
+
+        [TestMethod()]
+        public void addEntityMeta()
+        {
+            System.Random rnd = new System.Random();
+            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            Timezone timezone = new Timezone();
+            timezone.zone = "GMT";
+            timezone.offset = 0;
+
+            Datasource datasource = new Datasource();
+            datasource.type = "PI";
+            datasource.host = "https://test.piserver.com/piwebapi";
+            datasource.elementTemplateName = "SampleElementTempalte";
+            DatastreamRequest ds = new DatastreamRequest();
+            ds.timeIdentifier = "time";
+            ds.timeFormat = "iso_8601";
+            ds.valueColumn = "value";
+            ds.signalsTagField = "tag";
+            ds.signalsLocation = "prefix";
+            ds.signalsDelimiter = "_";
+            ds.dataSource = datasource;
+            ds.name = "TestDS" + random_number;
+            ds.timezone = timezone;
+            ds.dataSource = datasource;
+            Datastream datastream = falkonry.createDatastream(ds);
+            Assert.AreEqual(ds.name, datastream.name, false);
+            Assert.AreNotEqual(null, datastream.id);
+            Assert.AreEqual(ds.timeFormat, datastream.dataTransformation.timeFormat);
+            Assert.AreEqual(ds.timeIdentifier, datastream.dataTransformation.timeIdentifier);
+            Assert.AreEqual(ds.dataSource.type, datastream.dataSource.type);
+
+            datastream = falkonry.getDatastream(datastream.id);
+            List<EntityMetaRequest> entityMetaRequestList = new List<EntityMetaRequest>();
+            EntityMetaRequest entityMetaRequest1 = new EntityMetaRequest();
+            entityMetaRequest1.label = "User readbale label";
+            entityMetaRequest1.sourceId = "1234-21342134";
+            entityMetaRequest1.path = "//root/branch1/";
+
+            EntityMetaRequest entityMetaRequest2 = new EntityMetaRequest();
+            entityMetaRequest2.label = "User readbale label2";
+            entityMetaRequest2.sourceId = "1234-213421rawef";
+            entityMetaRequest2.path = "//root/branch2/";
+
+            entityMetaRequestList.Add(entityMetaRequest1);
+            entityMetaRequestList.Add(entityMetaRequest2);
+
+            List<EntityMeta> entityMetaResponseList = falkonry.postEntityMeta(entityMetaRequestList, datastream);
+            Assert.AreEqual(2,entityMetaResponseList.Count);
+
+            // Get entitymeta
+            entityMetaResponseList = falkonry.getEntityMeta(datastream);
+            Assert.AreEqual(2, entityMetaResponseList.Count);
+            falkonry.deleteDatastream(datastream.id);
+        }
+
+    }
+
+   //[TestClass]
+    public class fetchHistoricalOutput
+    {
+        Falkonry falkonry = new Falkonry("https://dev.falkonry.ai", "uunov5we8ef8zh19ipt5xvp5y9ccw8x3");
+
+        [TestMethod()]
+        public void TestHistoricalOutput()
+        {
+            JavaScriptSerializer javascript = new JavaScriptSerializer();
+            System.Random rnd = new System.Random();
+            string random_number = System.Convert.ToString(rnd.Next(1, 10000));
+            Timezone timezone = new Timezone();
+            timezone.zone = "GMT";
+            timezone.offset = 0;
+
+            Datasource datasource = new Datasource();
+            datasource.type = "PI";
+            datasource.host = "https://test.piserver.com/piwebapi";
+            datasource.elementTemplateName = "SampleElementTempalte";
+            DatastreamRequest ds = new DatastreamRequest();
+            ds.timeIdentifier = "time";
+            ds.timeFormat = "iso_8601";
+            ds.valueColumn = "value";
+            ds.signalsTagField = "tag";
+            ds.signalsLocation = "prefix";
+            ds.signalsDelimiter = "_";
+            ds.dataSource = datasource;
+            ds.name = "TestDS" + random_number;
+            ds.timezone = timezone;
+            ds.dataSource = datasource;
+            Datastream datastream = falkonry.createDatastream(ds);
+            Assert.AreEqual(ds.name, datastream.name, false);
+            Assert.AreNotEqual(null, datastream.id);
+            Assert.AreEqual(ds.timeFormat, datastream.dataTransformation.timeFormat);
+            Assert.AreEqual(ds.timeIdentifier, datastream.dataTransformation.timeIdentifier);
+            Assert.AreEqual(ds.dataSource.type, datastream.dataSource.type);
+
+            // Create Assessment
+            AssessmentRequest asmt = new AssessmentRequest();
+            string random_number1 = System.Convert.ToString(rnd.Next(1, 10000));
+            asmt.name = "TestAssessment" + random_number1;
+            asmt.datastream = datastream.id;
+            Assessment assessment = falkonry.createAssessment(asmt);
+
+            //assessment.id = "lqv606xtcxnlca";
+            // Got TO Falkonry UI and run a model revision
+
+            // Fetch Historical output data for given assessment, startTime , endtime
+            SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+            options.Add("startTime", "2011-04-04T01:00:00.000Z"); // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
+            options.Add("endTime", "2011-05-05T01:00:00.000Z");  // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
+            options.Add("responseFormat", "application/json");  // also avaibale options 1. text/csv 2. application/json
+
+            HttpResponse httpResponse = falkonry.getHistoricalOutput(assessment, options);
+            // If data is not readily avaiable then, a tracker id will be sent with 202 status code. While falkonry will genrate ouptut data
+            // Client should do timely pooling on the using same method, sending tracker id (__id) in the query params
+            // Once data is avaiable server will response with 200 status code and data in json/csv format.
+
+            if (httpResponse.statusCode == 202)
+            {
+                Tracker trackerResponse = javascript.Deserialize<Tracker>(httpResponse.response);
+                // get id from the tracker
+                string __id = trackerResponse.__id;
+                //string __id = "phzpfmvwsgiy7ojc";
+
+
+                // use this tracker for checking the status of the process.
+                options = new SortedDictionary<string, string>();
+                options.Add("trackerId", __id);
+                options.Add("responseFormat", "application/json");
+
+                httpResponse = falkonry.getHistoricalOutput(assessment, options);
+
+                // if status is 202 call the same request again
+
+                // if statsu is 200, output data will be present in httpResponse.response field
+            }
+            if (httpResponse.statusCode > 400)
+            {
+                // Some Error has occured. Please httpResponse.response for detail message
+            }
+        }
+    }
+
 }
     

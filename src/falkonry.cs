@@ -86,6 +86,21 @@ namespace falkonry_csharp_client
             return this.falkonryService.addFactsStream(assessment, stream,options);
         }
 
+        public HttpResponse getHistoricalOutput(Assessment assessment, SortedDictionary<string, string> options)
+        {
+            return this.falkonryService.getHistoricalOutput(assessment, options);
+        }
+
+        public List<EntityMeta> postEntityMeta(List<EntityMetaRequest> entityMetaRequest, Datastream datastream)
+        {
+            return this.falkonryService.postEntityMeta(entityMetaRequest, datastream);
+        }
+
+        public List<EntityMeta> getEntityMeta(Datastream datastream)
+        {
+            return this.falkonryService.getEntityMeta(datastream);
+        }
+
     }
 
 }

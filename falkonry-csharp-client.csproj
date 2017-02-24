@@ -81,7 +81,10 @@
     <Compile Include="src\falkonry.cs" />
     <Compile Include="src\helper\models\AssessmentRequest.cs" />
     <Compile Include="src\helper\models\DatastreamRequest.cs" />
-    <Compile Include="src\helper\models\EventSource.cs" />
+    <Compile Include="src\helper\models\EntityMeta.cs" />
+    <Compile Include="src\helper\models\EntityMetaRequest.cs" />
+    <Compile Include="src\helper\models\HttpResponse.cs" />
+    <Compile Include="src\helper\models\InputStatus.cs" />
     <Compile Include="src\helper\models\Stats.cs" />
     <Compile Include="src\helper\models\Datasource.cs" />
     <Compile Include="src\helper\models\Datastream.cs" />
@@ -89,7 +92,7 @@
     <Compile Include="src\helper\models\InputType.cs" />
     <Compile Include="src\helper\models\EventType.cs" />
     <Compile Include="src\helper\models\Input.cs" />
-    <Compile Include="src\helper\models\InputStatus.cs" />
+    <Compile Include="src\helper\models\Tracker.cs" />
     <Compile Include="src\helper\models\Interval.cs" />
     <Compile Include="src\helper\models\Assessment.cs" />
     <Compile Include="src\helper\models\Timezone.cs" />
