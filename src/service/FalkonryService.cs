@@ -175,6 +175,96 @@ namespace falkonry_csharp_client.service
                 return ms.ToArray();
             }
         }
+
+        //Stream historical output
+        public HttpResponse getHistoricalOutput(Assessment assessment, SortedDictionary<string, string> options)
+        {
+            string url = "/assessment/" + assessment + "/output?";
+            string trackerId = "";
+            string modelIndex = "";
+            string startTime = "";
+            string endTime = "";
+            Boolean firstReqParam = true;
+
+            if (options.TryGetValue("trackerId", out trackerId))
+            {
+                if (firstReqParam)
+                {
+                    firstReqParam = false;
+                    url += "trackerId=" + trackerId;
+                }
+                else
+                    url += "&trackerId=" + trackerId;
+
+            }
+            if (options.TryGetValue("modelIndex", out modelIndex))
+            {
+                if (firstReqParam)
+                {
+                    firstReqParam = false;
+                    url += "model=" + modelIndex;
+                }
+                else
+                    url += "&model=" + modelIndex;
+
+            }
+            if (options.TryGetValue("startTime", out startTime))
+            {
+                if (firstReqParam)
+                {
+                    firstReqParam = false;
+                    url += "startTime=" + startTime;
+                }
+                else
+                    url += "&startTime=" + startTime;
+
+            }
+            if (options.TryGetValue("endTime", out endTime))
+            {
+                if (firstReqParam)
+                {
+                    firstReqParam = false;
+                    url += "endTime=" + endTime;
+                }
+                else
+                    url += "&endTime=" + endTime;
+
+            }
+            string format = "";
+            string responseFromat = "application/json";
+            if (options.TryGetValue("responseFromat", out format))
+            {
+                if (format.Equals("text/csv"))
+                {
+                    responseFromat = "text/csv";
+                }
+            }
+            HttpResponse outputData = http.getOutput(url, responseFromat);
+            return outputData;
+        }
+
+        // Post EntityMeta
+        public List<EntityMeta> postEntityMeta(List<EntityMetaRequest> entityMetaRequest, Datastream datastream)
+        {
+            JavaScriptSerializer javascript = new JavaScriptSerializer();
+
+            string data = javascript.Serialize(entityMetaRequest);
+
+            string response = http.post("/datastream/"+ datastream.id+"/entityMeta", data);
+
+            return javascript.Deserialize<List<EntityMeta>>(response);
+        }
+
+        // Get EntityMeta
+        public List<EntityMeta> getEntityMeta(Datastream datastream)
+        {
+            JavaScriptSerializer javascript = new JavaScriptSerializer();
+
+            string response = http.get("/datastream/" + datastream.id + "/entityMeta");
+
+            return javascript.Deserialize<List<EntityMeta>>(response);
+        }
+
     }
 }
 

@@ -410,5 +410,36 @@ namespace falkonry_csharp_client.service
 
 
         }
+
+        public HttpResponse getOutput(string path, string responseFormat)
+        {
+            HttpResponse httpResponse = new HttpResponse();
+            try
+            {
+                var url = this.host + path;
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.ServicePoint.Expect100Continue = false;
+                request.Credentials = CredentialCache.DefaultCredentials;
+                request.Headers.Add("Authorization", "Bearer " + this.token);
+                request.Headers.Add("accept", responseFormat);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                string resp = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                httpResponse.statusCode = Convert.ToInt32(response.StatusCode);
+                httpResponse.response = resp;
+
+                return httpResponse;
+            }
+            catch (Exception E)
+            {
+                httpResponse.statusCode =500;
+                httpResponse.response = E.Message.ToString();
+                return httpResponse;
+            }
+
+        }
     }
 }

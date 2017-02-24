@@ -14,6 +14,9 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     * Add data to Datastream (json, stream)
     * Retrieve output of a Assessment
     * Add facts data to Assessment
+	* Add Entity Meta to DataStream
+	* Get Entity Meta of DataStream
+	* Generate Output Data for Historical Data
     
 ## Quick Start
 
@@ -250,6 +253,89 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
 ```     
 
+```
+	* Add Entity Meta to datastream, Get Entity Meta of datastream
+```
+	using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+	
+	// Create Datastream
+	datastream = falkonry.getDatastream(datastream.id);
+
+	// Create EntityMetaRequest
+	List<EntityMetaRequest> entityMetaRequestList = new List<EntityMetaRequest>();
+	EntityMetaRequest entityMetaRequest1 = new EntityMetaRequest();
+	entityMetaRequest1.label = "User readbale label";
+	entityMetaRequest1.sourceId = "1234-21342134";
+	entityMetaRequest1.path = "//root/branch1/";
+
+	EntityMetaRequest entityMetaRequest2 = new EntityMetaRequest();
+	entityMetaRequest2.label = "User readbale label2";
+	entityMetaRequest2.sourceId = "1234-213421rawef";
+	entityMetaRequest2.path = "//root/branch2/";
+
+	entityMetaRequestList.Add(entityMetaRequest1);
+	entityMetaRequestList.Add(entityMetaRequest2);
+
+	List<EntityMeta> entityMetaResponseList = falkonry.postEntityMeta(entityMetaRequestList, datastream);
+
+	// Get entitymeta
+	entityMetaResponseList = falkonry.getEntityMeta(datastream);
+```
+
+```
+   * Generate Output Data for Historical Data
+```
+	using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+	
+	// Create Datastream
+
+	// create Assessment
+
+	// Add Data To dataStream
+
+	// From Falkonry UI, run a model revision.
+
+	// Fetch Historical output data for given assessment, startTime , endtime
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+	options.Add("startTime", "2011-01-01T01:00:00.000Z"); // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
+	options.Add("endTime", "2011-06-01T01:00:00.000Z");  // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
+	options.Add("responseFormat", "application/json");  // also avaibale options 1. text/csv 2. application/json
+
+	HttpResponse httpResponse = falkonry.getHistoricalOutput(assessment, options);
+	// If data is not readily avaiable then, a tracker id will be sent with 202 status code. While falkonry will genrate ouptut data
+	// Client should do timely pooling on the using same method, sending tracker id (__id) in the query params
+	// Once data is avaiable server will response with 200 status code and data in json/csv format.
+
+	if (httpResponse.statusCode == 202)
+	{
+		Tracker trackerResponse = javascript.Deserialize<Tracker>(httpResponse.response);
+		// get id from the tracker
+		string __id = trackerResponse.__id;
+
+		// use this tracker for checking the status of the process.
+		options = new SortedDictionary<string, string>();
+		options.Add("tarckerId", __id);
+		options.Add("responseFormat", "application/json");
+
+		httpResponse = falkonry.getHistoricalOutput(assessment, options);
+
+		// if status is 202 call the same request again
+
+		// if statsu is 200, output data will be present in httpResponse.response field
+	}
+	if (httpResponse.statusCode > 400)
+	{
+		// Some Error has occured. Please httpResponse.response for detail message
+	}
+```
 
 ## Docs
 
