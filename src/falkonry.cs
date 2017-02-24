@@ -11,7 +11,9 @@ using System.Text;
 using System.IO;
 using falkonry_csharp_client.helper.models;
 using falkonry_csharp_client.service;
-    namespace falkonry_csharp_client    
+using falkonry_csharp_client.src.helper.models;
+
+namespace falkonry_csharp_client    
 {
     public class Falkonry
     {
@@ -62,9 +64,9 @@ using falkonry_csharp_client.service;
         return this.falkonryService.addInputFromStream(datastream, stream, options);
         }
 
-        public Stream getOutput(string assessment, long? start, long? end)
+        public EventSource getOutput(string assessment, long? start, long? end)
         {
-        return this.falkonryService.getOutput(assessment, start, end);
+        return this.falkonryService.GetOutput(assessment, start, end);
         }
 
         public static void Main()
