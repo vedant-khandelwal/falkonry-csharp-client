@@ -83,6 +83,7 @@
     <Compile Include="src\helper\models\DatastreamRequest.cs" />
     <Compile Include="src\helper\models\EntityMeta.cs" />
     <Compile Include="src\helper\models\EntityMetaRequest.cs" />
+    <Compile Include="src\helper\models\EventSource.cs" />
     <Compile Include="src\helper\models\HttpResponse.cs" />
     <Compile Include="src\helper\models\InputStatus.cs" />
     <Compile Include="src\helper\models\Stats.cs" />

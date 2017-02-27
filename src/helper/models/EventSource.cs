@@ -9,7 +9,7 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading;
 
-namespace falkonry_csharp_client.src.helper.models
+namespace falkonry_csharp_client.helper.models
 {
     public class EventSource : IDisposable
     {
@@ -510,17 +510,17 @@ namespace falkonry_csharp_client.src.helper.models
             /// <summary>
             /// Gets the data.
             /// </summary>
-            public string Data { get; internal set; }
+            public string Data { get; set; }
 
             /// <summary>
             /// Gets the event identifier.
             /// </summary>
-            public string EventId { get; internal set; }
+            public string EventId { get; set; }
 
             /// <summary>
             /// Gets the type of the event.
             /// </summary>
-            public string EventType { get; internal set; }
+            public string EventType { get; set; }
 
             #endregion Public Properties
         }

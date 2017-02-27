@@ -14,7 +14,6 @@ using falkonry_csharp_client.service;
 using System.Web.Script.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Diagnostics;
-using falkonry_csharp_client.src.helper.models;
 
 namespace falkonry_csharp_client.service
 {

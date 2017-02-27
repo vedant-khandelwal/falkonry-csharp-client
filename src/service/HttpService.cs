@@ -19,7 +19,6 @@ using System.Net.Http.Headers;
 using falkonry_csharp_client.helper.models;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
-using falkonry_csharp_client.src.helper.models;
 using System.Collections.Specialized;
 
 namespace falkonry_csharp_client.service

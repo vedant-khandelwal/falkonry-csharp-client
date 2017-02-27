@@ -11,7 +11,6 @@ using System.Text;
 using System.IO;
 using falkonry_csharp_client.helper.models;
 using falkonry_csharp_client.service;
-using falkonry_csharp_client.src.helper.models;
 
 namespace falkonry_csharp_client    
 {
