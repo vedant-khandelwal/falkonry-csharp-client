@@ -1,55 +1,45 @@
-﻿///
-/// falkonry-csharp-client
-/// Copyright(c) 2016 Falkonry Inc
-/// MIT Licensed
-///
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Script.Serialization;
+﻿using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
     public class Assessment
     {
-        public string id
+        public string Id
         {
             get;
             set;
         }
-        public string sourceId
+        public string SourceId
         {
             get;
             set;
         }
-        public string name
+        public string Name
         {
             get;
             set;
         }
-        public string tenant
+        public string Tenant
         {
             get;
             set;
         }
-        public long createTime
+        public long CreateTime
         {
             get;
             set;
         }
-        public string createdBy
+        public string CreatedBy
         {
             get;
             set;
         }
-        public long updateTime
+        public long UpdateTime
         {
             get;
             set;
         }
-        public string updatedBy
+        public string UpdatedBy
         {
             get;
             set;
@@ -60,35 +50,35 @@ namespace falkonry_csharp_client.helper.models
             set;
         }
         */
-        public string toJSON()
+        public string ToJson()
         {
             return new JavaScriptSerializer().Serialize(this);
         }
-        public string datastream
+        public string Datastream
         {
             get;
             set;
         }
 
-        public string live
+        public string Live
         {
             get;
             set;
         }
 
-        public string factsMeasurement
+        public string FactsMeasurement
         {
             get;
             set;
         }
 
-        public string production
+        public string Production
         {
             get;
             set;
         }
 
-        public string activeModel
+        public string ActiveModel
         {
             get;
             set;

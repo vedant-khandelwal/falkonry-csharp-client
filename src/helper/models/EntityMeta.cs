@@ -1,78 +1,69 @@
-///
-/// falkonry-csharp-client
-/// Copyright(c) 2016 Falkonry Inc
-/// MIT Licensed
-///
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Script.Serialization;
 namespace falkonry_csharp_client.helper.models
 {
     public class EntityMeta
     {
-        public string sourceId
+        public string SourceId
         {
             get;
             set;
 
         }
-        public string datastream
+        public string Datastream
         {
             get;
             set;
 
         }
-        public string label
+        public string Label
         {
             get;
             set;
 
         }
 
-        public string path
+        public string Path
         {
             get;
             set;
 
         }
-        public string id
+        public string Id
         {
             get;
             set;
 
         }
-        public string tenant
+        public string Tenant
         {
             get;
             set;
 
         }
-        public long createTime
+        public long CreateTime
         {
             get;
             set;
         }
 
-        public string createdBy
+        public string CreatedBy
         {
             get;
             set;
         }
 
-        public long updateTime
+        public long UpdateTime
         {
             get;
             set;
         }
 
-        public string updatedBy
+        public string UpdatedBy
         {
             get;
             set;
         }
-        public string toJSON()
+        public string ToJson()
         {
             return new JavaScriptSerializer().Serialize(this);
         }

@@ -1,30 +1,18 @@
-﻿///
-/// falkonry-csharp-client
-/// Copyright(c) 2016 Falkonry Inc
-/// MIT Licensed
-///
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Script.Serialization;
-
-namespace falkonry_csharp_client.helper.models
+﻿namespace falkonry_csharp_client.helper.models
 {
     public class Tracker
     {
-        public string status
+        public string Status
         {
             get;
             set;
         }
-        public string action
+        public string Action
         {
             get;
             set;
         }
-        public string __id
+        public string __Id
         {
             get;
             set;

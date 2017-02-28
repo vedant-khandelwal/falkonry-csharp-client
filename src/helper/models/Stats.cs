@@ -2,22 +2,22 @@
 {
     public class Stats
     {
-        public long data
+        public long Data
         {
             get;
             set;
         }
-        public long events
+        public long Events
         {
             get;
             set;
         }
-        public long earliestDataPoint
+        public long EarliestDataPoint
         {
             get;
             set;
         }
-        public long latestDataPoint
+        public long LatestDataPoint
         {
             get;
             set;

@@ -2,49 +2,49 @@
 {
     public class Datatransformation
     {
-        public string signalsTagField
+        public string SignalsTagField
         {
             get;
             set;
         }
 
-        public string signalsDelimiter
+        public string SignalsDelimiter
         {
             get;
             set;
         }
 
-        public string valueColumn
+        public string ValueColumn
         {
             get;
             set;
         }
 
-        public string signalsLocation
+        public string SignalsLocation
         {
             get;
             set;
         }
 
-        public string entityIdentifier
+        public string EntityIdentifier
         {
             get;
             set;
         }
 
-        public string entityName
+        public string EntityName
         {
             get;
             set;
         }
 
-        public string timeIdentifier
+        public string TimeIdentifier
         {
             get;
             set;
         }
 
-        public string timeFormat
+        public string TimeFormat
         {
             get;
             set;

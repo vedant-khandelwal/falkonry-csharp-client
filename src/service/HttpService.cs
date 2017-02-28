@@ -1,21 +1,9 @@
-﻿///
-/// falkonry-csharp-client
-/// Copyright(c) 2016 Falkonry Inc
-/// MIT Licensed
-///
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net;
 using System.IO;
-using System.Web.Script.Serialization;
 using System.Net.Http;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.Net.Http.Headers;
 using falkonry_csharp_client.helper.models;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
@@ -25,12 +13,12 @@ namespace falkonry_csharp_client.service
 {
     public class HttpService
     {
-        private string host;
-        private string token;
-        private string user_agent="falkonry/csharp-client";
+        private readonly string _host;
+        private readonly string _token;
+
         public bool RemoteCertificateValidationCallback(
 
-                  Object sender,
+                  object sender,
 
                   X509Certificate certificate,
 
@@ -46,73 +34,63 @@ namespace falkonry_csharp_client.service
         {
           
           
-            this.host = host == null ? "https://service.falkonry.io" : host;
+            _host = host ?? "https://service.falkonry.io";
 
-            this.token = token;
+            _token = token;
            
         ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidationCallback;
         }
 
-        public string get (string path)
+        public string Get (string path)
         {
             try 
             {   
-                var url = this.host + path;
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                var url = _host + path;
+                var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer "+this.token);
+                request.Headers.Add("Authorization", "Bearer "+_token);
 			    request.Method = "GET";
                 request.ContentType = "application/json";
                 
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                
-                string resp = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                var response = (HttpWebResponse)request.GetResponse();
 
-                if ( Convert.ToInt32(response.StatusCode) == 401 )
+                var stream = response.GetResponseStream();
+                if (stream != null)
                 {
-                    return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
+                    var resp = new StreamReader(stream).ReadToEnd();
+
+                    if ( Convert.ToInt32(response.StatusCode) == 401 )
+                    {
+                        return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
+                    }
+                    return Convert.ToInt32(response.StatusCode) >= 400 ? Convert.ToString(response.StatusDescription) : resp;
                 }
-                else if ( Convert.ToInt32(response.StatusCode) >= 400 )
-                {
-                    return Convert.ToString(response.StatusDescription);
-                }
-                else
-                {
-                    return resp;
-                }
-                
-                 
-            
-                }
-            catch ( Exception E)
-            {
-                return E.Message.ToString();
             }
-        
-       }
+            catch ( Exception e)
+            {
+                return e.Message;
+            }
 
-        public string post (string path,string data)
+            return null;
+        }
+
+        public string Post (string path,string data)
         {
-            var resp = "";
             try 
             {
 
-                var url = this.host + path;
+                var url = _host + path;
 
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer "+this.token);
+                request.Headers.Add("Authorization", "Bearer "+_token);
 			    request.Method = "POST";
                 request.ContentType = "application/json";
-                
 
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
-                    
-                    
-                    
                     streamWriter.Write(data);
                     
                     streamWriter.Flush();
@@ -121,104 +99,93 @@ namespace falkonry_csharp_client.service
                 }
                 try
                 {
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    var response = (HttpWebResponse)request.GetResponse();
 
-                    resp = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                    var stream = response.GetResponseStream();
+                    if (stream != null)
+                    {
+                        var resp = new StreamReader(stream).ReadToEnd();
 
-                    return resp;
+                        return resp;
+                    }
                 }
                 catch(WebException e)
                 {
-                    using (WebResponse response = e.Response)
+                    using (var response = e.Response)
                     {
-                        HttpWebResponse httpResponse = (HttpWebResponse)response;
-                        
-                        using (Stream data1 = response.GetResponseStream())
-                        using (var reader = new StreamReader(data1))
-                        {
-                            string text = reader.ReadToEnd();
-                            return text;
-                        }
+                        using (var data1 = response.GetResponseStream())
+                            if (data1 != null)
+                                using (var reader = new StreamReader(data1))
+                                {
+                                    var text = reader.ReadToEnd();
+                                    return text;
+                                }
                     }
                 }
             }
-            catch ( Exception E)
+            catch ( Exception e)
             {
-                
-
-                return E.Message.ToString();
+                return e.Message;
             }
+            return null;
         }
 
-        public string put (string path,string data)
+        public string Put (string path,string data)
         {
             try 
             {
-                var url = this.host + path;
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                var url = _host + path;
+                var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer "+this.token);
+                request.Headers.Add("Authorization", "Bearer "+_token);
 			    request.Method = "PUT";
                 request.ContentType = "application/json";
                 
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
-                    
                     streamWriter.Write(data);
                     streamWriter.Flush();
                     streamWriter.Close();
                 }
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                var response = (HttpWebResponse)request.GetResponse();
 
-                
-                var resp = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                
-                
-                if (Convert.ToInt32(response.StatusCode) == 401)
+                var stream = response.GetResponseStream();
+                if (stream != null)
                 {
-                    return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
-                }
-                else if (Convert.ToInt32(response.StatusCode) >= 400)
-                {
-                    return Convert.ToString(response.StatusDescription);
-                }
-                else
-                {
-                    return resp;
+                    var resp = new StreamReader(stream).ReadToEnd();
+
+                    if (Convert.ToInt32(response.StatusCode) == 401)
+                    {
+                        return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
+                    }
+                    return Convert.ToInt32(response.StatusCode) >= 400 ? Convert.ToString(response.StatusDescription) : resp;
                 }
             }
-            catch ( Exception E)
+            catch (Exception e)
             {
-                return E.Message.ToString();
+                return e.Message;
             }
+            return null;
         }
         
-        async public Task<string> fpost (string path,SortedDictionary<string,string> options,byte[] stream)
+        public async Task<string> Fpost (string path,SortedDictionary<string,string> options,byte[] stream)
         {
 
             try
             {
+                var rnd = new Random();
+                var randomNumber = Convert.ToString(rnd.Next(1, 200));
+                var url = _host + path;
 
+                string sd;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                var client = new HttpClient();
 
-                Random rnd = new Random();
-                string random_number = Convert.ToString(rnd.Next(1, 200));
-                //HttpClient httpClient = new HttpClient();
-                string temp_file_name = "";
-                var url = this.host + path;
-
-
-                string sd = "";
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-                HttpClient client = new HttpClient();
-
-
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this.token);
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _token);
                 client.DefaultRequestHeaders.ExpectContinue = false;
-                using (MultipartFormDataContent form = new MultipartFormDataContent())
+                using (var form = new MultipartFormDataContent())
                 {
-
-
                     form.Add(new StringContent(options["name"]), "name");
 
                     form.Add(new StringContent(options["timeIdentifier"]), "timeIdentifier");
@@ -227,82 +194,74 @@ namespace falkonry_csharp_client.service
 
                     if (stream != null)
                     {
+                        var tempFileName = "input" + randomNumber + "." + options["fileFormat"];
 
-                        temp_file_name = "input" + random_number + "." + options["fileFormat"];
-
-                        ByteArrayContent bytearraycontent = new ByteArrayContent(stream);
+                        var bytearraycontent = new ByteArrayContent(stream);
                         bytearraycontent.Headers.Add("Content-Type", "text/" + options["fileFormat"]);
-                        form.Add(bytearraycontent, "data", temp_file_name);
+                        form.Add(bytearraycontent, "data", tempFileName);
                     }
 
                     var result = client.PostAsync(url, form).Result;
 
                     sd = await result.Content.ReadAsStringAsync();
-
-
                 }
 
                 return sd;
             }
-            catch(Exception E)
+            catch(Exception e)
             {
-                return E.Message.ToString();
-            }
-
-            }
-         
-        
-
-        public string delete (string path)
-        {
-            try 
-            {
-                var url = this.host + path;
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
-                request.ServicePoint.Expect100Continue = false;
-                request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer "+this.token);
-			    request.Method = "DELETE";
-                request.ContentType = "application/json";
-                
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                var resp = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                if (Convert.ToInt32(response.StatusCode) == 401)
-                {
-                    return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
-                }
-                else if (Convert.ToInt32(response.StatusCode) >= 400)
-                {
-                    return Convert.ToString(response.StatusDescription);
-                }
-                else
-                {
-                    return resp;
-                }
-            }
-            catch ( Exception E)
-            {
-                return E.Message.ToString();
+                return e.Message;
             }
         }
 
-        public string upstream(string path,byte[] data)
+        public string Delete (string path)
+        {
+            try 
+            {
+                var url = _host + path;
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.ServicePoint.Expect100Continue = false;
+                request.Credentials = CredentialCache.DefaultCredentials;
+                request.Headers.Add("Authorization", "Bearer "+_token);
+			    request.Method = "DELETE";
+                request.ContentType = "application/json";
+                
+                var response = (HttpWebResponse)request.GetResponse();
+                var stream = response.GetResponseStream();
+                if (stream != null)
+                {
+                    var resp = new StreamReader(stream).ReadToEnd();
+                    if (Convert.ToInt32(response.StatusCode) == 401)
+                    {
+                        return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
+                    }
+                    return Convert.ToInt32(response.StatusCode) >= 400 ? Convert.ToString(response.StatusDescription) : resp;
+                }
+            }
+            catch ( Exception e)
+            {
+                return e.Message;
+            }
+            return null;
+        }
+
+        public string Upstream(string path,byte[] data)
         {
             try
             {
-                var url = this.host + path;
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                var url = _host + path;
+                var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
 
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Method="POST";
-                request.Headers.Add("Authorization", "Bearer " + this.token);
+                request.Headers.Add("Authorization", "Bearer " + _token);
                 request.ContentType = "text/plain";
                 // Set the ContentLength property of the WebRequest.
                 request.ContentLength = data.Length;
                 // Get the request stream.
                
-                Stream dataStream = request.GetRequestStream();
+                var dataStream = request.GetRequestStream();
                 // Write the data to the request stream.
                
                 dataStream.Write(data, 0, data.Length);
@@ -311,60 +270,57 @@ namespace falkonry_csharp_client.service
                 dataStream.Close();
                 // Get the response.
                
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                
-                var resp = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                var response = (HttpWebResponse)request.GetResponse();
+
+                var stream = response.GetResponseStream();
+                if (stream != null)
+                {
+                    var resp = new StreamReader(stream).ReadToEnd();
                
-                if (Convert.ToInt32(response.StatusCode) == 401)
-                {
-                    return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
-                }
-                else if (Convert.ToInt32(response.StatusCode) >= 400)
-                {
-                    return Convert.ToString(response.StatusDescription);
-                }
-                else
-                {
-                    return resp;
+                    if (Convert.ToInt32(response.StatusCode) == 401)
+                    {
+                        return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
+                    }
+                    return Convert.ToInt32(response.StatusCode) >= 400 ? Convert.ToString(response.StatusDescription) : resp;
                 }
             }
-            catch (Exception E)
+            catch (Exception e)
             {
-                return E.Message.ToString();
+                return e.Message;
             }
+            return null;
         }
 
-        public EventSource downstream(string path)
+        public EventSource Downstream(string path)
         {
             try
             {
-                var url = host + path;
+                var url = _host + path;
                 var eventSource = new EventSource(url)
                 {
-                    Headers = new NameValueCollection {{ "Authorization", "Bearer " + this.token }}
+                    Headers = new NameValueCollection {{ "Authorization", "Bearer " + _token }}
                 };
 
                 eventSource.Connect();
 
                 return eventSource; 
             }
-            catch (Exception E)
+            catch (Exception)
             {
-                
                 return null;
             }
         }
         
-        public string postData(string path, string data)
+        public string PostData(string path, string data)
         {
-            string resp = "";
-            try { 
-                var url = this.host + path;
+            try
+            { 
+                var url = _host + path;
 
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer " + this.token);
+                request.Headers.Add("Authorization", "Bearer " + _token);
                 request.Method = "POST";
                 request.ContentType = "text/plain";
                 
@@ -377,63 +333,58 @@ namespace falkonry_csharp_client.service
                     
                     streamWriter.Close();
                 }
-                
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                
-                resp = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-                if (Convert.ToInt32(response.StatusCode) == 401)
+                var response = (HttpWebResponse)request.GetResponse();
+
+                var stream = response.GetResponseStream();
+                if (stream != null)
                 {
-                    return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
-                }
-                else if (Convert.ToInt32(response.StatusCode) >= 400)
-                {
-                    return Convert.ToString(response.StatusDescription);
-                }
-                else
-                {
-                    return resp;
+                    var resp = new StreamReader(stream).ReadToEnd();
+
+                    if (Convert.ToInt32(response.StatusCode) == 401)
+                    {
+                        return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
+                    }
+                    return Convert.ToInt32(response.StatusCode) >= 400 ? Convert.ToString(response.StatusDescription) : resp;
                 }
             }
-            catch (Exception E)
-            {
-                
-
-                
-                return E.Message.ToString();
+            catch (Exception e)
+            {   
+                return e.Message;
             }
-        
-
-
-
+            return null;
         }
 
-        public HttpResponse getOutput(string path, string responseFormat)
+        public HttpResponse GetOutput(string path, string responseFormat)
         {
-            HttpResponse httpResponse = new HttpResponse();
+            var httpResponse = new HttpResponse();
             try
             {
-                var url = this.host + path;
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                var url = _host + path;
+                var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer " + this.token);
+                request.Headers.Add("Authorization", "Bearer " + _token);
                 request.Accept = responseFormat;
                 request.Method = "GET";
                 request.ContentType = "application/json";
 
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                var response = (HttpWebResponse)request.GetResponse();
 
-                string resp = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                httpResponse.statusCode = Convert.ToInt32(response.StatusCode);
-                httpResponse.response = resp;
+                var stream = response.GetResponseStream();
+                if (stream != null)
+                {
+                    var resp = new StreamReader(stream).ReadToEnd();
+                    httpResponse.StatusCode = Convert.ToInt32(response.StatusCode);
+                    httpResponse.Response = resp;
+                }
 
                 return httpResponse;
             }
-            catch (Exception E)
+            catch (Exception e)
             {
-                httpResponse.statusCode =500;
-                httpResponse.response = E.Message.ToString();
+                httpResponse.StatusCode =500;
+                httpResponse.Response = e.Message;
                 return httpResponse;
             }
 

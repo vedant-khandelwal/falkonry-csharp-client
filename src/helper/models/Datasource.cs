@@ -2,37 +2,37 @@
 {
     public class Datasource
     {
-        public string type
+        public string Type
         {
             get;
             set;
         }
-        public string protocol
+        public string Protocol
         {
             get;
             set;
         }
-        public string host
+        public string Host
         {
             get;
             set;
         }
-        public long port
+        public long Port
         {
             get;
             set;
         }
-        public string username
+        public string Username
         {
             get;
             set;
         }
-        public string password
+        public string Password
         {
             get;
             set;
         }
-        public string elementTemplateName
+        public string ElementTemplateName
         {
             get;
             set;

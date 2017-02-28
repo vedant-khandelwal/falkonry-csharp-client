@@ -1,14 +1,4 @@
-﻿///
-/// falkonry-csharp-client
-/// Copyright(c) 2016 Falkonry Inc
-/// MIT Licensed
-///
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.Collections.Generic;
 using falkonry_csharp_client.helper.models;
 using falkonry_csharp_client.service;
 
@@ -16,88 +6,88 @@ namespace falkonry_csharp_client
 {
     public class Falkonry
     {
-        private FalkonryService falkonryService;
+        private readonly FalkonryService _falkonryService;
 
         public Falkonry(string host, string token)
         {
-        this.falkonryService = new FalkonryService(host, token);
+        _falkonryService = new FalkonryService(host, token);
         }
 
-        public Datastream createDatastream(DatastreamRequest datastream)
+        public Datastream CreateDatastream(DatastreamRequest datastream)
         {
-        return falkonryService.createDatastream(datastream);
+        return _falkonryService.CreateDatastream(datastream);
         }
 
-        public List<Datastream> getDatastreams()
+        public List<Datastream> GetDatastreams()
         {
-        return falkonryService.getDatastream();
+        return _falkonryService.GetDatastream();
         }
 
-        public void deleteDatastream(string datastream)
+        public void DeleteDatastream(string datastream)
         {
-            falkonryService.deleteDatastream(datastream);
+            _falkonryService.DeleteDatastream(datastream);
         }
 
-        public Assessment createAssessment(AssessmentRequest assessment)
+        public Assessment CreateAssessment(AssessmentRequest assessment)
         {
-        return falkonryService.createAssessment(assessment);
+        return _falkonryService.CreateAssessment(assessment);
         }
 
-        public List<Assessment> getAssessments()
+        public List<Assessment> GetAssessments()
         {
-        return falkonryService.getAssessment();
+        return _falkonryService.GetAssessment();
         }
 
-        public void deleteAssessment(string assessment)
+        public void DeleteAssessment(string assessment)
         {
-            falkonryService.deleteAssessment(assessment);
+            _falkonryService.DeleteAssessment(assessment);
         }
 
-        public InputStatus addInput(string datastream, string data, SortedDictionary<string, string> options)
+        public InputStatus AddInput(string datastream, string data, SortedDictionary<string, string> options)
         {
-        return this.falkonryService.addInputData(datastream, data, options);
+        return _falkonryService.AddInputData(datastream, data, options);
         }
 
-        public InputStatus addInputStream(string datastream, byte[] stream, SortedDictionary<string, string> options)
+        public InputStatus AddInputStream(string datastream, byte[] stream, SortedDictionary<string, string> options)
         {
-        return this.falkonryService.addInputFromStream(datastream, stream, options);
+        return _falkonryService.AddInputFromStream(datastream, stream, options);
         }
 
-        public EventSource getOutput(string assessment, long? start, long? end)
+        public EventSource GetOutput(string assessment, long? start, long? end)
         {
-        return this.falkonryService.GetOutput(assessment, start, end);
+        return _falkonryService.GetOutput(assessment, start, end);
         }
 
         public static void Main()
         {
 
         }
-        public Datastream getDatastream(string id)
+        public Datastream GetDatastream(string id)
         {
-            return falkonryService.getDatastream(id);
+            return _falkonryService.GetDatastream(id);
         }
-        public string addFacts(string assessment, string data, SortedDictionary<string, string> options)
+        public string AddFacts(string assessment, string data, SortedDictionary<string, string> options)
         {
-            return this.falkonryService.addFacts(assessment, data, options);
+            return _falkonryService.AddFacts(assessment, data, options);
         }
-        public string addFactsStream(string assessment, byte[] stream, SortedDictionary<string, string> options)
+        public string AddFactsStream(string assessment, byte[] stream, SortedDictionary<string, string> options)
         {
-            return this.falkonryService.addFactsStream(assessment, stream,options);
-        }
-
-        public HttpResponse getHistoricalOutput(Assessment assessment, SortedDictionary<string, string> options)
-        {
-            return this.falkonryService.getHistoricalOutput(assessment, options);
+            return _falkonryService.AddFactsStream(assessment, stream,options);
         }
 
-        public List<EntityMeta> postEntityMeta(List<EntityMetaRequest> entityMetaRequest, Datastream datastream)
+        public HttpResponse GetHistoricalOutput(Assessment assessment, SortedDictionary<string, string> options)
         {
-            return this.falkonryService.postEntityMeta(entityMetaRequest, datastream);
+            return _falkonryService.GetHistoricalOutput(assessment, options);
         }
 
-        public List<EntityMeta> getEntityMeta(Datastream datastream)
+        public List<EntityMeta> PostEntityMeta(List<EntityMetaRequest> entityMetaRequest, Datastream datastream)
         {
-            return this.falkonryService.getEntityMeta(datastream);
+            return _falkonryService.PostEntityMeta(entityMetaRequest, datastream);
+        }
+
+        public List<EntityMeta> GetEntityMeta(Datastream datastream)
+        {
+            return _falkonryService.GetEntityMeta(datastream);
         }
 
     }

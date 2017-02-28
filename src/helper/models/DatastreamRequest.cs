@@ -1,13 +1,4 @@
-﻿///
-/// falkonry-csharp-client
-/// Copyright(c) 2016 Falkonry Inc
-/// MIT Licensed
-///
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
@@ -16,78 +7,78 @@ namespace falkonry_csharp_client.helper.models
     {
         
 
-        public string name
+        public string Name
         {
             get;
             set;
         }
 
-        public string toJSON()
+        public string ToJson()
         {
             return new JavaScriptSerializer().Serialize(this);
         }
        
-        public Timezone timezone
+        public Timezone Timezone
         {
             get;
             set;
         }
 
-        public string signalsTagField
+        public string SignalsTagField
         {
             get;
             set;
         }
 
-        public string signalsDelimiter
+        public string SignalsDelimiter
         {
             get;
             set;
         }
 
-        public string valueColumn
+        public string ValueColumn
         {
             get;
             set;
         }
 
-        public string signalsLocation
+        public string SignalsLocation
         {
             get;
             set;
         }
 
-        public string entityIdentifier
+        public string EntityIdentifier
         {
             get;
             set;
         }
 
-        public string entityName
+        public string EntityName
         {
             get;
             set;
         }
 
-        public string timeIdentifier
+        public string TimeIdentifier
         {
             get;
             set;
         }
 
-        public string timeFormat
+        public string TimeFormat
         {
             get;
             set;
         }
 
-        public Datasource dataSource
+        public Datasource DataSource
         {
             get;
             set;
         }
 
-        public List<Input> inputList
+        public List<Input> InputList
         {
             get;
             set;
