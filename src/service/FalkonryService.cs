@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using falkonry_csharp_client.helper.models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-
 
 namespace falkonry_csharp_client.service
 {
@@ -55,11 +55,11 @@ namespace falkonry_csharp_client.service
             var url = "/datastream/" + datastream;
             if (options.TryGetValue("streaming", out streamingValue))
             {
-                url += "?streaming=" + streamingValue;
+                url += "?streaming=" +Uri.EscapeDataString(streamingValue);
             }
             if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
             {
-                url += "&hasMoreData=" + hasMoreDataValue;
+                url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
             }
 
             var status = _http.PostData(url, data);
@@ -73,11 +73,12 @@ namespace falkonry_csharp_client.service
             string hasMoreDataValue;
             if (options.TryGetValue("streaming", out streamingValue))
             {
-                url += "?streaming=" + streamingValue;
+                
+                url += "?streaming=" + Uri.EscapeDataString(streamingValue);
             }
             if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
             {
-                url += "&hasMoreData=" + hasMoreDataValue;
+                url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
             }
             var status = _http.Upstream(url, data);
             return JsonConvert.DeserializeObject<InputStatus>(status);
@@ -160,17 +161,17 @@ namespace falkonry_csharp_client.service
             if (options.TryGetValue("trackerId", out trackerId))
             {
                 firstReqParam = false;
-                url += "trackerId=" + trackerId;
+                url += "trackerId=" + Uri.EscapeDataString(trackerId);
             }
             if (options.TryGetValue("modelIndex", out modelIndex))
             {
                 if (firstReqParam)
                 {
                     firstReqParam = false;
-                    url += "model=" + modelIndex;
+                    url += "model=" + Uri.EscapeDataString(modelIndex);
                 }
                 else
-                    url += "&model=" + modelIndex;
+                    url += "&model=" + Uri.EscapeDataString(modelIndex);
 
             }
             if (options.TryGetValue("startTime", out startTime))
@@ -178,20 +179,20 @@ namespace falkonry_csharp_client.service
                 if (firstReqParam)
                 {
                     firstReqParam = false;
-                    url += "startTime=" + startTime;
+                    url += "startTime=" + Uri.EscapeDataString(startTime);
                 }
                 else
-                    url += "&startTime=" + startTime;
+                    url += "&startTime=" + Uri.EscapeDataString(startTime);
 
             }
             if (options.TryGetValue("endTime", out endTime))
             {
                 if (firstReqParam)
                 {
-                    url += "endTime=" + endTime;
+                    url += "endTime=" + Uri.EscapeDataString(endTime);
                 }
                 else
-                    url += "&endTime=" + endTime;
+                    url += "&endTime=" + Uri.EscapeDataString(endTime);
 
             }
             string format;
@@ -203,6 +204,7 @@ namespace falkonry_csharp_client.service
                     responseFromat = "text/csv";
                 }
             }
+
             var outputData = _http.GetOutput(url, responseFromat);
             return outputData;
         }
