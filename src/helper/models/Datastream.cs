@@ -56,20 +56,13 @@ namespace falkonry_csharp_client.helper.models
         {
             return new JavaScriptSerializer().Serialize(this);
         }
-       
-        public Timezone Timezone
-        {
-            get;
-            set;
-        }
-
         public Stats Stats
         {
             get;
             set;
         }
 
-        public Datatransformation DataTransformation
+        public Field Field
         {
             get;
             set;
