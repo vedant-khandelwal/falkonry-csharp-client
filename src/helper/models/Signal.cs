@@ -2,7 +2,7 @@
 {
     public class Signal
     {
-        public string Tag
+        public string TagIdentifier
         {
             get;
             set;
@@ -14,13 +14,13 @@
             set;
         }
 
-        public string Value
+        public string ValueIdentifier
         {
             get;
             set;
         }
 
-        public string Location
+        public bool IsSignalPrefix
         {
             get;
             set;

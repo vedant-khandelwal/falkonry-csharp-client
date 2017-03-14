@@ -19,5 +19,11 @@
             get;
             set;
         }
+
+        public Time Time
+        {
+            get;
+            set;
+        }
     }
 }

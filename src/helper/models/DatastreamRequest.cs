@@ -30,12 +30,6 @@ namespace falkonry_csharp_client.helper.models
             set;
         }
 
-        public Time Time
-        {
-            get;
-            set;
-        }
-
         public Field Field
         {
             get;

@@ -56,13 +56,6 @@ namespace falkonry_csharp_client.helper.models
         {
             return new JavaScriptSerializer().Serialize(this);
         }
-       
-        public Time Time
-        {
-            get;
-            set;
-        }
-
         public Stats Stats
         {
             get;
