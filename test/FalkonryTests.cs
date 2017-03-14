@@ -13,14 +13,14 @@ using System.IO;
 
 namespace falkonry_csharp_client.Tests
 {
-    [TestClass()]
+   // [TestClass()]
     public class FalkonryTestsDatastream
     {
         Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "rsupe5o687kjjiqk7ya6kdfhsa3hgp00");
         List<Datastream> _datastreams = new List<Datastream>();
 
         // Create StandAlone Datrastream with Wide format
-        [TestMethod()]
+        //[TestMethod()]
         public void CreateStandaloneDatastream()
         {
             var time = new Time();
@@ -49,7 +49,7 @@ namespace falkonry_csharp_client.Tests
         }
 
         // Create Standalone datastream with entityIdentifier
-        [TestMethod()]
+        //[TestMethod()]
         public void CreateDatastreamWithEntityIdentifierTest()
         {
             var time = new Time();
@@ -79,7 +79,7 @@ namespace falkonry_csharp_client.Tests
         }
 
         // Create PI Datastream (Narrow Format)
-        [TestMethod()]
+        //[TestMethod()]
         public void CreatePiDatastreamTest()
         {
             var time = new Time();
@@ -124,7 +124,7 @@ namespace falkonry_csharp_client.Tests
 
         Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "kvtsfp2z9qoggpndf8p5jhk7w0woi580");
 
-        [TestMethod()]
+        //[TestMethod()]
         public void AddDataJson()
         {
             var rnd = new System.Random();
@@ -193,7 +193,7 @@ namespace falkonry_csharp_client.Tests
             _falkonry.DeleteDatastream(datastream.Id);
         }
 
-        [TestMethod()]
+        //[TestMethod()]
         public void AddDataCsv()
         {
             var rnd = new System.Random();
@@ -258,7 +258,7 @@ namespace falkonry_csharp_client.Tests
             _falkonry.DeleteDatastream(datastream.Id);
         }
 
-        [TestMethod()]
+        //[TestMethod()]
         public void AddDataNarrowFormatCsv()
         {
             var rnd = new System.Random();
@@ -305,14 +305,14 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass]
+    //[TestClass]
     public class AddDataFromStream
     {
 
         Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "kvtsfp2z9qoggpndf8p5jhk7w0woi580");
 
 
-        [TestMethod()]
+        //[TestMethod()]
         public void AddDataFromStreamJson()
         {
             var time = new Time();
@@ -353,7 +353,7 @@ namespace falkonry_csharp_client.Tests
             datastream = _falkonry.GetDatastream(datastream.Id);
             _falkonry.DeleteDatastream(datastream.Id);
         }
-        [TestMethod()]
+        //[TestMethod()]
         public void AddDataFromStreamCsv()
         {
             var time = new Time();
@@ -395,13 +395,13 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-    [TestClass()]
+    //[TestClass()]
     public class AddHistorainData
     {
 
         Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "kvtsfp2z9qoggpndf8p5jhk7w0woi580");
 
-        [TestMethod()]
+        //[TestMethod()]
         public void AddDataNarrowFormatCsvForLearning()
         {
             var rnd = new System.Random();
@@ -452,13 +452,13 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass()]
+   // [TestClass()]
     public class AddStreamingData
     {
 
         Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "kvtsfp2z9qoggpndf8p5jhk7w0woi580");
 
-        [TestMethod()]
+        //[TestMethod()]
         public void AddDataNarrowFormatCsvForStreaming()
         {
             var rnd = new System.Random();
@@ -506,12 +506,12 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass]
+    //[TestClass]
     public class AddFacts
     {
         Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "kvtsfp2z9qoggpndf8p5jhk7w0woi580");
 
-        [TestMethod()]
+        //[TestMethod()]
         public void addFacts()
         {
             var rnd = new System.Random();
@@ -566,12 +566,12 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass]
+    //[TestClass]
     public class AddEntityMeta
     {
         Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "uunov5we8ef8zh19ipt5xvp5y9ccw8x3");
 
-        [TestMethod()]
+        //[TestMethod()]
         public void addEntityMeta()
         {
             var rnd = new System.Random();
@@ -633,12 +633,12 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass]
+    //[TestClass]
     public class FetchHistoricalOutput
     {
         Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "uunov5we8ef8zh19ipt5xvp5y9ccw8x3");
 
-        [TestMethod()]
+        //[TestMethod()]
         public void TestHistoricalOutput()
         {
             var javascript = new JavaScriptSerializer();
@@ -681,6 +681,7 @@ namespace falkonry_csharp_client.Tests
             var randomNumber1 = System.Convert.ToString(rnd.Next(1, 10000));
             asmt.Name = "TestAssessment" + randomNumber1;
             asmt.Datastream = datastream.Id;
+            asmt.AssessmentRate = "PT0S";
             var assessment = _falkonry.CreateAssessment(asmt);
 
             //assessment.id = "lqv606xtcxnlca";
