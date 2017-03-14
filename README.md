@@ -39,7 +39,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
     ds.timeIdentifier = "time";
-    ds.timeFormat = "iso_8601";
+    
     ds.timezone = timezone;
     ds.dataSource = datasource;
     Datastream datastream = falkonry.createDatastream(ds);
@@ -62,7 +62,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
     ds.timeIdentifier = "time";
-    ds.timeFormat = "iso_8601";
+    
     ds.timezone = timezone;
     ds.dataSource = datasource;
     ds.entityIdentifier = "nameOfEntityIdentifer";
@@ -87,7 +87,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
     ds.timeIdentifier = "time";
-    ds.timeFormat = "iso_8601";
+    
     ds.timezone = timezone;
     ds.dataSource = datasource;
     Datastream datastream = falkonry.createDatastream(ds);
@@ -139,7 +139,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
     ds.timeIdentifier = "time";
-    ds.timeFormat = "iso_8601";
+    
     ds.timezone = timezone;
     ds.dataSource = datasource;
     Datastream datastream = falkonry.createDatastream(ds);
@@ -175,7 +175,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
     ds.timeIdentifier = "time";
-    ds.timeFormat = "iso_8601";
+    
     ds.timezone = timezone;
     ds.dataSource = datasource;
     Datastream datastream = falkonry.createDatastream(ds);

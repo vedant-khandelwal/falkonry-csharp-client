@@ -57,7 +57,7 @@ namespace falkonry_csharp_client.helper.models
             return new JavaScriptSerializer().Serialize(this);
         }
        
-        public Timezone Timezone
+        public Time Time
         {
             get;
             set;
@@ -69,7 +69,7 @@ namespace falkonry_csharp_client.helper.models
             set;
         }
 
-        public Datatransformation DataTransformation
+        public Field Field
         {
             get;
             set;
