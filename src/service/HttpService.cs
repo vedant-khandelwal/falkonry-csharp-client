@@ -50,7 +50,8 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer "+_token);
-			    request.Method = "GET";
+                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Method = "GET";
                 request.ContentType = "application/json";
                 
                 var response = (HttpWebResponse)request.GetResponse();
@@ -86,7 +87,8 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer "+_token);
-			    request.Method = "POST";
+                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Method = "POST";
                 request.ContentType = "application/json";
 
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
@@ -139,7 +141,8 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer "+_token);
-			    request.Method = "PUT";
+                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Method = "PUT";
                 request.ContentType = "application/json";
                 
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
@@ -183,6 +186,7 @@ namespace falkonry_csharp_client.service
                 var client = new HttpClient();
 
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _token);
+                client.DefaultRequestHeaders.Add("x-falkonry-source", "c-sharp-client");
                 client.DefaultRequestHeaders.ExpectContinue = false;
                 using (var form = new MultipartFormDataContent())
                 {
@@ -223,7 +227,8 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer "+_token);
-			    request.Method = "DELETE";
+                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Method = "DELETE";
                 request.ContentType = "application/json";
                 
                 var response = (HttpWebResponse)request.GetResponse();
@@ -256,6 +261,7 @@ namespace falkonry_csharp_client.service
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Method="POST";
                 request.Headers.Add("Authorization", "Bearer " + _token);
+                request.Headers.Add("x-falkonry-source", "c-sharp-client");
                 request.ContentType = "text/plain";
                 // Set the ContentLength property of the WebRequest.
                 request.ContentLength = data.Length;
@@ -321,6 +327,7 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer " + _token);
+                request.Headers.Add("x-falkonry-source", "c-sharp-client");
                 request.Method = "POST";
                 request.ContentType = "text/plain";
                 
@@ -365,6 +372,7 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer " + _token);
+                request.Headers.Add("x-falkonry-source", "c-sharp-client");
                 request.Accept = responseFormat;
                 request.Method = "GET";
                 request.ContentType = "application/json";
