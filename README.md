@@ -92,7 +92,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
 	field.Time = time;
-	Var Signal = new Siganl();
+	var Signal = new Siganl();
 	Signal.ValueIdentifier = "value";
     Signal.TagIdentifier = "tag";
     Signal.IsSignalPrefix = true;
