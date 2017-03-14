@@ -16,7 +16,7 @@ namespace falkonry_csharp_client.Tests
     [TestClass()]
     public class FalkonryTestsDatastream
     {
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "tb0jdvmmubvg5s6jfgteg9ygyjauxcip");
+        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "rsupe5o687kjjiqk7ya6kdfhsa3hgp00");
         List<Datastream> _datastreams = new List<Datastream>();
 
         // Create StandAlone Datrastream with Wide format
@@ -118,7 +118,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass()]
+    //[TestClass()]
     public class AddData
     {
 
