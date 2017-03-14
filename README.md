@@ -29,8 +29,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     
-    Time time = new Time();
-    time.zone = "GMT";
+    var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
 	Field field = new Field();
     Datasource datasource = new Datasource();
     datasource.type = "STANDALONE"; 
@@ -51,14 +53,18 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-    Time time = new Time();
-    time.zone = "GMT";
+    var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
 	Field field = new Field();
+
     Datasource datasource = new Datasource();
     datasource.type = "STANDALONE"; 
 
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
+	
 	field.time = time;
 	field.entityIdentifier = "nameOfEntityIdentifer";
 	ds.Field = field;
@@ -75,8 +81,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-    Time time = new Time();
-    time.zone = "GMT";
+    var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
 	Field field = new Field();
     Datasource datasource = new Datasource();
     datasource.type = "STANDALONE"; 
@@ -84,6 +92,13 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
 	field.Time = time;
+	Var Signal = new Siganl();
+	Signal.ValueIdentifier = "value";
+    Signal.TagIdentifier = "tag";
+    Signal.IsSignalPrefix = true;
+    Signal.Delimiter = "_";
+
+    field.Signal = Signal;
 	ds.Field = field;
     
     ds.dataSource = datasource;
@@ -126,8 +141,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
     //Creating a datastream to add data to later
     string name="data stream name here";
-    Time time = new Time();
-    time.zone = "GMT";
+    var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
 	Field field = new Field();
 
     Datasource datasource = new Datasource();
@@ -135,6 +152,8 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
+	field.Time = time;
+	Field.EntityIdentifier = "Unit";
 	ds.Field = field;
    
     ds.dataSource = datasource;
@@ -161,10 +180,12 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
     //Creating a datastream to add data to later
     string name="data stream name here";
-    Time time = new Time();
-    time.zone = "GMT";
+    var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
 	Field field = new Field();
-
+	Field.EntityIdentifier = "Unit";
     Datasource datasource = new Datasource();
     datasource.type = "STANDALONE"; 
 
