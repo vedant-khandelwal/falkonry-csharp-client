@@ -29,18 +29,17 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     
-    Timezone timezone = new Timezone();
-    timezone.zone = "GMT";
-    timezone.offset = 0;
-
+    Time time = new Time();
+    time.zone = "GMT";
+	Field field = new Field();
     Datasource datasource = new Datasource();
     datasource.type = "STANDALONE"; 
 
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
-    ds.timeIdentifier = "time";
+    field.time = time;
+	ds.Field = field;
     
-    ds.timezone = timezone;
     ds.dataSource = datasource;
     Datastream datastream = falkonry.createDatastream(ds);
 ```
@@ -52,20 +51,19 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-    Timezone timezone = new Timezone();
-    timezone.zone = "GMT";
-    timezone.offset = 0;
-
+    Time time = new Time();
+    time.zone = "GMT";
+	Field field = new Field();
     Datasource datasource = new Datasource();
     datasource.type = "STANDALONE"; 
 
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
-    ds.timeIdentifier = "time";
-    
-    ds.timezone = timezone;
+	field.time = time;
+	field.entityIdentifier = "nameOfEntityIdentifer";
+	ds.Field = field;
     ds.dataSource = datasource;
-    ds.entityIdentifier = "nameOfEntityIdentifer";
+    
     Datastream datastream = falkonry.createDatastream(ds);
 ```
     * To create Assessment
@@ -77,18 +75,17 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-    Timezone timezone = new Timezone();
-    timezone.zone = "GMT";
-    timezone.offset = 0;
-
+    Time time = new Time();
+    time.zone = "GMT";
+	Field field = new Field();
     Datasource datasource = new Datasource();
     datasource.type = "STANDALONE"; 
 
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
-    ds.timeIdentifier = "time";
+	field.Time = time;
+	ds.Field = field;
     
-    ds.timezone = timezone;
     ds.dataSource = datasource;
     Datastream datastream = falkonry.createDatastream(ds);
     
@@ -129,18 +126,17 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
     //Creating a datastream to add data to later
     string name="data stream name here";
-    Timezone timezone = new Timezone();
-    timezone.zone = "GMT";
-    timezone.offset = 0;
+    Time time = new Time();
+    time.zone = "GMT";
+	Field field = new Field();
 
     Datasource datasource = new Datasource();
     datasource.type = "STANDALONE"; 
 
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
-    ds.timeIdentifier = "time";
-    
-    ds.timezone = timezone;
+	ds.Field = field;
+   
     ds.dataSource = datasource;
     Datastream datastream = falkonry.createDatastream(ds);
     
@@ -165,18 +161,18 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
     //Creating a datastream to add data to later
     string name="data stream name here";
-    Timezone timezone = new Timezone();
-    timezone.zone = "GMT";
-    timezone.offset = 0;
+    Time time = new Time();
+    time.zone = "GMT";
+	Field field = new Field();
 
     Datasource datasource = new Datasource();
     datasource.type = "STANDALONE"; 
 
     DatastreamRequest ds = new DatastreamRequest();
     ds.name = "datastream name here";
-    ds.timeIdentifier = "time";
+    field.Time = time;
+	ds.Field = field;
     
-    ds.timezone = timezone;
     ds.dataSource = datasource;
     Datastream datastream = falkonry.createDatastream(ds);
     
