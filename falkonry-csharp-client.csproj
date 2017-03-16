@@ -84,6 +84,8 @@
   <ItemGroup>
     <Compile Include="src\falkonry.cs" />
     <Compile Include="src\helper\models\AssessmentRequest.cs" />
+    <Compile Include="src\helper\models\ErrorMessage.cs" />
+    <Compile Include="src\helper\models\BaseClass.cs" />
     <Compile Include="src\helper\models\DatastreamRequest.cs" />
     <Compile Include="src\helper\models\EntityMeta.cs" />
     <Compile Include="src\helper\models\EntityMetaRequest.cs" />

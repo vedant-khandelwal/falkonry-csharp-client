@@ -2,7 +2,7 @@
 
 namespace falkonry_csharp_client.helper.models
 {
-    public class Assessment
+    public class Assessment: BaseClass
     {
         public string Id
         {
