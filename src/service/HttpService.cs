@@ -32,43 +32,52 @@ namespace falkonry_csharp_client.service
 
         public HttpService(string host, string token)
         {
-          
-          
+
+
             _host = host ?? "https://service.falkonry.io";
 
             _token = token;
-           
-        ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidationCallback;
+
+            ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidationCallback;
         }
 
-        public string Get (string path)
+        public string Get(string path)
         {
-            try 
-            {   
+            try
+            {
                 var url = _host + path;
                 var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer "+_token);
+                request.Headers.Add("Authorization", "Bearer " + _token);
                 request.Headers.Add("x-falkonry-source", "c-sharp-client");
                 request.Method = "GET";
                 request.ContentType = "application/json";
-                
-                var response = (HttpWebResponse)request.GetResponse();
+
+
+                HttpWebResponse response;
+                try
+                {
+                    response = (HttpWebResponse)request.GetResponse();
+                }
+                catch (WebException e)
+                {
+                    response = (HttpWebResponse)e.Response;
+                }
 
                 var stream = response.GetResponseStream();
                 if (stream != null)
                 {
                     var resp = new StreamReader(stream).ReadToEnd();
 
-                    if ( Convert.ToInt32(response.StatusCode) == 401 )
+                    if (Convert.ToInt32(response.StatusCode) == 401)
                     {
                         return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
                     }
-                    return Convert.ToInt32(response.StatusCode) >= 400 ? Convert.ToString(response.StatusDescription) : resp;
+                    return (Convert.ToInt32(response.StatusCode) >= 400 && resp.Equals(""))? Convert.ToString(response.StatusDescription) : resp;
                 }
             }
-            catch ( Exception e)
+            catch (Exception e)
             {
                 return e.Message;
             }
@@ -76,9 +85,9 @@ namespace falkonry_csharp_client.service
             return null;
         }
 
-        public string Post (string path,string data)
+        public string Post(string path, string data)
         {
-            try 
+            try
             {
 
                 var url = _host + path;
@@ -86,7 +95,7 @@ namespace falkonry_csharp_client.service
                 var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer "+_token);
+                request.Headers.Add("Authorization", "Bearer " + _token);
                 request.Headers.Add("x-falkonry-source", "c-sharp-client");
                 request.Method = "POST";
                 request.ContentType = "application/json";
@@ -94,57 +103,52 @@ namespace falkonry_csharp_client.service
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
                     streamWriter.Write(data);
-                    
+
                     streamWriter.Flush();
-                    
+
                     streamWriter.Close();
                 }
+
+
+                HttpWebResponse response;
                 try
                 {
-                    var response = (HttpWebResponse)request.GetResponse();
-
-                    var stream = response.GetResponseStream();
-                    if (stream != null)
-                    {
-                        var resp = new StreamReader(stream).ReadToEnd();
-
-                        return resp;
-                    }
+                    response = (HttpWebResponse)request.GetResponse();
                 }
-                catch(WebException e)
+                catch (WebException e)
                 {
-                    using (var response = e.Response)
-                    {
-                        using (var data1 = response.GetResponseStream())
-                            if (data1 != null)
-                                using (var reader = new StreamReader(data1))
-                                {
-                                    var text = reader.ReadToEnd();
-                                    return text;
-                                }
-                    }
+                    response = (HttpWebResponse)e.Response;
                 }
+
+                var stream = response.GetResponseStream();
+                if (stream != null)
+                {
+                    var resp = new StreamReader(stream).ReadToEnd();
+
+                    return resp;
+                }
+
             }
-            catch ( Exception e)
+            catch (Exception e)
             {
                 return e.Message;
             }
             return null;
         }
 
-        public string Put (string path,string data)
+        public string Put(string path, string data)
         {
-            try 
+            try
             {
                 var url = _host + path;
                 var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer "+_token);
+                request.Headers.Add("Authorization", "Bearer " + _token);
                 request.Headers.Add("x-falkonry-source", "c-sharp-client");
                 request.Method = "PUT";
                 request.ContentType = "application/json";
-                
+
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
                     streamWriter.Write(data);
@@ -162,7 +166,7 @@ namespace falkonry_csharp_client.service
                     {
                         return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
                     }
-                    return Convert.ToInt32(response.StatusCode) >= 400 ? Convert.ToString(response.StatusDescription) : resp;
+                    return (Convert.ToInt32(response.StatusCode) >= 400 && resp.Equals(""))? Convert.ToString(response.StatusDescription) : resp;
                 }
             }
             catch (Exception e)
@@ -171,8 +175,8 @@ namespace falkonry_csharp_client.service
             }
             return null;
         }
-        
-        public async Task<string> Fpost (string path,SortedDictionary<string,string> options,byte[] stream)
+
+        public async Task<string> Fpost(string path, SortedDictionary<string, string> options, byte[] stream)
         {
 
             try
@@ -212,26 +216,35 @@ namespace falkonry_csharp_client.service
 
                 return sd;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return e.Message;
             }
         }
 
-        public string Delete (string path)
+        public string Delete(string path)
         {
-            try 
+            try
             {
                 var url = _host + path;
                 var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Headers.Add("Authorization", "Bearer "+_token);
+                request.Headers.Add("Authorization", "Bearer " + _token);
                 request.Headers.Add("x-falkonry-source", "c-sharp-client");
                 request.Method = "DELETE";
                 request.ContentType = "application/json";
+
                 
-                var response = (HttpWebResponse)request.GetResponse();
+                HttpWebResponse response;
+                try
+                {
+                    response = (HttpWebResponse)request.GetResponse();
+                }
+                catch (WebException e)
+                {
+                    response = (HttpWebResponse)e.Response;
+                }
                 var stream = response.GetResponseStream();
                 if (stream != null)
                 {
@@ -240,17 +253,17 @@ namespace falkonry_csharp_client.service
                     {
                         return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
                     }
-                    return Convert.ToInt32(response.StatusCode) >= 400 ? Convert.ToString(response.StatusDescription) : resp;
+                    return (Convert.ToInt32(response.StatusCode) >= 400 && resp.Equals("")) ? Convert.ToString(response.StatusDescription) : resp;
                 }
             }
-            catch ( Exception e)
+            catch (Exception e)
             {
                 return e.Message;
             }
             return null;
         }
 
-        public string Upstream(string path,byte[] data)
+        public string Upstream(string path, byte[] data)
         {
             try
             {
@@ -259,35 +272,44 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
 
                 request.Credentials = CredentialCache.DefaultCredentials;
-                request.Method="POST";
+                request.Method = "POST";
                 request.Headers.Add("Authorization", "Bearer " + _token);
                 request.Headers.Add("x-falkonry-source", "c-sharp-client");
                 request.ContentType = "text/plain";
                 // Set the ContentLength property of the WebRequest.
                 request.ContentLength = data.Length;
                 // Get the request stream.
-               
+
                 var dataStream = request.GetRequestStream();
                 // Write the data to the request stream.
-               
+
                 dataStream.Write(data, 0, data.Length);
                 // Close the Stream object.
-               
+
                 dataStream.Close();
                 // Get the response.
-               
-                var response = (HttpWebResponse)request.GetResponse();
+
+                
+                HttpWebResponse response;
+                try
+                {
+                    response = (HttpWebResponse)request.GetResponse();
+                }
+                catch (WebException e)
+                {
+                    response = (HttpWebResponse)e.Response;
+                }
 
                 var stream = response.GetResponseStream();
                 if (stream != null)
                 {
                     var resp = new StreamReader(stream).ReadToEnd();
-               
+
                     if (Convert.ToInt32(response.StatusCode) == 401)
                     {
                         return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
                     }
-                    return Convert.ToInt32(response.StatusCode) >= 400 ? Convert.ToString(response.StatusDescription) : resp;
+                    return (Convert.ToInt32(response.StatusCode) >= 400 && resp.Equals("")) ? Convert.ToString(response.StatusDescription) : resp;
                 }
             }
             catch (Exception e)
@@ -304,23 +326,23 @@ namespace falkonry_csharp_client.service
                 var url = _host + path;
                 var eventSource = new EventSource(url)
                 {
-                    Headers = new NameValueCollection {{ "Authorization", "Bearer " + _token }}
+                    Headers = new NameValueCollection { { "Authorization", "Bearer " + _token } }
                 };
 
                 eventSource.Connect();
 
-                return eventSource; 
+                return eventSource;
             }
             catch (Exception)
             {
                 return null;
             }
         }
-        
+
         public string PostData(string path, string data)
         {
             try
-            { 
+            {
                 var url = _host + path;
 
                 var request = (HttpWebRequest)WebRequest.Create(url);
@@ -330,19 +352,25 @@ namespace falkonry_csharp_client.service
                 request.Headers.Add("x-falkonry-source", "c-sharp-client");
                 request.Method = "POST";
                 request.ContentType = "text/plain";
-                
+
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
                     //initiate the request
                     streamWriter.Write(data);
-                    
+
                     streamWriter.Flush();
-                    
+
                     streamWriter.Close();
                 }
-
-                var response = (HttpWebResponse)request.GetResponse();
-
+                HttpWebResponse response;
+                try
+                {
+                    response = (HttpWebResponse)request.GetResponse();
+                }
+                catch (WebException e)
+                {
+                    response = (HttpWebResponse)e.Response;
+                }
                 var stream = response.GetResponseStream();
                 if (stream != null)
                 {
@@ -352,11 +380,12 @@ namespace falkonry_csharp_client.service
                     {
                         return "Unauthorized : Invalid token " + Convert.ToString(response.StatusCode);
                     }
-                    return Convert.ToInt32(response.StatusCode) >= 400 ? Convert.ToString(response.StatusDescription) : resp;
+                    return (Convert.ToInt32(response.StatusCode) >= 400 && (resp.Equals(""))) ? Convert.ToString(response.StatusDescription) : resp;
                 }
             }
             catch (Exception e)
-            {   
+            {
+
                 return e.Message;
             }
             return null;
@@ -377,7 +406,16 @@ namespace falkonry_csharp_client.service
                 request.Method = "GET";
                 request.ContentType = "application/json";
 
-                var response = (HttpWebResponse)request.GetResponse();
+
+                HttpWebResponse response;
+                try
+                {
+                    response = (HttpWebResponse)request.GetResponse();
+                }
+                catch (WebException e)
+                {
+                    response = (HttpWebResponse)e.Response;
+                }
 
                 var stream = response.GetResponseStream();
                 if (stream != null)
@@ -391,7 +429,7 @@ namespace falkonry_csharp_client.service
             }
             catch (Exception e)
             {
-                httpResponse.StatusCode =500;
+                httpResponse.StatusCode = 500;
                 httpResponse.Response = e.Message;
                 return httpResponse;
             }
