@@ -1,230 +1,230 @@
-﻿///
-/// falkonry-csharp-client
-/// Copyright(c) 2016 Falkonry Inc
-/// MIT Licensed
-///
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using falkonry_csharp_client.helper.models;
-using System.IO;
-using falkonry_csharp_client.service;
-using System.Web.Script.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Diagnostics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 namespace falkonry_csharp_client.service
 {
-    class FalkonryService
+    internal class FalkonryService
     {
-        private string host;
-        private string token;
-        private HttpService http;
+        public string Host { get; }
+        public string Token { get; }
+        private readonly HttpService _http;
         
          public FalkonryService(string host, string token)
         {
-            this.host = host;
-            this.token = token;
-            this.http = new HttpService(host, token);
+            Host = host;
+            Token = token;
+            _http = new HttpService(host, token);
             
-        }
-        public Eventbuffer createEventbuffer(Eventbuffer eventbuffer)
-        {
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-            
-            string data = javascript.Serialize(eventbuffer);
-            
-            string eventbuffer_json=http.post("/eventbuffer",data);
-            
-            return javascript.Deserialize<Eventbuffer>(eventbuffer_json);
         }
 
-        public List<Eventbuffer> getEventbuffers()
+        // Create Datastream
+        public Datastream CreateDatastream(DatastreamRequest datastream)
         {
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string a = "/eventbuffer";
-            string eventbuffer_json = http.get(a);
-            return javascript.Deserialize<List<Eventbuffer>>(eventbuffer_json);
+            var data = JsonConvert.SerializeObject(datastream, Formatting.Indented,
+                new JsonSerializerSettings() {ContractResolver = new CamelCasePropertyNamesContractResolver()});
+
+            var datastreamJson = _http.Post("/datastream", data);
+
+            return JsonConvert.DeserializeObject<Datastream>(datastreamJson);
         }
 
-        public void deleteEventbuffer(string eventbuffer)
+        // List Datastream
+        public List<Datastream> GetDatastream()
         {
-            http.delete("/eventbuffer/"+eventbuffer);
+            var datastreamJson = _http.Get("/datastream");
+            return JsonConvert.DeserializeObject<List<Datastream>>(datastreamJson);
         }
-        public Pipeline createPipeline(Pipeline pipeline)
+
+        // Get Datastream by id
+        public Datastream GetDatastream(string id)
         {
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-            PipelineRequest pipelineRequest = new PipelineRequest();
-            List<Signal> signalList = new List<Signal>();
-            List<SignalRequest> signalRequestList = new List<SignalRequest>();
-            int len_input_list = pipeline.inputList.Count;
-            signalList = pipeline.inputList;
-            for (int i = 0; i < len_input_list; i++)
+            var url = "/datastream/" + id;
+
+            var datastreamJson = _http.Get(url);
+            return JsonConvert.DeserializeObject<Datastream>(datastreamJson);
+        }
+        
+        // Add data to DataStream
+        public InputStatus AddInputData(string datastream, string data, SortedDictionary<string, string> options)
+        {
+            string streamingValue;
+            string hasMoreDataValue;
+            var url = "/datastream/" + datastream;
+            if (options.TryGetValue("streaming", out streamingValue))
             {
-                SignalRequest signalRequest = new SignalRequest();
-                signalRequest.name=(signalList[i].name);
-                signalRequest.eventType=(signalList[i].eventType);
-                signalRequest.valueType=(signalList[i].valueType);
-                signalRequestList.Add(signalRequest);
+                url += "?streaming=" +Uri.EscapeDataString(streamingValue);
             }
-            int len_assessment_list = pipeline.assessmentList.Count;
-            List<Assessment> assessmentList = pipeline.assessmentList;
-            List<AssessmentRequest> assessmentRequestList = new List<AssessmentRequest>();
-            for (int i = 0; i < len_assessment_list; i++)
+            if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
             {
-                AssessmentRequest assessmentRequest = new AssessmentRequest();
-                assessmentRequest.name=(assessmentList[i].name);
-                assessmentRequest.inputList=(assessmentList[i].inputList);
-                assessmentRequest.aprioriConditionList=(assessmentList[i].aprioriConditionList);
-                assessmentRequestList.Add(assessmentRequest);
+                url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
             }
-            pipelineRequest.name = pipeline.name;
-            pipelineRequest.interval = pipeline.interval;
-            pipelineRequest.input = pipeline.input;
-            pipelineRequest.inputList = signalRequestList;
-            pipelineRequest.assessmentList = assessmentRequestList;
-            
 
-            string data = javascript.Serialize(pipelineRequest);
-
-            string pipeline_json = http.post("/pipeline", data);
-           
-            return javascript.Deserialize<Pipeline>(pipeline_json);
+            var status = _http.PostData(url, data);
+            return JsonConvert.DeserializeObject<InputStatus>(status);
         }
-        public List<Pipeline> getPipelines()
+
+        public InputStatus AddInputFromStream(string datastream, byte[] data, SortedDictionary<string, string> options)
         {
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string pipeline_json = http.get("/pipeline");
-            return javascript.Deserialize<List<Pipeline>>(pipeline_json);
-            
-        }
-        public void deletePipeline(string pipeline)
-        {
-            http.delete("/pipeline/"+pipeline);
-        }
-
-        public InputStatus addInputData(string eventbuffer, string data, SortedDictionary<string, string> options)
-        {   
-
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string url = "/eventBuffer/" + eventbuffer;
-            if(options.ContainsKey("subscription")){
-              url += "?subscriptionKey="+options["subscription"];
+            var url = "/datastream/" + datastream;
+            string streamingValue;
+            string hasMoreDataValue;
+            if (options.TryGetValue("streaming", out streamingValue))
+            {
+                
+                url += "?streaming=" + Uri.EscapeDataString(streamingValue);
             }
-            
-            string status = this.http.postData(url, data);
-            return javascript.Deserialize<InputStatus>(status);
-        }
-
-        public InputStatus addInputFromStream(string eventbuffer, byte[] data, SortedDictionary<string, string> options) 
-        {
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string url = "/eventBuffer/" + eventbuffer;
-            if(options.ContainsKey("subscription")){
-                url += "?subscriptionKey="+options["subscription"];
+            if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
+            {
+                url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
             }
-            
-            string status = this.http.upstream(url, data);
-            
-            return javascript.Deserialize<InputStatus>(status);
+            var status = _http.Upstream(url, data);
+            return JsonConvert.DeserializeObject<InputStatus>(status);
         }
-        public Stream getOutput(string pipeline, long? start, long? end)
-        {
-            string url = "/pipeline/"+pipeline+"/output?";
-            long? starttemp=start;
-            long? endtemp = end;
 
-            if (endtemp != null) {
-                url += "lastTime=" + end;
-                if (starttemp!= null)
-                    url += "&startTime=" + start;
-                            }
-            else {
-                if (starttemp != null)
-                    url += "startTime=" + start;
+        // Delete Datastream
+        public void DeleteDatastream(string datastream)
+        {
+            _http.Delete("/datastream/" + datastream);
+        }
+
+        // Create Assessment
+        public Assessment CreateAssessment(AssessmentRequest assessment)
+        {
+            var data = JsonConvert.SerializeObject(assessment, Formatting.Indented,
+                new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+
+            var assessmentJson = _http.Post("/assessment", data);
+
+            return JsonConvert.DeserializeObject<Assessment>(assessmentJson);
+        }
+
+        // List Assessment
+        public List<Assessment> GetAssessment()
+        {
+            var assessmentJson = _http.Get("/assessment");
+            return JsonConvert.DeserializeObject<List<Assessment>>(assessmentJson);
+        }
+
+        // delete Assessment
+        public void DeleteAssessment(string assessment)
+        {
+            _http.Delete("/assessment/" + assessment);
+        }
+
+        // Add Facts to assessment
+        public string AddFacts(string assessment, string data, SortedDictionary<string, string> options)
+        {
+            var url = "/assessment/" + assessment + "/facts";
+            return _http.PostData(url, data);
+        }
+
+        public string AddFactsStream(string assessment, byte[] stream, SortedDictionary<string, string> options)
+        {
+            var url = "/assessment/" + assessment + "/facts";
+            return _http.Upstream(url, stream);
+        }
+
+        // Stream Output
+        public EventSource GetOutput(string assessmentId, long? start, long? end)
+        {
+            var url = "/assessment/" + assessmentId + "/output";
+
+            var starttemp=start;
+            var endtemp = end;
+
+            if (endtemp.HasValue)
+            {
+                url += "?lastTime=" + end.Value;
+                if (starttemp.HasValue) url += "&startTime=" + start.Value;
+            }
+            else
+            {
+                if (starttemp.HasValue) url += "?startTime=" + start.Value;
+            }
+
+            return _http.Downstream(url);
+        }
+
+        //Stream historical output
+        public HttpResponse GetHistoricalOutput(Assessment assessment, SortedDictionary<string, string> options)
+        {
+            var url = "/assessment/" + assessment.Id + "/output?";
+            string trackerId;
+            string modelIndex;
+            string startTime;
+            string endTime;
+            var firstReqParam = true;
+
+            if (options.TryGetValue("trackerId", out trackerId))
+            {
+                firstReqParam = false;
+                url += "trackerId=" + Uri.EscapeDataString(trackerId);
+            }
+            if (options.TryGetValue("modelIndex", out modelIndex))
+            {
+                if (firstReqParam)
+                {
+                    firstReqParam = false;
+                    url += "model=" + Uri.EscapeDataString(modelIndex);
                 }
-            return http.downstream(url);
-        }
-        public Subscription createSubscription(string eventbuffer, Subscription subscription)
-        {   
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-             string data = javascript.Serialize(subscription);
-            string subscription_json = http.post("/eventbuffer/" + eventbuffer + "/subscription", data);
-           
+                else
+                    url += "&model=" + Uri.EscapeDataString(modelIndex);
 
-            return javascript.Deserialize<Subscription>(subscription_json);
-
-       
-        }
-        public Subscription updateSubscription(string eventbuffer, Subscription subscription)
-        {
-            
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string data = javascript.Serialize(subscription);
-            string subscription_json = http.put("/eventbuffer/" + eventbuffer + "/subscription/" + subscription.key, data);
-            return javascript.Deserialize<Subscription>(subscription_json);
-        }
-        public void deleteEventbuffer(string eventbuffer, string subscription) 
-        {
-            http.delete("/eventbuffer/"+eventbuffer+"/subscription/"+subscription);
-        }
-        public void deleteSubscription(string eventbuffer,string subscription)
-        {
-            http.delete("/eventbuffer/" + eventbuffer + "/subscription/" + subscription);
-        }
-        public Publication createPublication(string pipeline, Publication publication)
-        {
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string data = javascript.Serialize(publication);
-            string publication_json = http.post("/pipeline/" + pipeline + "/publication", data);
-            return javascript.Deserialize<Publication>(publication_json);
-        }
-        public Publication updatePublication(string pipeline, Publication publication)
-        {
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string data = javascript.Serialize(publication);
-            string publication_json = http.put("/pipeline" + pipeline + "/publication/" + publication.key, data);
-            return javascript.Deserialize<Publication>(publication_json);
-        }
-        public void deletePublication(string pipeline, string publication) 
-        {
-            http.delete("/pipeline/"+pipeline+"/publication/"+publication);
-        }
-        byte[] ObjectToByteArray(object obj)
-        {
-            if (obj == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
             }
+            if (options.TryGetValue("startTime", out startTime))
+            {
+                if (firstReqParam)
+                {
+                    firstReqParam = false;
+                    url += "startTime=" + Uri.EscapeDataString(startTime);
+                }
+                else
+                    url += "&startTime=" + Uri.EscapeDataString(startTime);
+
+            }
+            if (options.TryGetValue("endTime", out endTime))
+            {
+                if (firstReqParam)
+                {
+                    url += "endTime=" + Uri.EscapeDataString(endTime);
+                }
+                else
+                    url += "&endTime=" + Uri.EscapeDataString(endTime);
+
+            }
+            string format;
+            var responseFromat = "application/json";
+            if (options.TryGetValue("responseFromat", out format))
+            {
+                if (format.Equals("text/csv"))
+                {
+                    responseFromat = "text/csv";
+                }
+            }
+
+            var outputData = _http.GetOutput(url, responseFromat);
+            return outputData;
         }
-        public Eventbuffer getEventBuffer(string id)
-        {   
-            JavaScriptSerializer javascript = new JavaScriptSerializer();
-            string url = "/eventbuffer/" + id;
-            
-            string eventbuffer_json = http.get(url);
-            return javascript.Deserialize<Eventbuffer>(eventbuffer_json);
-        }
-        public string addFacts(string pipeline, string data, SortedDictionary<string, string> options)
+
+        // Post EntityMeta
+        public List<EntityMeta> PostEntityMeta(List<EntityMetaRequest> entityMetaRequest, Datastream datastream)
         {
-            string url = "/pipeline/" + pipeline + "/facts";
-            return http.postData(url, data);
+            var data = JsonConvert.SerializeObject(entityMetaRequest, Formatting.Indented,
+                new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            var response = _http.Post("/datastream/"+ datastream.Id+"/entityMeta", data);
+            return JsonConvert.DeserializeObject<List<EntityMeta>>(response);
         }
-        public string addFactsStream(string pipeline, byte[] stream, SortedDictionary<string, string> options)
+
+        // Get EntityMeta
+        public List<EntityMeta> GetEntityMeta(Datastream datastream)
         {
-            string url = "/pipeline/" + pipeline + "/facts";
-            //byte[] data_bytes = IOUtils.toByteArray(stream);
-            return http.upstream(url, stream);
+            var response = _http.Get("/datastream/" + datastream.Id + "/entityMeta");
+            return JsonConvert.DeserializeObject<List<EntityMeta>>(response);
         }
 
-
-
-
-}
+    }
 }
 

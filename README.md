@@ -7,19 +7,20 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
 ## Features
 
-    * Create Eventbuffer
-    * Create Pipeline
-    * Retrieve Eventbuffers
-    * Retrieve Pipelines
-    * Add data to Eventbuffer (json, stream)
-    * Retrieve output of a Pipeline
-    * Add facts data to Pipeline
-    * Create/update/delete subscription for Eventbuffer
-    * Create/update/delete publication for Pipeline
+    * Create Datastream
+    * Create Assessment
+    * Retrieve Datastream
+    * Retrieve Assessment
+    * Add data to Datastream (json, stream)
+    * Retrieve output of a Assessment
+    * Add facts data to Assessment
+	* Add Entity Meta to DataStream
+	* Get Entity Meta of DataStream
+	* Generate Output Data for Historical Data
     
 ## Quick Start
 
-    * To create Eventbuffer
+    * To create Datastream
     
 ```
     using falkonry_csharp_client;
@@ -28,20 +29,23 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     
-    Timezone timezone = new Timezone();
-    timezone.zone = "GMT";
-    timezone.offset = 0;
+    var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
+	Field field = new Field();
+    Datasource datasource = new Datasource();
+    datasource.type = "STANDALONE"; 
 
-    List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
-    string name="event buffer name here";
-    Eventbuffer eb = new Eventbuffer();
-    eb.name = name;
-    eb.timeIdentifier = "time";
-    eb.timeFormat = "iso_8601";
-    eb.timezone = timezone;
-    Eventbuffer eventbufferCreated = falkonry.createEventbuffer(eb);
+    DatastreamRequest ds = new DatastreamRequest();
+    ds.name = "datastream name here";
+    field.time = time;
+	ds.Field = field;
+    
+    ds.dataSource = datasource;
+    Datastream datastream = falkonry.createDatastream(ds);
 ```
-    * To create Eventbuffer with entityIdentifier set
+    * To create Datastream with entityIdentifier set
     
 ```
     using falkonry_csharp_client;
@@ -49,101 +53,26 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-    List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
-    string name="event buffer name here";
-    string nameOfEntityIdentifer = "entity identifier here";
-    Eventbuffer eb = new Eventbuffer();
-    eb.name = name;
-    eb.timeIdentifier = "time";
-    eb.timeFormat = "iso_8601";
-    eb.entityIdentifier = "nameOfEntityIdentifer";
+    var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
+	Field field = new Field();
 
-    Eventbuffer eventbufferCreated = falkonry.createEventbuffer(eb);
+    Datasource datasource = new Datasource();
+    datasource.type = "STANDALONE"; 
+
+    DatastreamRequest ds = new DatastreamRequest();
+    ds.name = "datastream name here";
+	
+	field.time = time;
+	field.entityIdentifier = "nameOfEntityIdentifer";
+	ds.Field = field;
+    ds.dataSource = datasource;
+    
+    Datastream datastream = falkonry.createDatastream(ds);
 ```
-    * To create Pipeline
-    
-```
-    using falkonry_csharp_client;
-    using falkonry_csharp_client.helper.models;
-
-    string token="Add your token here";   
-    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-    
-    List<Pipeline> pipelines = new List<Pipeline>();
-    List<Eventbuffer> eventbuffers = new List<Eventbuffer>();
-    string name = "event buffer name here";
-    Eventbuffer eb = new Eventbuffer();
-    eb.name = name;
-    eb.timeIdentifier = "time";
-    eb.timeFormat = "iso_8601";
-    eb.entityIdentifier = "thing1";
-    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
-    
-    SortedDictionary<string, string> newOptions = new SortedDictionary<string, string>();
-    string data = "time, current, vibration, state\n" + "2016-03-01 01:01:01, 12.4, 3.4, On";
-    newOptions.Add("fileFormat", "csv");
-    newOptions.Add("timeIdentifier", "time");
-    newOptions.Add("entityIdentifier", "entity");
-    InputStatus inputstatus = falkonry.addInput(eventbuffer.id, data, newOptions);
-
-    List<Signal> signals = new List<Signal>();
-    Signal signal1 = new Signal();
-    signal1.name = "current";
-    falkonry_csharp_client.helper.models.ValueType valuetype1 = new falkonry_csharp_client.helper.models.ValueType();
-    valuetype1.type = "Numeric";
-    EventType eventtype1 = new EventType();
-    eventtype1.type = "Samples";
-    signal1.eventType = eventtype1;
-    signal1.valueType = valuetype1;
-    signals.Add(signal1);
-
-    Signal signal2 = new Signal();
-    signal2.name = "vibration";
-    falkonry_csharp_client.helper.models.ValueType valuetype2 = new falkonry_csharp_client.helper.models.ValueType();
-    valuetype2.type = "Numeric";
-    EventType eventtype2 = new EventType();
-    eventtype2.type = "Samples";
-    signal2.eventType = eventtype2;
-    signal2.valueType = valuetype2;
-    signals.Add(signal2);
-
-    Signal signal3 = new Signal();
-    signal3.name = "state";
-    falkonry_csharp_client.helper.models.ValueType valuetype3 = new falkonry_csharp_client.helper.models.ValueType();
-    valuetype3.type = "Categorical";
-    EventType eventtype3 = new EventType();
-    eventtype3.type = "Samples";
-    signal3.eventType = eventtype3;
-    signal3.valueType = valuetype3;
-    signals.Add(signal3);
-
-    List<string> inputList = new List<string>();
-    inputList.Add("current");
-    inputList.Add("vibration");
-    inputList.Add("state");
-
-    List<Assessment> assessments = new List<Assessment>();
-    Assessment assessment = new Assessment();
-    assessment.name = "Health";
-    assessment.inputList = inputList;
-    assessments.Add(assessment);
-    
-    Interval interval = new Interval();
-    interval.duration = "PT1S";
-    Pipeline pipeline = new Pipeline();
-    string pipelineName = "PIPELINE NAME HERE";
-    pipeline.name = pipelineName;
-
-    pipeline.inputList = (signals);
-    pipeline.assessmentList = (assessments);
-    pipeline.interval = (interval);
-    pipeline.input = eventbuffer.id; //should be eventbuffer id
-    Pipeline createdPipeline = falkonry.createPipeline(pipeline);
-
-    
-```
-
-    * To create Subscription
+    * To create Assessment
     
 ```
     using falkonry_csharp_client;
@@ -152,29 +81,56 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-    //Creating Event Buffer with subscription First
-    Eventbuffer eb = new Eventbuffer();
-    string name = "Event Buffer Name here";
-    eb.name = name;
-    eb.timeIdentifier = "time";
-    eb.timeFormat="iso_8601";
-    eb.valueColumn = "value";
-    eb.signalsTagField = "tag";
-    eb.signalsLocation = "prefix";
-    eb.signalsDelimiter = "_";
-    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
+    var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
+	Field field = new Field();
+    Datasource datasource = new Datasource();
+    datasource.type = "STANDALONE"; 
+
+    DatastreamRequest ds = new DatastreamRequest();
+    ds.name = "datastream name here";
+	field.Time = time;
+	var Signal = new Siganl();
+	Signal.ValueIdentifier = "value";
+    Signal.TagIdentifier = "tag";
+    Signal.IsSignalPrefix = true;
+    Signal.Delimiter = "_";
+
+    field.Signal = Signal;
+	ds.Field = field;
     
-    Subscription sub = new Subscription();
-    sub.type = "MQTT";
-    sub.path = ("mqtt://test.mosquito.com");
-    sub.topic = ("falkonry-eb-1-test");
-    sub.username = ("test-user");
-    sub.password = ("test");
+    ds.dataSource = datasource;
+    Datastream datastream = falkonry.createDatastream(ds);
     
-    Subscription subscriptionCreated = falkonry.createSubscription(eventbuffer.id, sub);
+    AssessmentRequest asmt = new AssessmentRequest();
+    asmt.name = "assessment name here";
+    Assessment assessment = falkonry.createAssessment(asmt);
+
+```
+    * To get all Datastreams
+```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    List<Datastream> datastreams = new List<Datastream>();
 ```
 
-    * To create Publication
+    * To get all assessments
+    
+```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    List<Assessment> assessmentList = falkonry.getAssessments();
+```
+
+    * To add data in Datastream
     
 ```
     using falkonry_csharp_client;
@@ -183,57 +139,25 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-    //Create Event Buffer First
-    //Then take the Event Buffer ID and create a Pipeline using it.
+    //Creating a datastream to add data to later
+    string name="data stream name here";
+    var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
+	Field field = new Field();
 
-    Publication publication = new Publication();
-    publication.type = ("MQTT");
-    publication.path = ("mqtt://test.mosquito.com");
-    publication.topic = ("falkonry-eb-1-test");
-    publication.username = ("test-user");
-    publication.password = ("test");
-    publication.contentType = ("application/json");
-    Publication publicationCreated = falkonry.createPublication(<PipelineID>, publication);
-```
+    Datasource datasource = new Datasource();
+    datasource.type = "STANDALONE"; 
 
-    * To get all Eventbuffers
-    
-```
-    using falkonry_csharp_client;
-    using falkonry_csharp_client.helper.models;
-
-    string token="Add your token here";   
-    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-    List<Eventbuffer> eventBuffers=falkonry.getEventbuffers();
-```
-
-    * To get all Pipelines
-    
-```
-    using falkonry_csharp_client;
-    using falkonry_csharp_client.helper.models;
-
-    string token="Add your token here";   
-    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-    List<Pipeline> pipelinelist = falkonry.getPipelines();
-```
-
-    * To add data in Eventbuffer
-    
-```
-    using falkonry_csharp_client;
-    using falkonry_csharp_client.helper.models;
-
-    string token="Add your token here";   
-    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-
-    //Creating an event bufffer to add data to later
-    string name="event buffer name here";
-    Eventbuffer eb = new Eventbuffer();
-    eb.name = name;
-    eb.timeIdentifier = "time";
-    eb.timeFormat = "iso_8601";
-    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
+    DatastreamRequest ds = new DatastreamRequest();
+    ds.name = "datastream name here";
+	field.Time = time;
+	Field.EntityIdentifier = "Unit";
+	ds.Field = field;
+   
+    ds.dataSource = datasource;
+    Datastream datastream = falkonry.createDatastream(ds);
     
     
     string data = "{\"time\" :\"2016-03-01 01:01:01\", \"current\" : 12.4, \"vibration\" : 3.4, \"state\" : \"On\"}";
@@ -242,10 +166,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("timeIdentifier", "time");
     options.Add("timeFormat", "iso_8601");
     options.Add("fileFormat", "json");
-    InputStatus inputstatus = falkonry.addInput(eventbuffer.id, data, options);
+    InputStatus inputstatus = falkonry.addInput(datastream.id, data, options);
 ```
 
-    * To add data from a stream in Eventbuffer
+    * To add data from a stream in Datastream
     
 ```
     using falkonry_csharp_client;
@@ -254,11 +178,24 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-    Eventbuffer eb = new Eventbuffer();
-    eb.name = name;
-    eb.timeIdentifier = "time";
-    eb.timeFormat = "iso_8601";
-    Eventbuffer eventbuffer = falkonry.createEventbuffer(eb);
+    //Creating a datastream to add data to later
+    string name="data stream name here";
+    var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
+	Field field = new Field();
+	Field.EntityIdentifier = "Unit";
+    Datasource datasource = new Datasource();
+    datasource.type = "STANDALONE"; 
+
+    DatastreamRequest ds = new DatastreamRequest();
+    ds.name = "datastream name here";
+    field.Time = time;
+	ds.Field = field;
+    
+    ds.dataSource = datasource;
+    Datastream datastream = falkonry.createDatastream(ds);
     
     /*This particular example will read data from a AddData.json file in debug folder in bin*/
     
@@ -273,12 +210,12 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
     byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-    InputStatus inputstatus = falkonry.addInputStream(eventbuffer.id, bytes, options);
-    //The updated event buffer
-    eventbuffer = falkonry.getEventBuffer(eventbuffer.id);
+    InputStatus inputstatus = falkonry.addInputStream(datastream.id, bytes, options);
+    //The updated datastream
+    datastream = falkonry.getDatastream(datastream.id);
 ```
 
-    * To get output of a Pipeline
+    * To get output of a Assessment
     
 ```
     using falkonry_csharp_client;
@@ -287,8 +224,8 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-    string pipeline_id ="pipeline ID here";
-    System.IO.Stream streamrecieved = falkonry.getOutput(pipeline_id, null, null);
+    string assessment_id ="assessment ID here";
+    System.IO.Stream streamrecieved = falkonry.getOutput(assessment_id, null, null);
     //The folder path below by default is debug in bin.
     string folder_path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
     //Alternatively, you can also specify the path of the folder in thr folder_path variable
@@ -313,10 +250,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     using falkonry_csharp_client.helper.models;
 
     string token = "Add your token here";   
-    options = null;
+    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string data = "time,end,car,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal";
-    string response = falkonry.addFacts(<pipelineID>,data, options);
+    string response = falkonry.addFacts(<assessment_id>,data, options);
 
 ```
    * To add facts data from stream
@@ -329,10 +266,93 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string path = "Insert the path to your file here";
     byte[] bytes = System.IO.File.ReadAllBytes(path);
-    string response = falkonry.addFactsStream(<pipelineID>, bytes, null);
+    string response = falkonry.addFactsStream(<assessment_id>, bytes, null);
 
 ```     
 
+```
+	* Add Entity Meta to datastream, Get Entity Meta of datastream
+```
+	using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+	
+	// Create Datastream
+	datastream = falkonry.getDatastream(datastream.id);
+
+	// Create EntityMetaRequest
+	List<EntityMetaRequest> entityMetaRequestList = new List<EntityMetaRequest>();
+	EntityMetaRequest entityMetaRequest1 = new EntityMetaRequest();
+	entityMetaRequest1.label = "User readbale label";
+	entityMetaRequest1.sourceId = "1234-21342134";
+	entityMetaRequest1.path = "//root/branch1/";
+
+	EntityMetaRequest entityMetaRequest2 = new EntityMetaRequest();
+	entityMetaRequest2.label = "User readbale label2";
+	entityMetaRequest2.sourceId = "1234-213421rawef";
+	entityMetaRequest2.path = "//root/branch2/";
+
+	entityMetaRequestList.Add(entityMetaRequest1);
+	entityMetaRequestList.Add(entityMetaRequest2);
+
+	List<EntityMeta> entityMetaResponseList = falkonry.postEntityMeta(entityMetaRequestList, datastream);
+
+	// Get entitymeta
+	entityMetaResponseList = falkonry.getEntityMeta(datastream);
+```
+
+```
+   * Generate Output Data for Historical Data
+```
+	using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+	
+	// Create Datastream
+
+	// create Assessment
+
+	// Add Data To dataStream
+
+	// From Falkonry UI, run a model revision.
+
+	// Fetch Historical output data for given assessment, startTime , endtime
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+	options.Add("startTime", "2011-01-01T01:00:00.000Z"); // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
+	options.Add("endTime", "2011-06-01T01:00:00.000Z");  // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
+	options.Add("responseFormat", "application/json");  // also avaibale options 1. text/csv 2. application/json
+
+	HttpResponse httpResponse = falkonry.getHistoricalOutput(assessment, options);
+	// If data is not readily avaiable then, a tracker id will be sent with 202 status code. While falkonry will genrate ouptut data
+	// Client should do timely pooling on the using same method, sending tracker id (__id) in the query params
+	// Once data is avaiable server will response with 200 status code and data in json/csv format.
+
+	if (httpResponse.statusCode == 202)
+	{
+		Tracker trackerResponse = javascript.Deserialize<Tracker>(httpResponse.response);
+		// get id from the tracker
+		string __id = trackerResponse.__id;
+
+		// use this tracker for checking the status of the process.
+		options = new SortedDictionary<string, string>();
+		options.Add("tarckerId", __id);
+		options.Add("responseFormat", "application/json");
+
+		httpResponse = falkonry.getHistoricalOutput(assessment, options);
+
+		// if status is 202 call the same request again
+
+		// if statsu is 200, output data will be present in httpResponse.response field
+	}
+	if (httpResponse.statusCode > 400)
+	{
+		// Some Error has occured. Please httpResponse.response for detail message
+	}
+```
 
 ## Docs
 

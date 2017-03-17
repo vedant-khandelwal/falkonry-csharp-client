@@ -1,49 +1,38 @@
 ﻿namespace falkonry_csharp_client.helper.models
 {
-    public class InputStatus: BaseClass
+    public class Datasource
     {
-        public string Status
+        public string Type
         {
             get;
             set;
         }
-        public int RequestPending
+        public string Protocol
         {
             get;
             set;
         }
-        public int RequestCompleted
+        public string Host
         {
             get;
             set;
         }
-        public string Id
+        public long Port
         {
             get;
             set;
         }
-        public string Tenant
+        public string Username
         {
             get;
             set;
         }
-        public long CreateTime
+        public string Password
         {
             get;
             set;
         }
-        public string EventBuffer
-        {
-            get;
-            set;
-        }
-        public string Action
-        {
-            get;
-            set;
-        }
-
-        public string Message
+        public string ElementTemplateName
         {
             get;
             set;

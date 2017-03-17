@@ -1,26 +1,18 @@
 ﻿namespace falkonry_csharp_client.helper.models
 {
-    public class Signal
+    public class Tracker
     {
-        public string TagIdentifier
+        public string Status
         {
             get;
             set;
         }
-
-        public string Delimiter
+        public string Action
         {
             get;
             set;
         }
-
-        public string ValueIdentifier
-        {
-            get;
-            set;
-        }
-
-        public bool IsSignalPrefix
+        public string __Id
         {
             get;
             set;

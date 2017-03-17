@@ -1,29 +1,27 @@
 ﻿namespace falkonry_csharp_client.helper.models
 {
-    public class Signal
+    public class Stats
     {
-        public string TagIdentifier
+        public long Data
+        {
+            get;
+            set;
+        }
+        public long Events
+        {
+            get;
+            set;
+        }
+        public long EarliestDataPoint
+        {
+            get;
+            set;
+        }
+        public long LatestDataPoint
         {
             get;
             set;
         }
 
-        public string Delimiter
-        {
-            get;
-            set;
-        }
-
-        public string ValueIdentifier
-        {
-            get;
-            set;
-        }
-
-        public bool IsSignalPrefix
-        {
-            get;
-            set;
-        }
     }
 }

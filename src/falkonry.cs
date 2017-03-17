@@ -1,120 +1,93 @@
-﻿///
-/// falkonry-csharp-client
-/// Copyright(c) 2016 Falkonry Inc
-/// MIT Licensed
-///
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.Collections.Generic;
 using falkonry_csharp_client.helper.models;
 using falkonry_csharp_client.service;
-    namespace falkonry_csharp_client    
+
+namespace falkonry_csharp_client    
 {
     public class Falkonry
     {
-        private FalkonryService falkonryService;
+        private readonly FalkonryService _falkonryService;
 
         public Falkonry(string host, string token)
         {
-        this.falkonryService = new FalkonryService(host, token);
+        _falkonryService = new FalkonryService(host, token);
         }
 
-        public Eventbuffer createEventbuffer(Eventbuffer eventbuffer)
+        public Datastream CreateDatastream(DatastreamRequest datastream)
         {
-        return falkonryService.createEventbuffer(eventbuffer);
+        return _falkonryService.CreateDatastream(datastream);
         }
 
-        public List<Eventbuffer> getEventbuffers()
+        public List<Datastream> GetDatastreams()
         {
-        return falkonryService.getEventbuffers();
+        return _falkonryService.GetDatastream();
         }
 
-        public void deleteEventbuffer(string eventbuffer)
+        public void DeleteDatastream(string datastream)
         {
-            falkonryService.deleteEventbuffer(eventbuffer);
+            _falkonryService.DeleteDatastream(datastream);
         }
 
-        public Pipeline createPipeline(Pipeline pipeline)
+        public Assessment CreateAssessment(AssessmentRequest assessment)
         {
-        return falkonryService.createPipeline(pipeline);
+        return _falkonryService.CreateAssessment(assessment);
         }
 
-        public List<Pipeline> getPipelines()
+        public List<Assessment> GetAssessments()
         {
-        return falkonryService.getPipelines();
+        return _falkonryService.GetAssessment();
         }
 
-        public void deletePipeline(string pipeline)
+        public void DeleteAssessment(string assessment)
         {
-            falkonryService.deletePipeline(pipeline);
+            _falkonryService.DeleteAssessment(assessment);
         }
 
-        public InputStatus addInput(string eventbuffer, string data, SortedDictionary<string, string> options)
+        public InputStatus AddInput(string datastream, string data, SortedDictionary<string, string> options)
         {
-        return this.falkonryService.addInputData(eventbuffer, data, options);
+        return _falkonryService.AddInputData(datastream, data, options);
         }
 
-        public InputStatus addInputStream(string eventbuffer, byte[] stream, SortedDictionary<string, string> options)
+        public InputStatus AddInputStream(string datastream, byte[] stream, SortedDictionary<string, string> options)
         {
-        return this.falkonryService.addInputFromStream(eventbuffer, stream, options);
+        return _falkonryService.AddInputFromStream(datastream, stream, options);
         }
 
-        public Stream getOutput(string pipeline, long? start, long? end)
+        public EventSource GetOutput(string assessment, long? start, long? end)
         {
-        return this.falkonryService.getOutput(pipeline, start, end);
+        return _falkonryService.GetOutput(assessment, start, end);
         }
 
-        public Subscription createSubscription(string eventbuffer, Subscription subscription)
-        {
-        return falkonryService.createSubscription(eventbuffer, subscription);
-        }
-
-        public Subscription updateSubscription(string eventbuffer, Subscription subscription)
-        {
-        return falkonryService.updateSubscription(eventbuffer, subscription);
-        }
-
-        public void deleteEventbuffer(string eventbuffer, string subscription)
-        {
-            falkonryService.deleteEventbuffer(eventbuffer, subscription);
-        }
-
-        public Publication createPublication(string pipeline, Publication publication)
-        {
-        return falkonryService.createPublication(pipeline, publication);
-        }
-
-        public Publication updatePublication(string pipeline, Publication publication)
-        {
-        return falkonryService.updatePublication(pipeline, publication);
-        }
-
-        public void deletePublication(string pipeline, string publication)
-        {
-            falkonryService.deletePublication(pipeline, publication);
-        }
-        public void deleteSubscription(string eventbuffer, string subscription)
-        {
-            falkonryService.deleteSubscription(eventbuffer, subscription);
-        }
         public static void Main()
         {
 
         }
-        public Eventbuffer getEventBuffer(string id)
+        public Datastream GetDatastream(string id)
         {
-            return falkonryService.getEventBuffer(id);
+            return _falkonryService.GetDatastream(id);
         }
-        public string addFacts(string pipeline, string data, SortedDictionary<string, string> options)
+        public string AddFacts(string assessment, string data, SortedDictionary<string, string> options)
         {
-            return this.falkonryService.addFacts(pipeline, data, options);
+            return _falkonryService.AddFacts(assessment, data, options);
         }
-        public string addFactsStream(string pipeline, byte[] stream, SortedDictionary<string, string> options)
+        public string AddFactsStream(string assessment, byte[] stream, SortedDictionary<string, string> options)
         {
-            return this.falkonryService.addFactsStream(pipeline,stream,options);
+            return _falkonryService.AddFactsStream(assessment, stream,options);
+        }
+
+        public HttpResponse GetHistoricalOutput(Assessment assessment, SortedDictionary<string, string> options)
+        {
+            return _falkonryService.GetHistoricalOutput(assessment, options);
+        }
+
+        public List<EntityMeta> PostEntityMeta(List<EntityMetaRequest> entityMetaRequest, Datastream datastream)
+        {
+            return _falkonryService.PostEntityMeta(entityMetaRequest, datastream);
+        }
+
+        public List<EntityMeta> GetEntityMeta(Datastream datastream)
+        {
+            return _falkonryService.GetEntityMeta(datastream);
         }
 
     }

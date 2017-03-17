@@ -1,26 +1,20 @@
 ﻿namespace falkonry_csharp_client.helper.models
 {
-    public class Signal
+    public class Time
     {
-        public string TagIdentifier
+        public string Format
         {
             get;
             set;
         }
 
-        public string Delimiter
+        public string Identifier
         {
             get;
             set;
         }
 
-        public string ValueIdentifier
-        {
-            get;
-            set;
-        }
-
-        public bool IsSignalPrefix
+        public string Zone
         {
             get;
             set;

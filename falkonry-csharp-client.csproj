@@ -41,7 +41,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -57,6 +57,10 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -79,18 +83,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\falkonry.cs" />
-    <Compile Include="src\helper\models\AssesmentRequest.cs" />
-    <Compile Include="src\helper\models\Assessment.cs" />
-    <Compile Include="src\helper\models\Eventbuffer.cs" />
-    <Compile Include="src\helper\models\EventType.cs" />
+    <Compile Include="src\helper\models\AssessmentRequest.cs" />
+    <Compile Include="src\helper\models\ErrorMessage.cs" />
+    <Compile Include="src\helper\models\BaseClass.cs" />
+    <Compile Include="src\helper\models\DatastreamRequest.cs" />
+    <Compile Include="src\helper\models\EntityMeta.cs" />
+    <Compile Include="src\helper\models\EntityMetaRequest.cs" />
+    <Compile Include="src\helper\models\EventSource.cs" />
+    <Compile Include="src\helper\models\field.cs" />
+    <Compile Include="src\helper\models\HttpResponse.cs" />
     <Compile Include="src\helper\models\InputStatus.cs" />
-    <Compile Include="src\helper\models\Interval.cs" />
-    <Compile Include="src\helper\models\Pipeline.cs" />
-    <Compile Include="src\helper\models\PipelineRequest.cs" />
-    <Compile Include="src\helper\models\Publication.cs" />
     <Compile Include="src\helper\models\Signal.cs" />
-    <Compile Include="src\helper\models\SignalRequest.cs" />
-    <Compile Include="src\helper\models\Subscription.cs" />
+    <Compile Include="src\helper\models\Stats.cs" />
+    <Compile Include="src\helper\models\Datasource.cs" />
+    <Compile Include="src\helper\models\Datastream.cs" />
+    <Compile Include="src\helper\models\Datatransformation.cs" />
+    <Compile Include="src\helper\models\InputType.cs" />
+    <Compile Include="src\helper\models\EventType.cs" />
+    <Compile Include="src\helper\models\Input.cs" />
+    <Compile Include="src\helper\models\Time.cs" />
+    <Compile Include="src\helper\models\Tracker.cs" />
+    <Compile Include="src\helper\models\Interval.cs" />
+    <Compile Include="src\helper\models\Assessment.cs" />
     <Compile Include="src\helper\models\Timezone.cs" />
     <Compile Include="src\helper\models\ValueType.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />

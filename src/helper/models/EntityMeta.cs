@@ -1,52 +1,71 @@
-﻿namespace falkonry_csharp_client.helper.models
+using System.Web.Script.Serialization;
+namespace falkonry_csharp_client.helper.models
 {
-    public class InputStatus: BaseClass
+    public class EntityMeta: BaseClass
     {
-        public string Status
+        public string SourceId
         {
             get;
             set;
+
         }
-        public int RequestPending
+        public string Datastream
         {
             get;
             set;
+
         }
-        public int RequestCompleted
+        public string Label
         {
             get;
             set;
+
+        }
+
+        public string Path
+        {
+            get;
+            set;
+
         }
         public string Id
         {
             get;
             set;
+
         }
         public string Tenant
         {
             get;
             set;
+
         }
         public long CreateTime
         {
             get;
             set;
         }
-        public string EventBuffer
-        {
-            get;
-            set;
-        }
-        public string Action
+
+        public string CreatedBy
         {
             get;
             set;
         }
 
-        public string Message
+        public long UpdateTime
         {
             get;
             set;
+        }
+
+        public string UpdatedBy
+        {
+            get;
+            set;
+        }
+        public string ToJson()
+        {
+            return new JavaScriptSerializer().Serialize(this);
         }
     }
 }

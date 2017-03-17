@@ -1,26 +1,23 @@
 ﻿namespace falkonry_csharp_client.helper.models
 {
-    public class Signal
+    public class Input
     {
-        public string TagIdentifier
+        public string Key
         {
             get;
             set;
         }
-
-        public string Delimiter
+        public string Name
         {
             get;
             set;
         }
-
-        public string ValueIdentifier
+        public ValueType ValueType
         {
             get;
             set;
         }
-
-        public bool IsSignalPrefix
+        public EventType EventType
         {
             get;
             set;
