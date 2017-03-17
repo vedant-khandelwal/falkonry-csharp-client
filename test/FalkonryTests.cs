@@ -16,7 +16,7 @@ namespace falkonry_csharp_client.Tests
   //[TestClass()]
     public class FalkonryTestsDatastream
     {
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "2gt7x111ofyatwi0p9es36588mz5ov6x");
+        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
         List<Datastream> _datastreams = new List<Datastream>();
 
         // Create StandAlone Datrastream with Wide format
@@ -48,8 +48,89 @@ namespace falkonry_csharp_client.Tests
             _falkonry.DeleteDatastream(datastream.Id);
         }
 
+
+        //Cretate datastream without name
+        //[TestMethod()]
+        public void CreateDatastreamWithoutName()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "STANDALONE";
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            //ds.Name = "TestDatastream" + randomNumber;
+            var Field = new Field();
+            Field.Time = time;
+
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            var datastream = _falkonry.CreateDatastream(ds);
+
+            Assert.AreEqual(datastream.ErrorMessage, "Missing name.", false);
+            _falkonry.DeleteDatastream(datastream.Id);
+        }
+
+
+        //Cretate datastream without time identifier
+        //[TestMethod()]
+        public void CreateDatastreamWithoutTimeIdentifier()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            //time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "STANDALONE";
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            ds.Name = "TestDatastream" + randomNumber;
+            var Field = new Field();
+            Field.Time = time;
+
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            var datastream = _falkonry.CreateDatastream(ds);
+
+            Assert.AreEqual(datastream.ErrorMessage, "Missing time identifier.", false);
+            _falkonry.DeleteDatastream(datastream.Id);
+        }
+
+        //Cretate datastream without time format
+        //[TestMethod()]
+        public void CreateDatastreamWithoutTimeFormat()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            //time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "STANDALONE";
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            ds.Name = "TestDatastream" + randomNumber;
+            var Field = new Field();
+            Field.Time = time;
+
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            var datastream = _falkonry.CreateDatastream(ds);
+
+            Assert.AreEqual(datastream.ErrorMessage, "Missing time format.", false);
+            _falkonry.DeleteDatastream(datastream.Id);
+        }
+
+
         // Create Standalone datastream with entityIdentifier
-       //[TestMethod()]
+        //[TestMethod()]
         public void CreateDatastreamWithEntityIdentifierTest()
         {
             var time = new Time();
@@ -122,7 +203,7 @@ namespace falkonry_csharp_client.Tests
     public class AddData
     {
 
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "2gt7x111ofyatwi0p9es36588mz5ov6x");
+        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
        //[TestMethod()]
         public void AddDataJson()
@@ -309,7 +390,7 @@ namespace falkonry_csharp_client.Tests
     public class AddDataFromStream
     {
 
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "2gt7x111ofyatwi0p9es36588mz5ov6x");
+        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
 
        //[TestMethod()]
@@ -399,7 +480,7 @@ namespace falkonry_csharp_client.Tests
     public class AddHistorainData
     {
 
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "2gt7x111ofyatwi0p9es36588mz5ov6x");
+        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
        //[TestMethod()]
         public void AddDataNarrowFormatCsvForLearning()
@@ -456,7 +537,7 @@ namespace falkonry_csharp_client.Tests
     public class AddStreamingData
     {
 
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "2gt7x111ofyatwi0p9es36588mz5ov6x");
+        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
        //[TestMethod()]
         public void AddDataNarrowFormatCsvForStreaming()
@@ -509,7 +590,7 @@ namespace falkonry_csharp_client.Tests
    //[TestClass]
     public class AddFacts
     {
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "2gt7x111ofyatwi0p9es36588mz5ov6x");
+        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
        //[TestMethod()]
         public void addFacts()
@@ -569,7 +650,7 @@ namespace falkonry_csharp_client.Tests
    //[TestClass]
     public class AddEntityMeta
     {
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "2gt7x111ofyatwi0p9es36588mz5ov6x");
+        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
        //[TestMethod()]
         public void addEntityMeta()
@@ -624,7 +705,7 @@ namespace falkonry_csharp_client.Tests
 
             var entityMetaResponseList = _falkonry.PostEntityMeta(entityMetaRequestList, datastream);
             Assert.AreEqual(2, entityMetaResponseList.Count);
-
+            
             // Get entitymeta
             entityMetaResponseList = _falkonry.GetEntityMeta(datastream);
             Assert.AreEqual(2, entityMetaResponseList.Count);
@@ -636,7 +717,7 @@ namespace falkonry_csharp_client.Tests
    //[TestClass]
     public class FetchHistoricalOutput
     {
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "2gt7x111ofyatwi0p9es36588mz5ov6x");
+        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
        //[TestMethod()]
         public void TestHistoricalOutput()
