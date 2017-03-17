@@ -1,6 +1,6 @@
 ﻿namespace falkonry_csharp_client.helper.models
 {
-    public class InputStatus
+    public class InputStatus: BaseClass
     {
         public string Status
         {
@@ -38,6 +38,12 @@
             set;
         }
         public string Action
+        {
+            get;
+            set;
+        }
+
+        public string Message
         {
             get;
             set;

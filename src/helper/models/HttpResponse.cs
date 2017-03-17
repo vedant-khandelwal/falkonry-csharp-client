@@ -1,7 +1,7 @@
 namespace falkonry_csharp_client.helper.models
 {
 
-    public class HttpResponse
+    public class HttpResponse: BaseClass
     {
         public int StatusCode
         {
