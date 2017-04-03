@@ -821,7 +821,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass]
+   // [TestClass]
     public class FetchHistoricalOutput
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
