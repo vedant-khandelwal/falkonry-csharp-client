@@ -32,7 +32,7 @@ namespace falkonry_csharp_client.service
 
                 return JsonConvert.DeserializeObject<Datastream>(datastreamJson);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -41,8 +41,16 @@ namespace falkonry_csharp_client.service
         // List Datastream
         public List<Datastream> GetDatastream()
         {
-            var datastreamJson = _http.Get("/datastream");
-            return JsonConvert.DeserializeObject<List<Datastream>>(datastreamJson);
+            try
+            {
+                var datastreamJson = _http.Get("/datastream");
+                return JsonConvert.DeserializeObject<List<Datastream>>(datastreamJson);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // Get Datastream by id
@@ -50,51 +58,83 @@ namespace falkonry_csharp_client.service
         {
             var url = "/datastream/" + id;
 
-            var datastreamJson = _http.Get(url);
-            return JsonConvert.DeserializeObject<Datastream>(datastreamJson);
+            try
+            {
+                var datastreamJson = _http.Get(url);
+                return JsonConvert.DeserializeObject<Datastream>(datastreamJson);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         
         // Add data to DataStream
         public InputStatus AddInputData(string datastream, string data, SortedDictionary<string, string> options)
         {
-            string streamingValue;
-            string hasMoreDataValue;
-            var url = "/datastream/" + datastream;
-            if (options.TryGetValue("streaming", out streamingValue))
+            try
             {
-                url += "?streaming=" +Uri.EscapeDataString(streamingValue);
-            }
-            if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
-            {
-                url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
-            }
+                string streamingValue;
+                string hasMoreDataValue;
+                var url = "/datastream/" + datastream;
+                if (options.TryGetValue("streaming", out streamingValue))
+                {
+                    url += "?streaming=" + Uri.EscapeDataString(streamingValue);
+                }
+                if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
+                {
+                    url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
+                }
 
-            var status = _http.PostData(url, data);
-            return JsonConvert.DeserializeObject<InputStatus>(status);
+                var status = _http.PostData(url, data);
+                return JsonConvert.DeserializeObject<InputStatus>(status);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public InputStatus AddInputFromStream(string datastream, byte[] data, SortedDictionary<string, string> options)
         {
-            var url = "/datastream/" + datastream;
-            string streamingValue;
-            string hasMoreDataValue;
-            if (options.TryGetValue("streaming", out streamingValue))
+            try
             {
-                
-                url += "?streaming=" + Uri.EscapeDataString(streamingValue);
+                var url = "/datastream/" + datastream;
+                string streamingValue;
+                string hasMoreDataValue;
+                if (options.TryGetValue("streaming", out streamingValue))
+                {
+
+                    url += "?streaming=" + Uri.EscapeDataString(streamingValue);
+                }
+                if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
+                {
+                    url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
+                }
+                var status = _http.Upstream(url, data);
+                return JsonConvert.DeserializeObject<InputStatus>(status);
             }
-            if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
+            catch (Exception)
             {
-                url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
+
+                throw;
             }
-            var status = _http.Upstream(url, data);
-            return JsonConvert.DeserializeObject<InputStatus>(status);
         }
 
         // Delete Datastream
         public void DeleteDatastream(string datastream)
         {
-            _http.Delete("/datastream/" + datastream);
+            try
+            {
+                _http.Delete("/datastream/" + datastream);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // Create Assessment
