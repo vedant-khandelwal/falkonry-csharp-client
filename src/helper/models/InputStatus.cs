@@ -1,6 +1,6 @@
 ﻿namespace falkonry_csharp_client.helper.models
 {
-    public class InputStatus: BaseClass
+    public class InputStatus
     {
         public string Status
         {

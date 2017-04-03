@@ -21,7 +21,7 @@ namespace falkonry_csharp_client.helper.models
             get;
             set;
         }
-        public string AssessmentRate
+        public string Rate
         {
             get;
             set;

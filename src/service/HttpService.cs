@@ -54,41 +54,49 @@ namespace falkonry_csharp_client.service
             {
                 response = (HttpWebResponse)e.Response;
             }
-            var stream = response.GetResponseStream();
-            if (stream != null)
+            try
             {
-                var resp = new StreamReader(stream).ReadToEnd();
+                var stream = response.GetResponseStream();
+                if (stream != null)
+                {
+                    var resp = new StreamReader(stream).ReadToEnd();
 
-                if (Convert.ToInt32(response.StatusCode) == 401)
-                {
-                    return "{\"ErrorMessage\": \"Unauthorized : Invalid token " + Convert.ToString(response.StatusCode) + "\"}";
-                }
-                else if (Convert.ToInt32(response.StatusCode) < 400 || Convert.ToInt32(response.StatusCode) == 409)
-                {
-                    return resp;
-                }
-                else
-                {
-                    try
+                    if (Convert.ToInt32(response.StatusCode) == 401)
                     {
-                        ErrorMessage errMsgJson = new ErrorMessage();
-                        errMsgJson = JsonConvert.DeserializeObject<ErrorMessage>(resp);
-                        if (errMsgJson.Message.Length > 0)
+                        throw new FalkonryException("Unauthorized : Invalid token " + Convert.ToString(response.StatusCode));
+                    }
+                    else if (Convert.ToInt32(response.StatusCode) < 400 || Convert.ToInt32(response.StatusCode) == 409)
+                    {
+                        return resp;
+                    }
+                    else
+                    {
+                        try
                         {
-                            return "{\"ErrorMessage\": \"" + Convert.ToString(errMsgJson.Message) + "\"}";
+                            ErrorMessage errMsgJson = new ErrorMessage();
+                            errMsgJson = JsonConvert.DeserializeObject<ErrorMessage>(resp);
+                            if (errMsgJson.Message.Length > 0)
+                            {
+                                throw new FalkonryException(Convert.ToString(errMsgJson.Message));
+                            }
+                            else
+                            {
+                                throw new FalkonryException("Internal Server Error.");
+                            }
                         }
-                        else
+                        catch (Exception)
                         {
-                            return "{\"ErrorMessage\": \"Internal Server Error.\"}";
+                            throw;
                         }
                     }
-                    catch (Exception e)
-                    {
-                        return "{\"ErrorMessage\": \"" + resp + "\"}";
-                    }
+                }else
+                {
+                    throw new FalkonryException("Internal Server Error.");
                 }
+            }catch(Exception)
+            {
+                throw;
             }
-            return "{\"ErrorMessage\": \"Internal Server Error.\"}";
         }
 
         public string Get(string path)
@@ -106,9 +114,9 @@ namespace falkonry_csharp_client.service
 
                 return HandleGetReponse(request);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return "{\"ErrorMessage\": \"" + Convert.ToString(e.Message) + "\"}";
+                throw new FalkonryException("Internal Server Error.");
             }
         }
 
@@ -116,9 +124,7 @@ namespace falkonry_csharp_client.service
         {
             try
             {
-
                 var url = _host + path;
-
                 var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
@@ -138,9 +144,9 @@ namespace falkonry_csharp_client.service
 
                 return HandleGetReponse(request);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return "{\"ErrorMessage\": \"" + Convert.ToString(e.Message) + "\"}";
+                throw;
             }
         }
 
@@ -165,9 +171,9 @@ namespace falkonry_csharp_client.service
                 }
                 return HandleGetReponse(request);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return "{\"ErrorMessage\": \"" + Convert.ToString(e.Message) + "\"}";
+                throw new FalkonryException("Internal Server Error.");
             }
         }
 
@@ -211,9 +217,9 @@ namespace falkonry_csharp_client.service
 
                 return sd;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return e.Message;
+                throw new FalkonryException("Internal Server Error.");
             }
         }
 
@@ -231,9 +237,9 @@ namespace falkonry_csharp_client.service
                 request.ContentType = "application/json";
                 return HandleGetReponse(request);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return "{\"ErrorMessage\": \"" + Convert.ToString(e.Message) + "\"}";
+                throw new FalkonryException("Internal Server Error.");
             }
         }
 
@@ -266,9 +272,9 @@ namespace falkonry_csharp_client.service
                 return HandleGetReponse(request);
                
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return "{\"ErrorMessage\": \"" + Convert.ToString(e.Message) + "\"}";
+                throw new FalkonryException("Internal Server Error.");
             }
         }
 
@@ -288,7 +294,7 @@ namespace falkonry_csharp_client.service
             }
             catch (Exception)
             {
-                return null;
+                throw new FalkonryException("Internal Server Error.");
             }
         }
 
@@ -318,9 +324,9 @@ namespace falkonry_csharp_client.service
 
                 return HandleGetReponse(request);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return "{\"ErrorMessage\": \"" + Convert.ToString(e.Message) + "\"}";
+                throw new FalkonryException("Internal Server Error.");
             }
         }
 

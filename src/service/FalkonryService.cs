@@ -23,12 +23,19 @@ namespace falkonry_csharp_client.service
         // Create Datastream
         public Datastream CreateDatastream(DatastreamRequest datastream)
         {
-            var data = JsonConvert.SerializeObject(datastream, Formatting.Indented,
-                new JsonSerializerSettings() {ContractResolver = new CamelCasePropertyNamesContractResolver()});
+            try
+            {
+                var data = JsonConvert.SerializeObject(datastream, Formatting.Indented,
+                    new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
 
-            var datastreamJson = _http.Post("/datastream", data);
+                var datastreamJson = _http.Post("/datastream", data);
 
-            return JsonConvert.DeserializeObject<Datastream>(datastreamJson);
+                return JsonConvert.DeserializeObject<Datastream>(datastreamJson);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         // List Datastream

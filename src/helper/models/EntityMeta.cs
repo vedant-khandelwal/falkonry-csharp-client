@@ -1,7 +1,7 @@
 using System.Web.Script.Serialization;
 namespace falkonry_csharp_client.helper.models
 {
-    public class EntityMeta: BaseClass
+    public class EntityMeta
     {
         public string SourceId
         {
