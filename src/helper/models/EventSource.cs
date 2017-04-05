@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace falkonry_csharp_client.helper.models
 {
-    public class EventSource : BaseClass, IDisposable 
+    public class EventSource : IDisposable 
     {
         #region Protected Fields
 

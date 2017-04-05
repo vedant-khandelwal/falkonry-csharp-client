@@ -85,11 +85,11 @@
     <Compile Include="src\falkonry.cs" />
     <Compile Include="src\helper\models\AssessmentRequest.cs" />
     <Compile Include="src\helper\models\ErrorMessage.cs" />
-    <Compile Include="src\helper\models\BaseClass.cs" />
     <Compile Include="src\helper\models\DatastreamRequest.cs" />
     <Compile Include="src\helper\models\EntityMeta.cs" />
     <Compile Include="src\helper\models\EntityMetaRequest.cs" />
     <Compile Include="src\helper\models\EventSource.cs" />
+    <Compile Include="src\service\FalkonryException.cs" />
     <Compile Include="src\helper\models\field.cs" />
     <Compile Include="src\helper\models\HttpResponse.cs" />
     <Compile Include="src\helper\models\InputStatus.cs" />
@@ -135,6 +135,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

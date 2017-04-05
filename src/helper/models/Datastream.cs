@@ -3,7 +3,7 @@ using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
-    public class Datastream : BaseClass
+    public class Datastream
     {
         public string Id
         {
