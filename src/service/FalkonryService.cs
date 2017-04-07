@@ -140,136 +140,236 @@ namespace falkonry_csharp_client.service
         // Create Assessment
         public Assessment CreateAssessment(AssessmentRequest assessment)
         {
-            var data = JsonConvert.SerializeObject(assessment, Formatting.Indented,
-                new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            try
+            {
+                var data = JsonConvert.SerializeObject(assessment, Formatting.Indented,
+                        new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
 
-            var assessmentJson = _http.Post("/assessment", data);
+                var assessmentJson = _http.Post("/assessment", data);
 
-            return JsonConvert.DeserializeObject<Assessment>(assessmentJson);
+                return JsonConvert.DeserializeObject<Assessment>(assessmentJson);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // List Assessment
         public List<Assessment> GetAssessment()
         {
-            var assessmentJson = _http.Get("/assessment");
-            return JsonConvert.DeserializeObject<List<Assessment>>(assessmentJson);
+            try
+            {
+                var assessmentJson = _http.Get("/assessment");
+                return JsonConvert.DeserializeObject<List<Assessment>>(assessmentJson);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // delete Assessment
         public void DeleteAssessment(string assessment)
         {
-            _http.Delete("/assessment/" + assessment);
+            try
+            {
+                _http.Delete("/assessment/" + assessment);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // Add Facts to assessment
         public string AddFacts(string assessment, string data, SortedDictionary<string, string> options)
         {
-            var url = "/assessment/" + assessment + "/facts";
-            return _http.PostData(url, data);
+            try
+            {
+                var url = "/assessment/" + assessment + "/facts";
+                return _http.PostData(url, data);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public string AddFactsStream(string assessment, byte[] stream, SortedDictionary<string, string> options)
         {
-            var url = "/assessment/" + assessment + "/facts";
-            return _http.Upstream(url, stream);
+            try
+            {
+                var url = "/assessment/" + assessment + "/facts";
+                return _http.Upstream(url, stream);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // Stream Output
         public EventSource GetOutput(string assessmentId, long? start, long? end)
         {
-            var url = "/assessment/" + assessmentId + "/output";
-
-            var starttemp=start;
-            var endtemp = end;
-
-            if (endtemp.HasValue)
+            try
             {
-                url += "?lastTime=" + end.Value;
-                if (starttemp.HasValue) url += "&startTime=" + start.Value;
-            }
-            else
-            {
-                if (starttemp.HasValue) url += "?startTime=" + start.Value;
-            }
+                var url = "/assessment/" + assessmentId + "/output";
 
-            return _http.Downstream(url);
+                var starttemp = start;
+                var endtemp = end;
+
+                if (endtemp.HasValue)
+                {
+                    url += "?lastTime=" + end.Value;
+                    if (starttemp.HasValue) url += "&startTime=" + start.Value;
+                }
+                else
+                {
+                    if (starttemp.HasValue) url += "?startTime=" + start.Value;
+                }
+
+                return _http.Downstream(url);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         //Stream historical output
         public HttpResponse GetHistoricalOutput(Assessment assessment, SortedDictionary<string, string> options)
         {
-            var url = "/assessment/" + assessment.Id + "/output?";
-            string trackerId;
-            string modelIndex;
-            string startTime;
-            string endTime;
-            var firstReqParam = true;
+            try
+            {
+                var url = "/assessment/" + assessment.Id + "/output?";
+                string trackerId;
+                string modelIndex;
+                string startTime;
+                string endTime;
+                var firstReqParam = true;
 
-            if (options.TryGetValue("trackerId", out trackerId))
-            {
-                firstReqParam = false;
-                url += "trackerId=" + Uri.EscapeDataString(trackerId);
-            }
-            if (options.TryGetValue("modelIndex", out modelIndex))
-            {
-                if (firstReqParam)
+                if (options.TryGetValue("trackerId", out trackerId))
                 {
                     firstReqParam = false;
-                    url += "model=" + Uri.EscapeDataString(modelIndex);
+                    url += "trackerId=" + Uri.EscapeDataString(trackerId);
                 }
-                else
-                    url += "&model=" + Uri.EscapeDataString(modelIndex);
-
-            }
-            if (options.TryGetValue("startTime", out startTime))
-            {
-                if (firstReqParam)
+                if (options.TryGetValue("modelIndex", out modelIndex))
                 {
-                    firstReqParam = false;
-                    url += "startTime=" + Uri.EscapeDataString(startTime);
-                }
-                else
-                    url += "&startTime=" + Uri.EscapeDataString(startTime);
+                    if (firstReqParam)
+                    {
+                        firstReqParam = false;
+                        url += "model=" + Uri.EscapeDataString(modelIndex);
+                    }
+                    else
+                        url += "&model=" + Uri.EscapeDataString(modelIndex);
 
-            }
-            if (options.TryGetValue("endTime", out endTime))
-            {
-                if (firstReqParam)
+                }
+                if (options.TryGetValue("startTime", out startTime))
                 {
-                    url += "endTime=" + Uri.EscapeDataString(endTime);
-                }
-                else
-                    url += "&endTime=" + Uri.EscapeDataString(endTime);
+                    if (firstReqParam)
+                    {
+                        firstReqParam = false;
+                        url += "startTime=" + Uri.EscapeDataString(startTime);
+                    }
+                    else
+                        url += "&startTime=" + Uri.EscapeDataString(startTime);
 
-            }
-            string format;
-            var responseFromat = "application/json";
-            if (options.TryGetValue("responseFromat", out format))
-            {
-                if (format.Equals("text/csv"))
+                }
+                if (options.TryGetValue("endTime", out endTime))
                 {
-                    responseFromat = "text/csv";
-                }
-            }
+                    if (firstReqParam)
+                    {
+                        url += "endTime=" + Uri.EscapeDataString(endTime);
+                    }
+                    else
+                        url += "&endTime=" + Uri.EscapeDataString(endTime);
 
-            var outputData = _http.GetOutput(url, responseFromat);
-            return outputData;
+                }
+                string format;
+                var responseFromat = "application/json";
+                if (options.TryGetValue("responseFromat", out format))
+                {
+                    if (format.Equals("text/csv"))
+                    {
+                        responseFromat = "text/csv";
+                    }
+                }
+
+                var outputData = _http.GetOutput(url, responseFromat);
+                return outputData;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // Post EntityMeta
         public List<EntityMeta> PostEntityMeta(List<EntityMetaRequest> entityMetaRequest, Datastream datastream)
         {
-            var data = JsonConvert.SerializeObject(entityMetaRequest, Formatting.Indented,
-                new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-            var response = _http.Post("/datastream/"+ datastream.Id+"/entityMeta", data);
-            return JsonConvert.DeserializeObject<List<EntityMeta>>(response);
+            try
+            {
+                var data = JsonConvert.SerializeObject(entityMetaRequest, Formatting.Indented,
+                        new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+                var response = _http.Post("/datastream/" + datastream.Id + "/entityMeta", data);
+                return JsonConvert.DeserializeObject<List<EntityMeta>>(response);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // Get EntityMeta
         public List<EntityMeta> GetEntityMeta(Datastream datastream)
         {
-            var response = _http.Get("/datastream/" + datastream.Id + "/entityMeta");
-            return JsonConvert.DeserializeObject<List<EntityMeta>>(response);
+            try
+            {
+                var response = _http.Get("/datastream/" + datastream.Id + "/entityMeta");
+                return JsonConvert.DeserializeObject<List<EntityMeta>>(response);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // On  Datastream
+        public void onDatastream(string datastreamId)
+        {
+            try
+            {
+                _http.Post("/datastream/" + datastreamId + "/on","");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // OFF  Datastream
+        public void offDatastream(string datastreamId)
+        {
+            try
+            {
+                _http.Post("/datastream/" + datastreamId + "/off","");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
     }
