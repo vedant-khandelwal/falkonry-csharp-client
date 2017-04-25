@@ -17,6 +17,8 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	* Add Entity Meta to DataStream
 	* Get Entity Meta of DataStream
 	* Generate Output Data for Historical Data
+	* Turn streaming On
+	* Turn streaming off
     
 ## Quick Start
 
@@ -353,6 +355,30 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 		// Some Error has occured. Please httpResponse.response for detail message
 	}
 ```
+
+```
+	* Turn Datastrean On
+```
+	using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+	string datastream_id = "Your datastream id";
+	falkonry.onDatastream(datastream_id);
+```
+```
+	* Turn Datastrean Off
+```
+	using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+	string datastream_id = "Your datastream id";
+	falkonry.offDatastream(datastream_id);
+```
+	
 
 ## Docs
 
