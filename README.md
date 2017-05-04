@@ -17,8 +17,8 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	* Add Entity Meta to DataStream
 	* Get Entity Meta of DataStream
 	* Generate Output Data for Historical Data
-	* Turn streaming On
-	* Turn streaming off
+	* Datastream live monitoring on
+	* Datastream live monitoring off
     
 ## Quick Start
 
