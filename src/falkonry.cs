@@ -210,6 +210,30 @@ namespace falkonry_csharp_client
             }
         }
 
+        public void onDatastream(string datastreamId)
+        {
+            try
+            {
+                _falkonryService.onDatastream(datastreamId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void offDatastream(string datastreamId)
+        {
+            try
+            {
+                _falkonryService.offDatastream(datastreamId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 
 }

@@ -116,7 +116,7 @@ namespace falkonry_csharp_client.service
             }
             catch (Exception)
             {
-                throw new FalkonryException("Internal Server Error.");
+                throw;
             }
         }
 
@@ -173,7 +173,7 @@ namespace falkonry_csharp_client.service
             }
             catch (Exception)
             {
-                throw new FalkonryException("Internal Server Error.");
+                throw;
             }
         }
 
@@ -219,7 +219,7 @@ namespace falkonry_csharp_client.service
             }
             catch (Exception)
             {
-                throw new FalkonryException("Internal Server Error.");
+                throw;
             }
         }
 
@@ -239,7 +239,7 @@ namespace falkonry_csharp_client.service
             }
             catch (Exception)
             {
-                throw new FalkonryException("Internal Server Error.");
+                throw;
             }
         }
 
@@ -274,7 +274,7 @@ namespace falkonry_csharp_client.service
             }
             catch (Exception)
             {
-                throw new FalkonryException("Internal Server Error.");
+                throw;
             }
         }
 
@@ -294,7 +294,7 @@ namespace falkonry_csharp_client.service
             }
             catch (Exception)
             {
-                throw new FalkonryException("Internal Server Error.");
+                throw;
             }
         }
 
@@ -326,7 +326,7 @@ namespace falkonry_csharp_client.service
             }
             catch (Exception)
             {
-                throw new FalkonryException("Internal Server Error.");
+                throw;
             }
         }
 
