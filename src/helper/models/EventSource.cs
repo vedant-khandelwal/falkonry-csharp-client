@@ -427,7 +427,15 @@ namespace falkonry_csharp_client.helper.models
 
             if (_shutdownToken) return;
             if (_httpStream == null) throw new NullReferenceException("GetResponseStream");
-            _httpStream.BeginRead(_buffer, 0, _buffer.Length, EndReadFromStream, null);
+            try
+            {
+                _httpStream.BeginRead(_buffer, 0, _buffer.Length, EndReadFromStream, null);
+            }
+            catch (Exception)
+            {
+             //   CloseConnection();
+                return;
+            }
         }
 
         /// <summary>

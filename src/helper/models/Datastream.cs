@@ -80,5 +80,13 @@ namespace falkonry_csharp_client.helper.models
             set;
         }
 
+
+        public string Live
+        {
+            get;
+            set;
+
+        }
+
     }
 }

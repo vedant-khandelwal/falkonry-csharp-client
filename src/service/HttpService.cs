@@ -52,11 +52,18 @@ namespace falkonry_csharp_client.service
             }
             catch (WebException e)
             {
+                if (e.Status == WebExceptionStatus.Timeout)
+                {
+                    throw new FalkonryException("Request Time Out");
+                }else if(e.Status == WebExceptionStatus.NameResolutionFailure || e.Status == WebExceptionStatus.ProxyNameResolutionFailure)
+                {
+                    throw new FalkonryException("Host unreachable");
+                }
                 response = (HttpWebResponse)e.Response;
             }
             try
             {
-                var stream = response.GetResponseStream();
+               var stream = response.GetResponseStream();
                 if (stream != null)
                 {
                     var resp = new StreamReader(stream).ReadToEnd();
@@ -93,7 +100,7 @@ namespace falkonry_csharp_client.service
                 {
                     throw new FalkonryException("Internal Server Error.");
                 }
-            }catch(Exception)
+            }catch(Exception exception1)
             {
                 throw;
             }
