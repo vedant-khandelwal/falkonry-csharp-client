@@ -13,14 +13,14 @@ using System.IO;
 
 namespace falkonry_csharp_client.Tests
 {
-   // [TestClass()]
+    // [TestClass()]
     public class FalkonryTestsDatastream
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj2");
         List<Datastream> _datastreams = new List<Datastream>();
 
         // Create StandAlone Datrastream with Wide format
-       [TestMethod()]
+        [TestMethod()]
         public void CreateStandaloneDatastream()
         {
             var time = new Time();
@@ -149,7 +149,7 @@ namespace falkonry_csharp_client.Tests
             catch (System.Exception exception)
             {
 
-               Assert.AreEqual(exception.Message, "Missing time format.", false);
+                Assert.AreEqual(exception.Message, "Missing time format.", false);
             }
         }
 
@@ -185,7 +185,7 @@ namespace falkonry_csharp_client.Tests
         }
 
         // Create PI Datastream (Narrow Format)
-       [TestMethod()]
+        [TestMethod()]
         public void CreatePiDatastreamTest()
         {
             var time = new Time();
@@ -225,20 +225,20 @@ namespace falkonry_csharp_client.Tests
             }
             catch (System.Exception exception)
             {
-                Assert.AreEqual(exception.Message,null,false);
+                Assert.AreEqual(exception.Message, null, false);
             }
-           
+
         }
 
     }
 
-   // [TestClass()]
+    // [TestClass()]
     public class AddData
     {
 
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
-       //[TestMethod()]
+        //[TestMethod()]
         public void AddDataJson()
         {
             var rnd = new System.Random();
@@ -310,10 +310,10 @@ namespace falkonry_csharp_client.Tests
 
                 Assert.AreEqual(exception.Message, null, false);
             }
-            
+
         }
 
-       [TestMethod()]
+        [TestMethod()]
         public void AddDataCsv()
         {
             var rnd = new System.Random();
@@ -383,10 +383,10 @@ namespace falkonry_csharp_client.Tests
             {
                 Assert.AreEqual(exception.Message, null, false);
             }
-            
+
         }
 
-       [TestMethod()]
+        [TestMethod()]
         public void AddDataNarrowFormatCsv()
         {
             var rnd = new System.Random();
@@ -441,14 +441,14 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-   // [TestClass]
+    // [TestClass]
     public class AddDataFromStream
     {
 
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
 
-       [TestMethod()]
+        [TestMethod()]
         public void AddDataFromStreamJson()
         {
             var time = new Time();
@@ -463,7 +463,7 @@ namespace falkonry_csharp_client.Tests
             ds.Name = "TestDatastreamStreaming" + randomNumber;
             var Field = new Field();
             Field.EntityIdentifier = "Unit";
-            
+
             Field.Time = time;
             ds.Field = Field;
             ds.DataSource = datasource;
@@ -496,9 +496,9 @@ namespace falkonry_csharp_client.Tests
 
                 Assert.AreEqual(exception.Message, null, false); ;
             }
-            
+
         }
-       [TestMethod()]
+        [TestMethod()]
         public void AddDataFromStreamCsv()
         {
             var time = new Time();
@@ -549,13 +549,13 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-   // [TestClass()]
+    // [TestClass()]
     public class AddHistorainData
     {
 
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
-       [TestMethod()]
+        [TestMethod()]
         public void AddDataNarrowFormatCsvForLearning()
         {
             var rnd = new System.Random();
@@ -609,19 +609,19 @@ namespace falkonry_csharp_client.Tests
 
                 Assert.AreEqual(exception.Message, null, false);
             }
-            
+
         }
 
 
     }
 
-  // [TestClass()]
+    // [TestClass()]
     public class AddStreamingData
     {
 
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
-       [TestMethod()]
+        [TestMethod()]
         public void AddDataNarrowFormatCsvForStreaming()
         {
             var rnd = new System.Random();
@@ -678,12 +678,12 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-   // [TestClass]
+    // [TestClass]
     public class AddFacts
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
 
-       [TestMethod()]
+        [TestMethod()]
         public void addFacts()
         {
             var rnd = new System.Random();
@@ -746,7 +746,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-   // [TestClass]
+    // [TestClass]
     public class AddEntityMeta
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
@@ -821,7 +821,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-   // [TestClass]
+    // [TestClass]
     public class FetchHistoricalOutput
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
@@ -918,6 +918,94 @@ namespace falkonry_csharp_client.Tests
                 Assert.AreEqual(exception.Message, null, false);
             }
         }
+    }
+
+
+
+    // [TestClass]
+    public class DatastreamLiveMonitoring
+    {
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
+
+        //[TestMethod()]
+        public void DatastreamLiveMonitoringOn()
+        {
+            var javascript = new JavaScriptSerializer();
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            var Field = new Field();
+            var Signal = new Signal();
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            var ds = new DatastreamRequest();
+
+            Signal.ValueIdentifier = "value";
+            Signal.TagIdentifier = "tag";
+            Signal.IsSignalPrefix = true;
+            Signal.Delimiter = "_";
+
+            Field.Signal = Signal;
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            ds.Name = "TestDS" + randomNumber;
+            ds.Field.Time = time;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+
+                // Create Assessment
+                var asmt = new AssessmentRequest();
+                var randomNumber1 = System.Convert.ToString(rnd.Next(1, 10000));
+                asmt.Name = "TestAssessment" + randomNumber1;
+                asmt.Datastream = datastream.Id;
+                asmt.Rate = "PT0S";
+                var assessment = _falkonry.CreateAssessment(asmt);
+
+                //assessment.id = "lqv606xtcxnlca";
+                // Got TO Falkonry UI and run a model revision
+                try
+                {
+                    _falkonry.onDatastream(datastream.Id);
+                }
+                catch (System.Exception exception)
+                {
+                    //Some error  in turning datastream live monitoring on
+                    Assert.AreEqual(exception.Message, null, false);
+                }
+                Assert.AreNotEqual(null, datastream.Id);
+
+                try
+                {
+                    _falkonry.offDatastream(datastream.Id);
+                }
+                catch (System.Exception exception)
+                {
+                    //Some error  in turning datastream live monitoring off
+                    Assert.AreEqual(exception.Message, null, false);
+                }
+                Assert.AreNotEqual(null, datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false);
+            }
+        }
+
     }
 }
 
