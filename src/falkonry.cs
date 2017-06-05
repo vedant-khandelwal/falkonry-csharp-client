@@ -39,6 +39,19 @@ namespace falkonry_csharp_client
             }
         }
 
+        public Datastream GetDatastream(string datastream)
+        {
+            try
+            {
+                return _falkonryService.GetDatastream(datastream);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public void DeleteDatastream(string datastream)
         {
             try
@@ -70,6 +83,19 @@ namespace falkonry_csharp_client
             try
             {
                 return _falkonryService.GetAssessment();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public Assessment GetAssessment(string assessment)
+        {
+            try
+            {
+                return _falkonryService.GetAssessment(assessment);
             }
             catch (Exception)
             {
@@ -130,22 +156,6 @@ namespace falkonry_csharp_client
             }
         }
 
-        public static void Main()
-        {
-
-        }
-        public Datastream GetDatastream(string id)
-        {
-            try
-            {
-                return _falkonryService.GetDatastream(id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
         public string AddFacts(string assessment, string data, SortedDictionary<string, string> options)
         {
             try
