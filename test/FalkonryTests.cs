@@ -4,19 +4,19 @@ using falkonry_csharp_client.helper.models;
 using System.Diagnostics;
 using System.Web.Script.Serialization;
 using System.IO;
-/*INSTRUCTIONS: TO RUN ANY TESTS, SIMPLY UNCOMMENT THE '//[TestCLASS()] ' header before every class of tests to run that particular class of tests. 
+/*INSTRUCTIONS: TO RUN ANY TESTS, SIMPLY UNCOMMENT THE '//[TestClass()] ' header before every class of tests to run that particular class of tests. 
 * You should try executing method by method in case classwise tests take too long or fail */
 
 /* Also insert your url and your token in the: 
- * Falkonry falkonry = new Falkonry("http://localhost:8080", "");
+ * Falkonry falkonry = new Falkonry("https://localhost:8080", "");
  *  fields*/
 
 namespace falkonry_csharp_client.Tests
 {
     // [TestClass()]
-    public class FalkonryTestsDatastream
+    public class TestsDatastream
     {
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj2");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
         List<Datastream> _datastreams = new List<Datastream>();
 
         // Create StandAlone Datrastream with Wide format
@@ -25,7 +25,7 @@ namespace falkonry_csharp_client.Tests
         {
             var time = new Time();
             time.Zone = "GMT";
-            time.Identifier = "time";
+            time.Identifier = "Time";
             time.Format = "iso_8601";
 
             var datasource = new Datasource();
@@ -33,7 +33,7 @@ namespace falkonry_csharp_client.Tests
             var rnd = new System.Random();
             var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
             var ds = new DatastreamRequest();
-            ds.Name = "TestDatastream" + randomNumber;
+            ds.Name = "TestDS" + randomNumber;
             var Field = new Field();
             Field.Time = time;
 
@@ -56,8 +56,247 @@ namespace falkonry_csharp_client.Tests
             }
         }
 
+        // Create Datastream for narrow/historian style data from a single entity
+        [TestMethod()]
+        public void createDatastreamNarrowFormatSingleEntity()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
 
-        //Cretate datastream without name
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            var ds = new DatastreamRequest();
+            var Field = new Field();
+            var Signal = new Signal();
+            Signal.ValueIdentifier = "value";
+            Signal.TagIdentifier = "tag";
+            Signal.IsSignalPrefix = true;
+            Field.Signal = Signal;
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            ds.Name = "TestDS" + randomNumber;
+            ds.Field.Time = time;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                Assert.AreEqual(ds.Field.Signal.ValueIdentifier, datastream.Field.Signal.ValueIdentifier);
+                Assert.AreEqual(ds.Field.Signal.TagIdentifier, datastream.Field.Signal.TagIdentifier);
+                Assert.AreEqual(ds.Field.Signal.IsSignalPrefix, datastream.Field.Signal.IsSignalPrefix);
+                Assert.AreEqual(datastream.Field.Signal.Delimiter, null);
+                Assert.AreEqual(datastream.Field.EntityIdentifier, "entity");
+                Assert.AreEqual(datastream.Field.EntityName, datastream.Name);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false); ;
+            }
+        }
+
+        // Create Datastream for narrow/historian style data from a single entity
+        [TestMethod()]
+        public void createDatastreamNarrowFormatMultipleEntity()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            var ds = new DatastreamRequest();
+            var Field = new Field();
+            var Signal = new Signal();
+            Signal.ValueIdentifier = "value";
+            Signal.TagIdentifier = "tag";
+            Signal.IsSignalPrefix = true;
+            Signal.Delimiter = "_";
+            Field.Signal = Signal;
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            ds.Name = "TestDS" + randomNumber;
+            ds.Field.Time = time;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                Assert.AreEqual(ds.Field.Signal.ValueIdentifier, datastream.Field.Signal.ValueIdentifier);
+                Assert.AreEqual(ds.Field.Signal.TagIdentifier, datastream.Field.Signal.TagIdentifier);
+                Assert.AreEqual(ds.Field.Signal.IsSignalPrefix, datastream.Field.Signal.IsSignalPrefix);
+                Assert.AreEqual(ds.Field.Signal.Delimiter, datastream.Field.Signal.Delimiter);
+                Assert.AreEqual(datastream.Field.EntityIdentifier, "entity");
+                Assert.AreEqual(datastream.Field.EntityName, null);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false); ;
+            }
+        }
+
+        // Create Datastream for wide style data from a single entity
+        [TestMethod()]
+        public void createDatastreamWideFormatSingleEntity()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            var ds = new DatastreamRequest();
+            // Input List
+            var inputList = new List<Input>();
+            var currents = new Input();
+            currents.Name = "current";
+            currents.ValueType = new ValueType();
+            currents.EventType = new EventType();
+            currents.ValueType.Type = "Numeric";
+            currents.EventType.Type = "Samples";
+            inputList.Add(currents);
+
+            var vibration = new Input();
+            vibration.Name = "vibration";
+            vibration.ValueType = new ValueType();
+            vibration.EventType = new EventType();
+            vibration.ValueType.Type = "Numeric";
+            vibration.EventType.Type = "Samples";
+            inputList.Add(vibration);
+
+            var state = new Input();
+            state.Name = "state";
+            state.ValueType = new ValueType();
+            state.EventType = new EventType();
+            state.ValueType.Type = "Categorical";
+            state.EventType.Type = "Samples";
+            inputList.Add(state);
+
+            ds.InputList = inputList;
+            var Field = new Field();
+            var Signal = new Signal();
+            Field.Signal = Signal;
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            ds.Name = "TestDS" + randomNumber;
+            ds.Field.Time = time;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                Assert.AreEqual(datastream.Field.EntityIdentifier, "entity");
+                Assert.AreEqual(datastream.Field.EntityName, datastream.Name);
+                Assert.AreEqual(datastream.InputList.Count, 3);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false); ;
+            }
+        }
+
+        // Create Datastream for wide style data from a multiple entities
+        [TestMethod()]
+        public void createDatastreamWideFormatMultipleEntities()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            var ds = new DatastreamRequest();
+            // Input List
+            var inputList = new List<Input>();
+            var currents = new Input();
+            currents.Name = "current";
+            currents.ValueType = new ValueType();
+            currents.EventType = new EventType();
+            currents.ValueType.Type = "Numeric";
+            currents.EventType.Type = "Samples";
+            inputList.Add(currents);
+
+            var vibration = new Input();
+            vibration.Name = "vibration";
+            vibration.ValueType = new ValueType();
+            vibration.EventType = new EventType();
+            vibration.ValueType.Type = "Numeric";
+            vibration.EventType.Type = "Samples";
+            inputList.Add(vibration);
+
+            var state = new Input();
+            state.Name = "state";
+            state.ValueType = new ValueType();
+            state.EventType = new EventType();
+            state.ValueType.Type = "Categorical";
+            state.EventType.Type = "Samples";
+            inputList.Add(state);
+
+            ds.InputList = inputList;
+            var Field = new Field();
+            var Signal = new Signal();
+            Field.Signal = Signal;
+            Field.Time = time;
+            Field.EntityIdentifier = "car";
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            ds.Name = "TestDS" + randomNumber;
+            ds.Field.Time = time;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                Assert.AreEqual(ds.Field.EntityIdentifier, datastream.Field.EntityIdentifier);
+                Assert.AreEqual(datastream.Field.EntityName, null);
+                Assert.AreEqual(datastream.InputList.Count, 3);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false); ;
+            }
+        }
+
+        //Can not create datastream without name
         [TestMethod()]
         public void CreateDatastreamWithoutName()
         {
@@ -80,16 +319,15 @@ namespace falkonry_csharp_client.Tests
             try
             {
                 var datastream = _falkonry.CreateDatastream(ds);
+                _falkonry.DeleteDatastream(datastream.Id);
             }
             catch (System.Exception exception)
             {
                 Assert.AreEqual(exception.Message, "Missing name.", false);
             }
-            //_falkonry.DeleteDatastream(datastream.Id);
         }
 
-
-        //Cretate datastream without time identifier
+        //Can not create datastream without time identifier
         [TestMethod()]
         public void CreateDatastreamWithoutTimeIdentifier()
         {
@@ -112,6 +350,7 @@ namespace falkonry_csharp_client.Tests
             try
             {
                 var datastream = _falkonry.CreateDatastream(ds);
+                _falkonry.DeleteDatastream(datastream.Id);
             }
             catch (System.Exception exception)
             {
@@ -119,10 +358,10 @@ namespace falkonry_csharp_client.Tests
                 Assert.AreEqual(exception.Message, "Missing time identifier.", false);
             }
 
-            //_falkonry.DeleteDatastream(datastream.Id);
+
         }
 
-        //Cretate datastream without time format
+        //Can not cretate datastream without time format
         [TestMethod()]
         public void CreateDatastreamWithoutTimeFormat()
         {
@@ -153,8 +392,7 @@ namespace falkonry_csharp_client.Tests
             }
         }
 
-
-        // Create Standalone datastream with entityIdentifier
+        //Create Standalone datastream with entityIdentifier
         [TestMethod()]
         public void CreateDatastreamWithEntityIdentifierTest()
         {
@@ -230,528 +468,123 @@ namespace falkonry_csharp_client.Tests
 
         }
 
-    }
-
-    // [TestClass()]
-    public class AddData
-    {
-
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
-
-        //[TestMethod()]
-        public void AddDataJson()
-        {
-            var rnd = new System.Random();
-            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
-            var ds = new DatastreamRequest();
-            ds.Name = "TestDSJSON" + randomNumber;
-            var time = new Time();
-            time.Zone = "GMT";
-            time.Identifier = "time";
-            time.Format = "iso_8601";
-
-            var Field = new Field();
-            Field.Time = time;
-            Field.EntityIdentifier = "Unit";
-            ds.Field = Field;
-            var datasource = new Datasource();
-            datasource.Type = "PI";
-            datasource.Host = "https://test.piserver.com/piwebapi";
-            datasource.ElementTemplateName = "SampleElementTempalte";
-            ds.DataSource = datasource;
-
-            // Input List
-            var inputList = new List<Input>();
-            var currents = new Input();
-            currents.Name = "current";
-            currents.ValueType = new ValueType();
-            currents.EventType = new EventType();
-            currents.ValueType.Type = "Numeric";
-            currents.EventType.Type = "Samples";
-            inputList.Add(currents);
-
-            var vibration = new Input();
-            vibration.Name = "vibration";
-            vibration.ValueType = new ValueType();
-            vibration.EventType = new EventType();
-            vibration.ValueType.Type = "Numeric";
-            vibration.EventType.Type = "Samples";
-            inputList.Add(vibration);
-
-            var state = new Input();
-            state.Name = "state";
-            state.ValueType = new ValueType();
-            state.EventType = new EventType();
-            state.ValueType.Type = "Categorical";
-            state.EventType.Type = "Samples";
-            inputList.Add(state);
-
-            ds.InputList = inputList;
-
-            try
-            {
-                var datastream = _falkonry.CreateDatastream(ds);
-                Assert.AreEqual(ds.Name, datastream.Name, false);
-                Assert.AreNotEqual(null, datastream.Id);
-                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
-                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
-                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
-                var data = "{\"time\" :\"2016-03-01 01:01:01\",\"Unit\":\"Unit1\", \"current\" : 12.4, \"vibration\" : 3.4, \"state\" : \"On\"}";
-                var options = new SortedDictionary<string, string>();
-                options.Add("timeIdentifier", "time");
-                options.Add("timeFormat", "iso_8601");
-                options.Add("fileFormat", "json");
-                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
-                datastream = _falkonry.GetDatastream(datastream.Id);
-                _falkonry.DeleteDatastream(datastream.Id);
-            }
-            catch (System.Exception exception)
-            {
-
-                Assert.AreEqual(exception.Message, null, false);
-            }
-
-        }
-
         [TestMethod()]
-        public void AddDataCsv()
-        {
-            var rnd = new System.Random();
-            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
-            var ds = new DatastreamRequest();
-            var time = new Time();
-            time.Zone = "GMT";
-            time.Identifier = "time";
-            time.Format = "iso_8601";
-            ds.Name = "TestDSCSV" + randomNumber;
-
-            var Field = new Field();
-            Field.EntityIdentifier = "Unit";
-            Field.Time = time;
-            ds.Field = Field;
-            var datasource = new Datasource();
-            datasource.Type = "PI";
-            datasource.Host = "https://test.piserver.com/piwebapi";
-            datasource.ElementTemplateName = "SampleElementTempalte";
-            ds.DataSource = datasource;
-
-            // Input List
-            var inputList = new List<Input>();
-            var currents = new Input();
-            currents.Name = "current";
-            currents.ValueType = new ValueType();
-            currents.EventType = new EventType();
-            currents.ValueType.Type = "Numeric";
-            currents.EventType.Type = "Samples";
-            inputList.Add(currents);
-
-            var vibration = new Input();
-            vibration.Name = "vibration";
-            vibration.ValueType = new ValueType();
-            vibration.EventType = new EventType();
-            vibration.ValueType.Type = "Numeric";
-            vibration.EventType.Type = "Samples";
-            inputList.Add(vibration);
-
-            var state = new Input();
-            state.Name = "state";
-            state.ValueType = new ValueType();
-            state.EventType = new EventType();
-            state.ValueType.Type = "Categorical";
-            state.EventType.Type = "Samples";
-            inputList.Add(state);
-
-            ds.InputList = inputList;
-
-            try
-            {
-                var datastream = _falkonry.CreateDatastream(ds);
-                Assert.AreEqual(ds.Name, datastream.Name, false);
-                Assert.AreNotEqual(null, datastream.Id);
-                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
-                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
-                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
-                var data = "time, Unit, current, vibration, state\n 2016-05-05T12:00:00Z, Unit1, 12.4, 3.4, On";
-                var options = new SortedDictionary<string, string>();
-                options.Add("timeIdentifier", "time");
-                options.Add("timeFormat", "iso_8601");
-                options.Add("fileFormat", "csv");
-                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
-                _falkonry.DeleteDatastream(datastream.Id);
-            }
-            catch (System.Exception exception)
-            {
-                Assert.AreEqual(exception.Message, null, false);
-            }
-
-        }
-
-        [TestMethod()]
-        public void AddDataNarrowFormatCsv()
-        {
-            var rnd = new System.Random();
-            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
-            var ds = new DatastreamRequest();
-            var time = new Time();
-            time.Zone = "GMT";
-            time.Identifier = "time";
-            time.Format = "iso_8601";
-
-            ds.Name = "TestDSPI" + randomNumber;
-
-            var Field = new Field();
-            var Signal = new Signal();
-            Signal.TagIdentifier = "tag";
-            Signal.ValueIdentifier = "value";
-            Signal.Delimiter = "_";
-            Signal.IsSignalPrefix = false;
-            Field.Signal = Signal;
-            Field.Time = time;
-            ds.Field = Field;
-            var datasource = new Datasource();
-            datasource.Type = "PI";
-            datasource.Host = "https://test.piserver.com/piwebapi";
-            datasource.ElementTemplateName = "SampleElementTempalte";
-            ds.DataSource = datasource;
-
-            try
-            {
-                var datastream = _falkonry.CreateDatastream(ds);
-                Assert.AreEqual(ds.Name, datastream.Name, false);
-                Assert.AreNotEqual(null, datastream.Id);
-                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
-                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
-                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
-                var data = "time, tag, value \n" + "2016-05-05T12:00:00Z, Unit1_current, 12.4 \n 2016-03-01 01:01:01, Unit1_vibration, 20.4";
-                var options = new SortedDictionary<string, string>();
-                options.Add("timeIdentifier", "time");
-                options.Add("timeFormat", "iso_8601");
-                options.Add("fileFormat", "csv");
-                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
-                datastream = _falkonry.GetDatastream(datastream.Id);
-                _falkonry.DeleteDatastream(datastream.Id);
-            }
-            catch (System.Exception exception)
-            {
-                Assert.AreEqual(exception.Message, null, false);
-            }
-
-        }
-
-
-    }
-
-    // [TestClass]
-    public class AddDataFromStream
-    {
-
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
-
-
-        [TestMethod()]
-        public void AddDataFromStreamJson()
+        // Retrieve Datastreams
+        public void GetDatastreamsTest()
         {
             var time = new Time();
             time.Zone = "GMT";
-            time.Identifier = "time";
+            time.Identifier = "Time";
             time.Format = "iso_8601";
-            var rnd = new System.Random();
-            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
-            var ds = new DatastreamRequest();
+
             var datasource = new Datasource();
             datasource.Type = "STANDALONE";
-            ds.Name = "TestDatastreamStreaming" + randomNumber;
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            ds.Name = "TestDS" + randomNumber;
             var Field = new Field();
-            Field.EntityIdentifier = "Unit";
-
             Field.Time = time;
+
             ds.Field = Field;
             ds.DataSource = datasource;
-
             try
             {
                 var datastream = _falkonry.CreateDatastream(ds);
                 Assert.AreEqual(ds.Name, datastream.Name, false);
                 Assert.AreNotEqual(null, datastream.Id);
-                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
-                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
-                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
-                var folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-                var path = folder + "/AddData.json";
-
-                var bytes = File.ReadAllBytes(path);
-
-                var options = new SortedDictionary<string, string>();
-                options.Add("timeIdentifier", "time");
-                options.Add("timeFormat", "iso_8601");
-
-                var inputstatus = _falkonry.AddInputStream(datastream.Id, bytes, options);
-
-                datastream = _falkonry.GetDatastream(datastream.Id);
+                // get datastreams list
+                List<Datastream> datastreamList = _falkonry.GetDatastreams();
+                Assert.AreEqual(datastreamList.Count > 0, true);
                 _falkonry.DeleteDatastream(datastream.Id);
             }
             catch (System.Exception exception)
             {
-
                 Assert.AreEqual(exception.Message, null, false); ;
             }
-
         }
+
+        // Retrieve Datastreams by id
         [TestMethod()]
-        public void AddDataFromStreamCsv()
+        public void GetDatastreamByIdTest()
         {
             var time = new Time();
             time.Zone = "GMT";
-            time.Identifier = "time";
+            time.Identifier = "Time";
             time.Format = "iso_8601";
-            var rnd = new System.Random();
-            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
-            var ds = new DatastreamRequest();
+
             var datasource = new Datasource();
             datasource.Type = "STANDALONE";
-            ds.Name = "TestDatastreamStreaming" + randomNumber;
-            var Field = new Field();
-
-            Field.EntityIdentifier = "Unit";
-            Field.Time = time;
-            ds.Field = Field;
-            ds.DataSource = datasource;
-
-            try
-            {
-                var datastream = _falkonry.CreateDatastream(ds);
-                Assert.AreEqual(ds.Name, datastream.Name, false);
-                Assert.AreNotEqual(null, datastream.Id);
-                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
-                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
-                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
-                var folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-
-                var path = folder + "/AddData.csv";
-
-                var bytes = File.ReadAllBytes(path);
-                Debug.WriteLine("IF READING FROM FILE WORKS");
-                var options = new SortedDictionary<string, string>();
-                options.Add("timeIdentifier", "time");
-                options.Add("timeFormat", "iso_8601");
-                var inputstatus = _falkonry.AddInputStream(datastream.Id, bytes, options);
-
-                datastream = _falkonry.GetDatastream(datastream.Id);
-                _falkonry.DeleteDatastream(datastream.Id);
-            }
-            catch (System.Exception exception)
-            {
-
-                Assert.AreEqual(exception.Message, null, false);
-            }
-
-        }
-    }
-
-    // [TestClass()]
-    public class AddHistorainData
-    {
-
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
-
-        [TestMethod()]
-        public void AddDataNarrowFormatCsvForLearning()
-        {
             var rnd = new System.Random();
             var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
             var ds = new DatastreamRequest();
-            var time = new Time();
-            time.Zone = "GMT";
-            time.Identifier = "time";
-            time.Format = "iso_8601";
-            ds.Name = "TestDSPILearning" + randomNumber;
-
-            var Field = new Field();
-            var Signal = new Signal();
-            Signal.TagIdentifier = "tag";
-            Signal.ValueIdentifier = "value";
-            Signal.Delimiter = "_";
-            Signal.IsSignalPrefix = false;
-            Field.Signal = Signal;
-            Field.Time = time;
-            ds.Field = Field;
-            var datasource = new Datasource();
-            datasource.Type = "PI";
-            datasource.Host = "https://test.piserver.com/piwebapi";
-            datasource.ElementTemplateName = "SampleElementTempalte";
-            ds.DataSource = datasource;
-
-            try
-            {
-                var datastream = _falkonry.CreateDatastream(ds);
-                Assert.AreEqual(ds.Name, datastream.Name, false);
-                Assert.AreNotEqual(null, datastream.Id);
-                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
-                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
-                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
-
-
-                var data = "time, tag, value \n" + "2016-05-05T12:00:00Z, Unit1_current, 12.4 \n 2016-03-01 01:01:01, Unit1_vibration, 20.4";
-                var options = new SortedDictionary<string, string>();
-                options.Add("timeIdentifier", "time");
-                options.Add("timeFormat", "iso_8601");
-                options.Add("fileFormat", "csv");
-                options.Add("streaming", "false");
-                options.Add("hasMoreData", "false");
-
-                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
-                datastream = _falkonry.GetDatastream(datastream.Id);
-                _falkonry.DeleteDatastream(datastream.Id);
-            }
-            catch (System.Exception exception)
-            {
-
-                Assert.AreEqual(exception.Message, null, false);
-            }
-
-        }
-
-
-    }
-
-    // [TestClass()]
-    public class AddStreamingData
-    {
-
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
-
-        [TestMethod()]
-        public void AddDataNarrowFormatCsvForStreaming()
-        {
-            var rnd = new System.Random();
-            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
-            var ds = new DatastreamRequest();
-            var time = new Time();
-            time.Zone = "GMT";
-            time.Identifier = "time";
-            time.Format = "iso_8601";
-            ds.Name = "TestDSPIStreaming" + randomNumber;
-
-            var Field = new Field();
-            var Signal = new Signal();
-            Signal.TagIdentifier = "tag";
-            Signal.ValueIdentifier = "value";
-            Signal.Delimiter = "_";
-            Signal.IsSignalPrefix = false;
-            Field.Signal = Signal;
-            Field.Time = time;
-            ds.Field = Field;
-            var datasource = new Datasource();
-            datasource.Type = "PI";
-            datasource.Host = "https://test.piserver.com/piwebapi";
-            datasource.ElementTemplateName = "SampleElementTempalte";
-            ds.DataSource = datasource;
-
-            try
-            {
-                var datastream = _falkonry.CreateDatastream(ds);
-                Assert.AreEqual(ds.Name, datastream.Name, false);
-                Assert.AreNotEqual(null, datastream.Id);
-                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
-                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
-                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
-                var data = "time, tag, value \n" + "2016-05-05T12:00:00Z, Unit1_current, 12.4 \n 2016-03-01 01:01:01, Unit1_vibration, 20.4";
-                var options = new SortedDictionary<string, string>();
-                options.Add("timeIdentifier", "time");
-                options.Add("timeFormat", "iso_8601");
-                options.Add("fileFormat", "csv");
-                options.Add("streaming", "true");
-                options.Add("hasMoreData", "false");
-                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
-                datastream = _falkonry.GetDatastream(datastream.Id);
-                _falkonry.DeleteDatastream(datastream.Id);
-            }
-            catch (System.Exception exception)
-            {
-
-                Assert.AreEqual(exception.Message, null, false);
-            }
-
-        }
-
-
-    }
-
-    // [TestClass]
-    public class AddFacts
-    {
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
-
-        [TestMethod()]
-        public void addFacts()
-        {
-            var rnd = new System.Random();
-            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
-            var time = new Time();
-            time.Zone = "GMT";
-            time.Identifier = "time";
-            time.Format = "iso_8601";
-
-
-            var datasource = new Datasource();
-            datasource.Type = "PI";
-            datasource.Host = "https://test.piserver.com/piwebapi";
-            datasource.ElementTemplateName = "SampleElementTempalte";
-            var ds = new DatastreamRequest();
-
-            var Field = new Field();
-            var Signal = new Signal();
-            Signal.ValueIdentifier = "value";
-            Signal.TagIdentifier = "tag";
-            Signal.IsSignalPrefix = true;
-            Signal.Delimiter = "_";
-            Field.Signal = Signal;
-            Field.Time = time;
-            ds.Field = Field;
-            ds.DataSource = datasource;
             ds.Name = "TestDS" + randomNumber;
+            var Field = new Field();
+            Field.Time = time;
+
+            ds.Field = Field;
             ds.DataSource = datasource;
             try
             {
                 var datastream = _falkonry.CreateDatastream(ds);
                 Assert.AreEqual(ds.Name, datastream.Name, false);
                 Assert.AreNotEqual(null, datastream.Id);
-                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
-                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
-                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
 
-                datastream = _falkonry.GetDatastream(datastream.Id);
+                // get datastream by id
+                Datastream datastreamFetched = _falkonry.GetDatastream(datastream.Id);
+                Assert.AreEqual(ds.Name, datastreamFetched.Name, false);
+                Assert.AreNotEqual(null, datastreamFetched.Id);
+                _falkonry.DeleteDatastream(datastreamFetched.Id);
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, null, false); ;
+            }
+        }
 
-                // add assessment
-                var asmt = new AssessmentRequest();
-                var randomNumber1 = System.Convert.ToString(rnd.Next(1, 10000));
-                asmt.Name = "TestAssessment" + randomNumber1;
-                asmt.Datastream = datastream.Id;
-                var options = new SortedDictionary<string, string>();
-                var assessment = _falkonry.CreateAssessment(asmt);
+        // Delete Datastream by id
+        [TestMethod()]
+        public void DeleteDatastreamByIdTest()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "Time";
+            time.Format = "iso_8601";
 
-                var data1 = "time,end," + datastream.Field.EntityIdentifier
-              + ",Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Unit1,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Unit1,Normal";
-                var response = _falkonry.AddFacts(assessment.Id, data1, options);
+            var datasource = new Datasource();
+            datasource.Type = "STANDALONE";
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            ds.Name = "TestDS" + randomNumber;
+            var Field = new Field();
+            Field.Time = time;
 
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
                 _falkonry.DeleteDatastream(datastream.Id);
             }
             catch (System.Exception exception)
             {
-
-                Assert.AreEqual(exception.Message, null, false);
+                Assert.AreEqual(exception.Message, null, false); ;
             }
         }
 
     }
 
-    // [TestClass]
-    public class AddEntityMeta
+    // [TestClass()]
+    public class TestAddEntityMeta
     {
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         [TestMethod()]
+        // Add EntityMeta to a Datastream, Get EntityMeta of a Datastream
         public void addEntityMeta()
         {
             var rnd = new System.Random();
@@ -821,10 +654,860 @@ namespace falkonry_csharp_client.Tests
 
     }
 
+    // [TestClass()]
+    public class TestAssessment
+    {
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+
+        [TestMethod()]
+        // Test Add assessment
+        public void TestAssessmentCRUD()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "Time";
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "STANDALONE";
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            ds.Name = "TestDS" + randomNumber;
+            var Field = new Field();
+            Field.Time = time;
+
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                // create assessment
+                AssessmentRequest asmtRequest = new AssessmentRequest();
+                asmtRequest.Name = "TestAsmt";
+                asmtRequest.Datastream = datastream.Id;
+
+                var assessmentCreated = _falkonry.CreateAssessment(asmtRequest);
+                Assert.AreEqual(assessmentCreated.Name, asmtRequest.Name);
+                Assert.AreNotEqual(null, assessmentCreated.Id);
+
+                // get Assessment List
+                List<Assessment> assessmnetList = _falkonry.GetAssessments();
+                Assert.AreEqual(assessmnetList.Count > 0, true);
+
+                // get assessment by id
+                Assessment fetchedassessment = _falkonry.GetAssessment(assessmentCreated.Id);
+                Assert.AreEqual(assessmentCreated.Name, asmtRequest.Name);
+                Assert.AreNotEqual(null, assessmentCreated.Id);
+
+                // Delete assessment by id
+                _falkonry.DeleteAssessment(fetchedassessment.Id);
+
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false); ;
+            }
+        }
+    }
+
+    // [TestClass()]
+    public class TestAddHistoricalData
+    {
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+
+        // Add historical input data(json format) to Datastream(Used for model revision)
+        [TestMethod()]
+        public void AddDataJson()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            ds.Name = "TestDSJSON" + randomNumber;
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            var Field = new Field();
+            Field.Time = time;
+            Field.EntityIdentifier = "Unit";
+            ds.Field = Field;
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            // Input List
+            var inputList = new List<Input>();
+            var currents = new Input();
+            currents.Name = "current";
+            currents.ValueType = new ValueType();
+            currents.EventType = new EventType();
+            currents.ValueType.Type = "Numeric";
+            currents.EventType.Type = "Samples";
+            inputList.Add(currents);
+
+            var vibration = new Input();
+            vibration.Name = "vibration";
+            vibration.ValueType = new ValueType();
+            vibration.EventType = new EventType();
+            vibration.ValueType.Type = "Numeric";
+            vibration.EventType.Type = "Samples";
+            inputList.Add(vibration);
+
+            var state = new Input();
+            state.Name = "state";
+            state.ValueType = new ValueType();
+            state.EventType = new EventType();
+            state.ValueType.Type = "Categorical";
+            state.EventType.Type = "Samples";
+            inputList.Add(state);
+
+            ds.InputList = inputList;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "{\"time\" :\"2016-03-01 01:01:01\",\"Unit\":\"Unit1\", \"current\" : 12.4, \"vibration\" : 3.4, \"state\" : \"On\"}";
+                var options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeFormat", "iso_8601");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                datastream = _falkonry.GetDatastream(datastream.Id);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false);
+            }
+
+        }
+
+        [TestMethod()]
+        // Add historical input data(csv format) to Datastream(Used for model revision)
+        public void AddDataCsv()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+            ds.Name = "TestDSCSV" + randomNumber;
+
+            var Field = new Field();
+            Field.EntityIdentifier = "Unit";
+            Field.Time = time;
+            ds.Field = Field;
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            // Input List
+            var inputList = new List<Input>();
+            var currents = new Input();
+            currents.Name = "current";
+            currents.ValueType = new ValueType();
+            currents.EventType = new EventType();
+            currents.ValueType.Type = "Numeric";
+            currents.EventType.Type = "Samples";
+            inputList.Add(currents);
+
+            var vibration = new Input();
+            vibration.Name = "vibration";
+            vibration.ValueType = new ValueType();
+            vibration.EventType = new EventType();
+            vibration.ValueType.Type = "Numeric";
+            vibration.EventType.Type = "Samples";
+            inputList.Add(vibration);
+
+            var state = new Input();
+            state.Name = "state";
+            state.ValueType = new ValueType();
+            state.EventType = new EventType();
+            state.ValueType.Type = "Categorical";
+            state.EventType.Type = "Samples";
+            inputList.Add(state);
+
+            ds.InputList = inputList;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "time, Unit, current, vibration, state\n 2016-05-05T12:00:00Z, Unit1, 12.4, 3.4, On";
+                var options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeFormat", "iso_8601");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, null, false);
+            }
+
+        }
+
+        [TestMethod()]
+        public void AddDataNarrowFormatCsv()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            ds.Name = "TestDSPI" + randomNumber;
+
+            var Field = new Field();
+            var Signal = new Signal();
+            Signal.TagIdentifier = "tag";
+            Signal.ValueIdentifier = "value";
+            Signal.Delimiter = "_";
+            Signal.IsSignalPrefix = false;
+            Field.Signal = Signal;
+            Field.Time = time;
+            ds.Field = Field;
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "time, tag, value \n" + "2016-05-05T12:00:00Z, Unit1_current, 12.4 \n 2016-03-01 01:01:01, Unit1_vibration, 20.4";
+                var options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeFormat", "iso_8601");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                datastream = _falkonry.GetDatastream(datastream.Id);
+                //_falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, null, false);
+            }
+
+        }
+
+
+    }
+
+    // [TestClass()]
+    public class TestAddHistorianDataFromStream
+    {
+
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+
+
+        [TestMethod()]
+        //Add historical input data (json format) from a stream to Datastream (Used for model revision) 
+        public void AddDataFromStreamJson()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "Time";
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "STANDALONE";
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            ds.Name = "TestDS" + randomNumber;
+            var Field = new Field();
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+                var path = folder + "/addData.json";
+
+                var bytes = File.ReadAllBytes(path);
+
+                var options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeFormat", "iso_8601");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+
+
+                var inputstatus = _falkonry.AddInputStream(datastream.Id, bytes, options);
+
+                datastream = _falkonry.GetDatastream(datastream.Id);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false); ;
+            }
+
+        }
+
+        [TestMethod()]
+        //Add historical input data (csv format) from a stream to Datastream (Used for model revision) 
+        public void AddDataFromStreamCsv()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var datasource = new Datasource();
+            datasource.Type = "STANDALONE";
+            ds.Name = "TestDatastreamStreaming" + randomNumber;
+            var Field = new Field();
+
+            //Field.EntityIdentifier = "Unit";
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+                var path = folder + "/AddData.csv";
+
+                var bytes = File.ReadAllBytes(path);
+                Debug.WriteLine("IF READING FROM FILE WORKS");
+                var options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeFormat", "iso_8601");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+                var inputstatus = _falkonry.AddInputStream(datastream.Id, bytes, options);
+
+                datastream = _falkonry.GetDatastream(datastream.Id);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false);
+            }
+
+        }
+    }
+
+    // [TestClass()]
+    public class TestAddStreamingData
+    {
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+
+        // Add live input data (json format) to Datastream (Used for live monitoring) 
+        [TestMethod()]
+        public void AddDataJson()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            ds.Name = "TestDSJSON" + randomNumber;
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            var Field = new Field();
+            Field.Time = time;
+            Field.EntityIdentifier = "Unit";
+            ds.Field = Field;
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            // Input List
+            var inputList = new List<Input>();
+            var currents = new Input();
+            currents.Name = "current";
+            currents.ValueType = new ValueType();
+            currents.EventType = new EventType();
+            currents.ValueType.Type = "Numeric";
+            currents.EventType.Type = "Samples";
+            inputList.Add(currents);
+
+            var vibration = new Input();
+            vibration.Name = "vibration";
+            vibration.ValueType = new ValueType();
+            vibration.EventType = new EventType();
+            vibration.ValueType.Type = "Numeric";
+            vibration.EventType.Type = "Samples";
+            inputList.Add(vibration);
+
+            var state = new Input();
+            state.Name = "state";
+            state.ValueType = new ValueType();
+            state.EventType = new EventType();
+            state.ValueType.Type = "Categorical";
+            state.EventType.Type = "Samples";
+            inputList.Add(state);
+
+            ds.InputList = inputList;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "{\"time\" :\"2016-03-01 01:01:01\",\"Unit\":\"Unit1\", \"current\" : 12.4, \"vibration\" : 3.4, \"state\" : \"On\"}";
+                var options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeFormat", "iso_8601");
+                options.Add("streaming", "true");
+                options.Add("hasMoreData", "false");
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                datastream = _falkonry.GetDatastream(datastream.Id);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false);
+            }
+
+        }
+
+        [TestMethod()]
+        // Add live input data (csv format) to Datastream (Used for live monitoring) 
+        public void AddDataCsv()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+            ds.Name = "TestDSCSV" + randomNumber;
+
+            var Field = new Field();
+            Field.EntityIdentifier = "Unit";
+            Field.Time = time;
+            ds.Field = Field;
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            // Input List
+            var inputList = new List<Input>();
+            var currents = new Input();
+            currents.Name = "current";
+            currents.ValueType = new ValueType();
+            currents.EventType = new EventType();
+            currents.ValueType.Type = "Numeric";
+            currents.EventType.Type = "Samples";
+            inputList.Add(currents);
+
+            var vibration = new Input();
+            vibration.Name = "vibration";
+            vibration.ValueType = new ValueType();
+            vibration.EventType = new EventType();
+            vibration.ValueType.Type = "Numeric";
+            vibration.EventType.Type = "Samples";
+            inputList.Add(vibration);
+
+            var state = new Input();
+            state.Name = "state";
+            state.ValueType = new ValueType();
+            state.EventType = new EventType();
+            state.ValueType.Type = "Categorical";
+            state.EventType.Type = "Samples";
+            inputList.Add(state);
+
+            ds.InputList = inputList;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "time, Unit, current, vibration, state\n 2016-05-05T12:00:00Z, Unit1, 12.4, 3.4, On";
+                var options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeFormat", "iso_8601");
+                options.Add("streaming", "true");
+                options.Add("hasMoreData", "false");
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, null, false);
+            }
+
+        }
+
+        [TestMethod()]
+        public void AddDataNarrowFormatCsv()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            ds.Name = "TestDSPI" + randomNumber;
+
+            var Field = new Field();
+            var Signal = new Signal();
+            Signal.TagIdentifier = "tag";
+            Signal.ValueIdentifier = "value";
+            Signal.Delimiter = "_";
+            Signal.IsSignalPrefix = false;
+            Field.Signal = Signal;
+            Field.Time = time;
+            ds.Field = Field;
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "time, tag, value \n" + "2016-05-05T12:00:00Z, Unit1_current, 12.4 \n 2016-03-01 01:01:01, Unit1_vibration, 20.4";
+                var options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeFormat", "iso_8601");
+                options.Add("streaming", "true");
+                options.Add("hasMoreData", "false");
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                datastream = _falkonry.GetDatastream(datastream.Id);
+                //_falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, null, false);
+            }
+
+        }
+
+
+    }
+
+    // [TestClass()]
+    public class TestAddStreamingDataFromStream
+    {
+
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+
+
+        [TestMethod()]
+        //Add live input data (json format) from a stream to Datastream (Used for live monitoring) 
+        public void AddDataFromStreamJson()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "Time";
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "STANDALONE";
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            ds.Name = "TestDS" + randomNumber;
+            var Field = new Field();
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+                var path = folder + "/addData.json";
+
+                var bytes = File.ReadAllBytes(path);
+
+                var options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeFormat", "iso_8601");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+
+
+                var inputstatus = _falkonry.AddInputStream(datastream.Id, bytes, options);
+
+                datastream = _falkonry.GetDatastream(datastream.Id);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false); ;
+            }
+
+        }
+
+        [TestMethod()]
+        //Add live input data (csv format) from a stream to Datastream (Used for live monitoring) 
+        public void AddDataFromStreamCsv()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var datasource = new Datasource();
+            datasource.Type = "STANDALONE";
+            ds.Name = "TestDatastreamStreaming" + randomNumber;
+            var Field = new Field();
+
+            //Field.EntityIdentifier = "Unit";
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+                var path = folder + "/AddData.csv";
+
+                var bytes = File.ReadAllBytes(path);
+                Debug.WriteLine("IF READING FROM FILE WORKS");
+                var options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeFormat", "iso_8601");
+                options.Add("streaming", "true");
+                options.Add("hasMoreData", "false");
+                var inputstatus = _falkonry.AddInputStream(datastream.Id, bytes, options);
+
+                datastream = _falkonry.GetDatastream(datastream.Id);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false);
+            }
+
+        }
+    }
+
+    // [TestClass()]
+    public class AddFacts
+    {
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+
+        [TestMethod()]
+        public void addFacts()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            var ds = new DatastreamRequest();
+
+            var Field = new Field();
+            var Signal = new Signal();
+            Signal.ValueIdentifier = "value";
+            Signal.TagIdentifier = "tag";
+            Signal.IsSignalPrefix = true;
+            Signal.Delimiter = "_";
+            Field.Signal = Signal;
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            ds.Name = "TestDS" + randomNumber;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+
+                datastream = _falkonry.GetDatastream(datastream.Id);
+
+                // add assessment
+                var asmt = new AssessmentRequest();
+                var randomNumber1 = System.Convert.ToString(rnd.Next(1, 10000));
+                asmt.Name = "TestAssessment" + randomNumber1;
+                asmt.Datastream = datastream.Id;
+                var options = new SortedDictionary<string, string>();
+                var assessment = _falkonry.CreateAssessment(asmt);
+
+                var data1 = "time,end," + datastream.Field.EntityIdentifier
+              + ",Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Unit1,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Unit1,Normal";
+                var response = _falkonry.AddFacts(assessment.Id, data1, options);
+
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false);
+            }
+        }
+
+        [TestMethod()]
+        public void addFactsFromStream()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            var ds = new DatastreamRequest();
+
+            var Field = new Field();
+            var Signal = new Signal();
+            Signal.ValueIdentifier = "value";
+            Signal.TagIdentifier = "tag";
+            Signal.IsSignalPrefix = true;
+            Signal.Delimiter = "_";
+            Field.Signal = Signal;
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            ds.Name = "TestDS" + randomNumber;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+
+                datastream = _falkonry.GetDatastream(datastream.Id);
+
+                // add assessment
+                var asmt = new AssessmentRequest();
+                var randomNumber1 = System.Convert.ToString(rnd.Next(1, 10000));
+                asmt.Name = "TestAssessment" + randomNumber1;
+                asmt.Datastream = datastream.Id;
+                var options = new SortedDictionary<string, string>();
+                var assessment = _falkonry.CreateAssessment(asmt);
+
+                var folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+                var path = folder + "/factsData.json";
+
+                var bytes = File.ReadAllBytes(path);
+
+                var response = _falkonry.AddFactsStream(assessment.Id, bytes, options);
+
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false);
+            }
+        }
+
+    }
+
     // [TestClass]
     public class FetchHistoricalOutput
     {
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         [TestMethod()]
         public void TestHistoricalOutput()
@@ -920,12 +1603,10 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-
-
     // [TestClass]
     public class DatastreamLiveMonitoring
     {
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         //[TestMethod()]
         public void DatastreamLiveMonitoringOn()
