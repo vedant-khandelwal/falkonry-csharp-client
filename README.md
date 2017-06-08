@@ -389,7 +389,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("timeFormat", "iso_8601");
     options.Add("fileFormat", "json");
 	options.Add("streaming", "false");
-	options.Add("hasMoredata", "false");
+	options.Add("hasMoreData", "false");
     InputStatus inputstatus = falkonry.addInput('datastream-id', data, options);
 ```
 	#### Add historical input data (csv format) to Datastream (Used for model revision) 
@@ -409,7 +409,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("timeFormat", "iso_8601");
     options.Add("fileFormat", "csv");
 	options.Add("streaming", "false");
-	options.Add("hasMoredata", "false");
+	options.Add("hasMoreData", "false");
     InputStatus inputstatus = falkonry.addInput('datastream-id', data, options);
 
 ```
@@ -428,7 +428,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("timeIdentifier", "time");
     options.Add("timeFormat", "iso_8601");
 	options.Add("streaming", "false");
-	options.Add("hasMoredata", "false");
+	options.Add("hasMoreData", "false");
 	options.Add("fileFormat", "json");
     
     string folder_path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -456,7 +456,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("timeIdentifier", "time");
     options.Add("timeFormat", "iso_8601");
 	options.Add("streaming", "false");
-	options.Add("hasMoredata", "false");
+	options.Add("hasMoreData", "false");
 	options.Add("fileFormat", "csv");
     
     string folder_path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -484,7 +484,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("timeFormat", "iso_8601");
     options.Add("fileFormat", "json");
 	options.Add("streaming", "true");
-	options.Add("hasMoredata", "false");
+	options.Add("hasMoreData", "false");
     InputStatus inputstatus = falkonry.addInput('datastream-id', data, options);
 ```
 #### Add live input data (csv format) to Datastream (Used for live monitoring)
@@ -504,7 +504,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("timeFormat", "iso_8601");
     options.Add("fileFormat", "csv");
 	options.Add("streaming", "true");
-	options.Add("hasMoredata", "false");
+	options.Add("hasMoreData", "false");
     InputStatus inputstatus = falkonry.addInput('datastream-id', data, options);
 
 ```
@@ -522,7 +522,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("timeIdentifier", "time");
     options.Add("timeFormat", "iso_8601");
 	options.Add("streaming", "true");
-	options.Add("hasMoredata", "false");
+	options.Add("hasMoreData", "false");
 	options.Add("fileFormat", "json");
     
     string folder_path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -549,7 +549,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("timeIdentifier", "time");
     options.Add("timeFormat", "iso_8601");
 	options.Add("streaming", "false");
-	options.Add("hasMoredata", "false");
+	options.Add("hasMoreData", "false");
 	options.Add("fileFormat", "csv");
     
     string folder_path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
