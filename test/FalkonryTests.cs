@@ -698,9 +698,12 @@ namespace falkonry_csharp_client.Tests
                 Assert.AreEqual(assessmnetList.Count > 0, true);
 
                 // get assessment by id
-                Assessment fetchedassessment = _falkonry.GetAssessment(assessmentCreated.Id);
+                Assessment fetchedassessment = _falkonry.GetAssessment("assessment-id");
                 Assert.AreEqual(assessmentCreated.Name, asmtRequest.Name);
-                Assert.AreNotEqual(null, assessmentCreated.Id);
+                Assert.AreNotEqual(null, fetchedassessment.Id);
+
+                // check for apriori condition list
+                Assert.AreEqual(fetchedassessment.AprioriConditionList.Length == 0, true);
 
                 // Delete assessment by id
                 _falkonry.DeleteAssessment(fetchedassessment.Id);
