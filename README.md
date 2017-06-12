@@ -20,6 +20,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     * Retrieve Assessments
     * Retrieve Assessment by Id
     * Delete Assessment
+	* Get Condition List Of Assessment
     * Add historical input data (json format) to Datastream (Used for model revision) 
 	* Add historical input data (csv format) to Datastream (Used for model revision) 
 	* Add historical input data (json format) from a stream to Datastream (Used for model revision) 
@@ -371,6 +372,23 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     falkonry.DeleteAssessment('assessment-id');
+```
+
+### Get Condition List Of Assessment
+```
+	using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    Assessment assessment = falkonry.getAssessment('assessment-id');
+	String data = "{\"time\" : \"2011-03-26T12:00:00Z\", \"entities\" : \"entity1\", \"end\" : \"2012-06-01T00:00:00Z\", \"Health\" : \"Normal\"}";
+    string response = falkonry.addFacts('assessment-id',data, options);
+	
+	// aprioriConditionList 
+	String [] conditionList = assessment.AprioriConditionList
+
+	// Condition Listshould contain "Normal" as label
 ```
 
 #### Add historical input data (json format) to Datastream (Used for model revision) 
