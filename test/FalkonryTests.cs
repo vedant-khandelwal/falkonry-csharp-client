@@ -13,10 +13,10 @@ using System.IO;
 
 namespace falkonry_csharp_client.Tests
 {
-    // [TestClass()]
+     [TestClass()]
     public class FalkonryTestsDatastream
     {
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj2");
+        Falkonry _falkonry = new Falkonry("https://staging.falkonry.ai", "u2qvyk6byv6vwoxrhgufqjay0nhjzrcw");
         List<Datastream> _datastreams = new List<Datastream>();
 
         // Create StandAlone Datrastream with Wide format
@@ -24,7 +24,7 @@ namespace falkonry_csharp_client.Tests
         public void CreateStandaloneDatastream()
         {
             var time = new Time();
-            time.Zone = "GMT";
+            time.Zone = "Asia/Kolkata";
             time.Identifier = "time";
             time.Format = "iso_8601";
 
@@ -189,7 +189,7 @@ namespace falkonry_csharp_client.Tests
         public void CreatePiDatastreamTest()
         {
             var time = new Time();
-            time.Zone = "GMT";
+            time.Zone = "Asia/Kolkata";
             time.Identifier = "time";
             time.Format = "iso_8601";
 
