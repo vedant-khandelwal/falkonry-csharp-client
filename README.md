@@ -33,6 +33,8 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	* Add facts data (csv format) to Assessment
 	* Add facts data (json format) from a stream to Assessment
 	* Add facts data (csv format) from a stream to  Assessment
+	* Get facts data
+	* Get Datastream Input data
     * Get Historian Output from Assessment
 	* Get Streaming Output
 	* Datastream On (Start live monitoring of datastream)
@@ -626,6 +628,29 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     byte[] bytes = System.IO.File.ReadAllBytes(path);
     string response = falkonry.AddFactsStream('assessment-id',bytes, options);
 ```
+
+#### Get facts data of Assessment    
+```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    string assessment = "id of the assessment here";
+    string response = falkonry.getFacts('assessment',options);
+```
+
+#### Get Datastream Input data
+```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    string datastream = "id of the datastream here";
+    string response = falkonry.GetDatastreamData('datastream',options);
+```
+
 #### Get Historian Output from Assessment
 ```
 	using falkonry_csharp_client;
