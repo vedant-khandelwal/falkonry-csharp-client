@@ -85,7 +85,12 @@ namespace falkonry_csharp_client.helper.models
         {
             get;
             set;
+        }
 
+        public bool Streaming
+        {
+            get;
+            set;
         }
 
     }

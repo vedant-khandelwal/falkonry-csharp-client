@@ -1,42 +1,34 @@
 ﻿using System.Collections.Generic;
+using System.Web.Script.Serialization;
 
 namespace falkonry_csharp_client.helper.models
 {
-    public class Input
+    public class DatastreamUpdateRequest
     {
-        public string Key
+        public string Id
         {
             get;
             set;
         }
+
         public string Name
         {
             get;
             set;
         }
-        public ValueType ValueType
+
+        public string ToJson()
         {
-            get;
-            set;
+            return new JavaScriptSerializer().Serialize(this);
         }
-        public EventType EventType
+
+        public List<Input> InputList
         {
             get;
             set;
         }
 
-        public InputType InputType
-        {
-            get;
-            set;
-        }
-        public List<string> Annotations
-        {
-            get;
-            set;
-        }
-
-        public string Query
+        public bool Streaming
         {
             get;
             set;

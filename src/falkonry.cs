@@ -25,6 +25,19 @@ namespace falkonry_csharp_client
        
         }
 
+        public Datastream UpdateDatastream(DatastreamUpdateRequest datastream)
+        {
+            try
+            {
+                return _falkonryService.UpdateDatastream(datastream);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
         public List<Datastream> GetDatastreams()
         {
             try

@@ -39,6 +39,26 @@ namespace falkonry_csharp_client.service
             }
         }
 
+        // Update Datastream
+        public Datastream UpdateDatastream(DatastreamUpdateRequest datastream)
+        {
+            try
+            {
+                var data = JsonConvert.SerializeObject(datastream, Formatting.Indented,
+                    new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+                var url = "/datastream/" + datastream.Id;
+
+                var datastreamJson = _http.Put(url, data);
+
+
+                return JsonConvert.DeserializeObject<Datastream>(datastreamJson);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         // List Datastream
         public List<Datastream> GetDatastream()
         {

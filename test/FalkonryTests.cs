@@ -16,7 +16,7 @@ namespace falkonry_csharp_client.Tests
      [TestClass()]
     public class FalkonryTestsDatastream
     {
-        Falkonry _falkonry = new Falkonry("https://staging.falkonry.ai", "u2qvyk6byv6vwoxrhgufqjay0nhjzrcw");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
         List<Datastream> _datastreams = new List<Datastream>();
 
         // Create StandAlone Datrastream with Wide format
@@ -441,7 +441,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    // [TestClass]
+    //[TestClass]
     public class AddDataFromStream
     {
 
@@ -528,7 +528,7 @@ namespace falkonry_csharp_client.Tests
                 Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
                 var folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-                var path = folder + "/AddData.csv";
+                var path = folder + "/addData.csv";
 
                 var bytes = File.ReadAllBytes(path);
                 Debug.WriteLine("IF READING FROM FILE WORKS");
