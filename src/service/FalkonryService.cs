@@ -393,21 +393,6 @@ namespace falkonry_csharp_client.service
             }
         }
 
-        // Check Update
-        public void checkUpdate()
-        {
-            try
-            {
-                var response =  _http.Get("https://www.googleapis.com/storage/v1/b/falkonry-piagent-release/o/Falkonry-PI-Agent.msi");
-                //return JsonConvert.DeserializeObject<List<EntityMeta>>(response);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
     }
 }
 

@@ -13,7 +13,7 @@ using System.IO;
 
 namespace falkonry_csharp_client.Tests
 {
-     [TestClass()]
+    // [TestClass()]
     public class FalkonryTestsDatastream
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "9qhoa1se6qzhrs1556kegrnh1vzc6aj1");
@@ -441,7 +441,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    //[TestClass]
+    [TestClass]
     public class AddDataFromStream
     {
 
@@ -528,7 +528,7 @@ namespace falkonry_csharp_client.Tests
                 Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
                 var folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-                var path = folder + "/addData.csv";
+                var path = folder + "/AddData.csv";
 
                 var bytes = File.ReadAllBytes(path);
                 Debug.WriteLine("IF READING FROM FILE WORKS");
