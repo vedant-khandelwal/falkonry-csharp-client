@@ -203,7 +203,7 @@ namespace falkonry_csharp_client.service
                 var url = _host + path;
 
                 string sd;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
                 var client = new HttpClient();
 
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _token);

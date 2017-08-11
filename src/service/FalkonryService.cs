@@ -192,6 +192,22 @@ namespace falkonry_csharp_client.service
             }
         }
 
+        // get assessment by id
+        public Assessment GetAssessment(string assessment)
+        {
+            try
+            {
+                var assessmentJson = _http.Get("/assessment/" + assessment);
+                return JsonConvert.DeserializeObject<Assessment>(assessmentJson);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         // delete Assessment
         public void DeleteAssessment(string assessment)
         {
