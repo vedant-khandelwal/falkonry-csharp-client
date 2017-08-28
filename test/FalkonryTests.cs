@@ -1295,7 +1295,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass]
+    //[TestClass]
     public class AddDataFromStream
 
     {
