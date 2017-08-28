@@ -12,11 +12,11 @@ namespace falkonry_csharp_client.service
         public string Token { get; }
         private readonly HttpService _http;
         
-         public FalkonryService(string host, string token)
+         public FalkonryService(string host, string token, SortedDictionary<string, string> _piOptions = null)
         {
             Host = host;
             Token = token;
-            _http = new HttpService(host, token);
+            _http = new HttpService(host, token, _piOptions);
             
         }
 
@@ -29,6 +29,7 @@ namespace falkonry_csharp_client.service
                     new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
 
                 var datastreamJson = _http.Post("/datastream", data);
+                
 
                 return JsonConvert.DeserializeObject<Datastream>(datastreamJson);
             }
@@ -46,7 +47,7 @@ namespace falkonry_csharp_client.service
                 var datastreamJson = _http.Get("/datastream");
                 return JsonConvert.DeserializeObject<List<Datastream>>(datastreamJson);
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 throw;

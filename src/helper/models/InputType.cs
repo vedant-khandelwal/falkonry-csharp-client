@@ -7,5 +7,11 @@ namespace falkonry_csharp_client.helper.models
             get;
             set;
         }
+
+        public string InputConf
+        {
+            get;
+            set;
+        }
     }
 }

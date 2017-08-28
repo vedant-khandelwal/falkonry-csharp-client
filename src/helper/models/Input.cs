@@ -1,4 +1,6 @@
-﻿namespace falkonry_csharp_client.helper.models
+﻿using System.Collections.Generic;
+
+namespace falkonry_csharp_client.helper.models
 {
     public class Input
     {
@@ -18,6 +20,23 @@
             set;
         }
         public EventType EventType
+        {
+            get;
+            set;
+        }
+
+        public InputType InputType
+        {
+            get;
+            set;
+        }
+        public List<string> Annotations
+        {
+            get;
+            set;
+        }
+
+        public string Query
         {
             get;
             set;

@@ -17,6 +17,7 @@ namespace falkonry_csharp_client.service
     {
         private readonly string _host;
         private readonly string _token;
+        private readonly string _defaultHeder;
 
         public bool RemoteCertificateValidationCallback(
 
@@ -32,7 +33,7 @@ namespace falkonry_csharp_client.service
         { return true; }
 
 
-        public HttpService(string host, string token)
+        public HttpService(string host, string token, SortedDictionary<string, string> _piOptions = null)
         {
 
 
@@ -40,7 +41,16 @@ namespace falkonry_csharp_client.service
 
             _token = token;
 
-            ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidationCallback;
+            if(_piOptions != null && _piOptions.Count > 0 && _piOptions["header"] != null)
+            {
+                _defaultHeder = _piOptions["header"];
+            }
+            else
+            {
+                _defaultHeder = "c-sharp-client";
+            }
+
+                ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidationCallback;
         }
 
         public string HandleGetReponse(HttpWebRequest request)
@@ -115,7 +125,7 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer " + _token);
-                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Headers.Add("x-falkonry-source", _defaultHeder);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 
@@ -136,10 +146,9 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer " + _token);
-                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Headers.Add("x-falkonry-source", _defaultHeder);
                 request.Method = "POST";
                 request.ContentType = "application/json";
-
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
                     streamWriter.Write(data);
@@ -166,7 +175,7 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer " + _token);
-                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Headers.Add("x-falkonry-source", _defaultHeder);
                 request.Method = "PUT";
                 request.ContentType = "application/json";
 
@@ -198,7 +207,7 @@ namespace falkonry_csharp_client.service
                 var client = new HttpClient();
 
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _token);
-                client.DefaultRequestHeaders.Add("x-falkonry-source", "c-sharp-client");
+                client.DefaultRequestHeaders.Add("x-falkonry-source", _defaultHeder);
                 client.DefaultRequestHeaders.ExpectContinue = false;
                 using (var form = new MultipartFormDataContent())
                 {
@@ -239,7 +248,7 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer " + _token);
-                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Headers.Add("x-falkonry-source", _defaultHeder);
                 request.Method = "DELETE";
                 request.ContentType = "application/json";
                 return HandleGetReponse(request);
@@ -261,7 +270,7 @@ namespace falkonry_csharp_client.service
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Method = "POST";
                 request.Headers.Add("Authorization", "Bearer " + _token);
-                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Headers.Add("x-falkonry-source", _defaultHeder);
                 request.ContentType = "text/plain";
                 // Set the ContentLength property of the WebRequest.
                 request.ContentLength = data.Length;
@@ -315,7 +324,7 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer " + _token);
-                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Headers.Add("x-falkonry-source", _defaultHeder);
                 request.Method = "POST";
                 request.ContentType = "text/plain";
 
@@ -347,7 +356,7 @@ namespace falkonry_csharp_client.service
                 request.ServicePoint.Expect100Continue = false;
                 request.Credentials = CredentialCache.DefaultCredentials;
                 request.Headers.Add("Authorization", "Bearer " + _token);
-                request.Headers.Add("x-falkonry-source", "c-sharp-client");
+                request.Headers.Add("x-falkonry-source", _defaultHeder);
                 request.Accept = responseFormat;
                 request.Method = "GET";
                 request.ContentType = "application/json";

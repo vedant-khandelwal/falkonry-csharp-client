@@ -16,6 +16,7 @@ namespace falkonry_csharp_client.Tests
     // [TestClass()]
     public class TestsDatastream
     {
+
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
         List<Datastream> _datastreams = new List<Datastream>();
 
@@ -24,8 +25,9 @@ namespace falkonry_csharp_client.Tests
         public void CreateStandaloneDatastream()
         {
             var time = new Time();
-            time.Zone = "GMT";
-            time.Identifier = "Time";
+            time.Zone = "Asia/Kolkata";
+            time.Identifier = "time";
+
             time.Format = "iso_8601";
 
             var datasource = new Datasource();
@@ -1008,7 +1010,41 @@ namespace falkonry_csharp_client.Tests
             ds.Name = "TestDatastreamStreaming" + randomNumber;
             var Field = new Field();
 
-            //Field.EntityIdentifier = "Unit";
+            Field.EntityIdentifier = "Unit";
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            ds.Field.Time = time;
+            var datastream = _falkonry.CreateDatastream(ds);
+            Assert.AreEqual(ds.Name, datastream.Name, false);
+            Assert.AreNotEqual(null, datastream.Id);
+            Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+            Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+            Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+            _falkonry.DeleteDatastream(datastream.Id);
+        }
+
+        // Create PI Datastream (Narrow Format)
+        [TestMethod()]
+        public void CreatePiDatastreamTest()
+        {
+            var time = new Time();
+            time.Zone = "Asia/Kolkata";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            var ds = new DatastreamRequest();
+            var Field = new Field();
+            var Signal = new Signal();
+            Signal.ValueIdentifier = "value";
+            Signal.TagIdentifier = "tag";
+            Signal.IsSignalPrefix = true;
+            Signal.Delimiter = "_";
+            Field.Signal = Signal;
+
             Field.Time = time;
             ds.Field = Field;
             ds.DataSource = datasource;
@@ -1259,8 +1295,9 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    // [TestClass()]
-    public class TestAddStreamingDataFromStream
+    //[TestClass]
+    public class AddDataFromStream
+
     {
 
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");

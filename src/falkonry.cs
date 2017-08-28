@@ -8,10 +8,9 @@ namespace falkonry_csharp_client
     public class Falkonry
     {
         private readonly FalkonryService _falkonryService;
-
-        public Falkonry(string host, string token)
+        public Falkonry(string host, string token, SortedDictionary<string, string> _piOptions = null)
         {
-        _falkonryService = new FalkonryService(host, token);
+            _falkonryService = new FalkonryService(host, token, _piOptions);
         }
 
         public Datastream CreateDatastream(DatastreamRequest datastream)
