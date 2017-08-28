@@ -133,7 +133,6 @@
     <Compile Include="src\helper\models\EntityMeta.cs" />
     <Compile Include="src\helper\models\EntityMetaRequest.cs" />
     <Compile Include="src\helper\models\EventSource.cs" />
-    <Compile Include="src\helper\models\GoogleCloudBucketObject.cs" />
     <Compile Include="src\service\FalkonryException.cs" />
     <Compile Include="src\helper\models\field.cs" />
     <Compile Include="src\helper\models\HttpResponse.cs" />
