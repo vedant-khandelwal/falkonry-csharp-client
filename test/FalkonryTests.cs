@@ -578,6 +578,46 @@ namespace falkonry_csharp_client.Tests
             }
         }
 
+        // Create StandAlone Datrastream with microsecond precision
+        [TestMethod()]
+        public void CreateStandaloneDatastream()
+        {
+            var time = new Time();
+            time.Zone = "Asia/Kolkata";
+            time.Identifier = "time";
+
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "STANDALONE";
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            ds.Name = "TestDS" + randomNumber;
+            ds.TimePrecision = "micro";
+            var Field = new Field();
+            Field.Time = time;
+
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                Assert.AreEqual(ds.TimePrecision, datastream.TimePrecision);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false); ;
+            }
+        }
+
     }
 
     // [TestClass()]
