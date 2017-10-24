@@ -580,7 +580,7 @@ namespace falkonry_csharp_client.Tests
 
         // Create StandAlone Datrastream with microsecond precision
         [TestMethod()]
-        public void CreateStandaloneDatastream()
+        public void CreateMicrosecondsDatastream()
         {
             var time = new Time();
             time.Zone = "Asia/Kolkata";
