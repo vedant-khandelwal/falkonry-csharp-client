@@ -776,7 +776,7 @@ namespace falkonry_csharp_client.Tests
             var time = new Time();
             time.Zone = "GMT";
             time.Identifier = "time";
-            time.Format = "iso_8601";
+            time.Format = "YYYY-MM-DD HH:mm:ss";
 
             var Field = new Field();
             Field.Time = time;
@@ -926,7 +926,7 @@ namespace falkonry_csharp_client.Tests
             var time = new Time();
             time.Zone = "GMT";
             time.Identifier = "time";
-            time.Format = "iso_8601";
+            time.Format = "YYYY-MM-DD HH:mm:ss";
 
             ds.Name = "TestDSPI" + randomNumber;
 
@@ -1138,7 +1138,7 @@ namespace falkonry_csharp_client.Tests
             var time = new Time();
             time.Zone = "GMT";
             time.Identifier = "time";
-            time.Format = "iso_8601";
+            time.Format = "YYYY-MM-DD HH:mm:ss";
 
             var Field = new Field();
             Field.Time = time;
@@ -1288,7 +1288,7 @@ namespace falkonry_csharp_client.Tests
             var time = new Time();
             time.Zone = "GMT";
             time.Identifier = "time";
-            time.Format = "iso_8601";
+            time.Format = "YYYY-MM-DD HH:mm:ss";
 
             ds.Name = "TestDSPI" + randomNumber;
 
@@ -1671,7 +1671,7 @@ namespace falkonry_csharp_client.Tests
             var time = new Time();
             time.Zone = "GMT";
             time.Identifier = "time";
-            time.Format = "iso_8601";
+            time.Format = "YYYY-MM-DD HH:mm:ss";
 
             ds.Name = "TestDSPI" + randomNumber;
 

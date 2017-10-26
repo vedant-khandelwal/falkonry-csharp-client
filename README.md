@@ -1,4 +1,4 @@
-[![Falkonry Logo](https://sandbox.falkonry.ai/img/logo.png)](http://falkonry.com/)
+[![Falkonry Logo](https://app.falkonry.ai/img/logo.png)](http://falkonry.com/)
 
 
 Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
@@ -442,7 +442,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
     options.Add("timeIdentifier", "time");
-    options.Add("timeFormat", "iso_8601");
+    options.Add("timeFormat", "YYYY-MM-DD HH:mm:ss");
     options.Add("fileFormat", "json");
 	options.Add("streaming", "false");
 	options.Add("hasMoreData", "false");
@@ -462,7 +462,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
     options.Add("timeIdentifier", "time");
-    options.Add("timeFormat", "iso_8601");
+    options.Add("timeFormat", "millis");
     options.Add("fileFormat", "csv");
 	options.Add("streaming", "false");
 	options.Add("hasMoreData", "false");
@@ -537,7 +537,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
     options.Add("timeIdentifier", "time");
-    options.Add("timeFormat", "iso_8601");
+    options.Add("timeFormat", "YYYY-MM-DD HH:mm:ss");
     options.Add("fileFormat", "json");
 	options.Add("streaming", "true");
 	options.Add("hasMoreData", "false");
@@ -557,7 +557,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
     options.Add("timeIdentifier", "time");
-    options.Add("timeFormat", "iso_8601");
+    options.Add("timeFormat", "millis");
     options.Add("fileFormat", "csv");
 	options.Add("streaming", "true");
 	options.Add("hasMoreData", "false");
