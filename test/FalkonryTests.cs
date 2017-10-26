@@ -1656,11 +1656,10 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-    [TestClass()]
+    // [TestClass()]
     public class GetDatastreamData
     {
-        //Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "ffwaqz371ae52m4j2f7e3o408b2bf1cv");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         [TestMethod()]
         public void getData()
@@ -1698,7 +1697,7 @@ namespace falkonry_csharp_client.Tests
                 Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
                 Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
                 Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
-                var data = "time, tag, value \n" + "2016-05-05T12:00:00Z, Unit1_current, 12.4 \n 2016-03-01 01:01:01, Unit1_vibration, 20.4";
+                var data = "time, tag, value \n" + "2016-05-05T12:00:00Z, Unit1_current, 12.4 \n 2016-03-01T01:01:01Z, Unit1_vibration, 20.4";
                 var options = new SortedDictionary<string, string>();
                 options.Add("timeIdentifier", "time");
                 options.Add("timeFormat", "iso_8601");
