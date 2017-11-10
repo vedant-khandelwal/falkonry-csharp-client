@@ -207,7 +207,41 @@ namespace falkonry_csharp_client.service
         {
             try
             {
-                var url = "/assessment/" + assessment + "/facts";
+                var url = "/assessment/" + assessment + "/facts?";
+                string isJson;
+                string startTimeIdentifier;
+                string endTimeIdentifier;
+                string timeFormat;
+                string timeZone;
+                string entityIdentifier;
+                string valueIdentifier;
+
+               
+                if (options.TryGetValue("startTimeIdentifier", out startTimeIdentifier))
+                {
+                    url += "startTimeIdentifier=" + Uri.EscapeDataString(startTimeIdentifier);
+                }
+                if (options.TryGetValue("endTimeIdentifier", out endTimeIdentifier))
+                {
+                    url += "&endTimeIdentifier=" + Uri.EscapeDataString(endTimeIdentifier);
+                }
+                if (options.TryGetValue("timeFormat", out timeFormat))
+                {
+                    url += "&timeFormat=" + Uri.EscapeDataString(timeFormat);
+                }
+                if (options.TryGetValue("timeZone", out timeZone))
+                {
+                    url += "&timeZone=" + Uri.EscapeDataString(timeZone);
+                }
+                if (options.TryGetValue("entityIdentifier", out entityIdentifier))
+                {
+                    url += "&entityIdentifier=" + Uri.EscapeDataString(entityIdentifier);
+                }
+                if (options.TryGetValue("valueIdentifier", out valueIdentifier))
+                {
+                    url += "&valueIdentifier=" + Uri.EscapeDataString(valueIdentifier);
+                }
+
                 return _http.PostData(url, data);
             }
             catch (Exception)
