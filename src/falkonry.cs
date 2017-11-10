@@ -243,6 +243,33 @@ namespace falkonry_csharp_client
             }
         }
 
+        public HttpResponse getFacts(string assessment, SortedDictionary<string, string> options)
+        {
+            try
+            {
+                return _falkonryService.GetFacts(assessment, options);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public HttpResponse GetDatastreamData(string datastream, SortedDictionary<string, string> options)
+        {
+            try
+            {
+                return _falkonryService.GetDatastreamData(datastream, options);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
     }
 
 }

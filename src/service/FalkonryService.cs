@@ -251,6 +251,97 @@ namespace falkonry_csharp_client.service
             }
         }
 
+        // Get facts data of assessment
+        internal HttpResponse GetFacts(string assessment, SortedDictionary<string, string> options)
+        {
+            try
+            {
+                var url = "/assessment/" + assessment + "/facts";
+                string modelIndex;
+                string startTime;
+                string endTime;
+                var firstReqParam = true;
+
+                if (options.TryGetValue("modelIndex", out modelIndex))
+                {
+                    if (firstReqParam)
+                    {
+                        firstReqParam = false;
+                        url += "model=" + Uri.EscapeDataString(modelIndex);
+                    }
+                    else
+                        url += "&model=" + Uri.EscapeDataString(modelIndex);
+
+                }
+                if (options.TryGetValue("startTime", out startTime))
+                {
+                    if (firstReqParam)
+                    {
+                        firstReqParam = false;
+                        url += "startTime=" + Uri.EscapeDataString(startTime);
+                    }
+                    else
+                        url += "&startTime=" + Uri.EscapeDataString(startTime);
+
+                }
+                if (options.TryGetValue("endTime", out endTime))
+                {
+                    if (firstReqParam)
+                    {
+                        url += "endTime=" + Uri.EscapeDataString(endTime);
+                    }
+                    else
+                        url += "&endTime=" + Uri.EscapeDataString(endTime);
+
+                }
+                string format;
+                var responseFromat = "application/json";
+                if (options.TryGetValue("responseFromat", out format))
+                {
+                    if (format.Equals("text/csv"))
+                    {
+                        responseFromat = "text/csv";
+                    }
+                }
+
+                var factsData = _http.GetOutput(url, responseFromat);
+                return factsData;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // Get Input data of datastream
+        internal HttpResponse GetDatastreamData(string datastream, SortedDictionary<string, string> options)
+        {
+            try
+            {
+                var url = "/datastream/" + datastream + "/data";
+
+                string format;
+                var responseFromat = "application/json";
+                if (options.TryGetValue("responseFromat", out format))
+                {
+                    if (format.Equals("text/csv"))
+                    {
+                        responseFromat = "text/csv";
+                    }
+                }
+
+                var inputData = _http.GetOutput(url, responseFromat);
+                return inputData;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // Add facts as stream
         public string AddFactsStream(string assessment, byte[] stream, SortedDictionary<string, string> options)
         {
             try
@@ -266,11 +357,11 @@ namespace falkonry_csharp_client.service
         }
 
         // Stream Output
-        public EventSource GetOutput(string assessmentId, long? start, long? end)
+        public EventSource GetOutput(string assessment, long? start, long? end)
         {
             try
             {
-                var url = "/assessment/" + assessmentId + "/output";
+                var url = "/assessment/" + assessment + "/output";
 
                 var starttemp = start;
                 var endtemp = end;
