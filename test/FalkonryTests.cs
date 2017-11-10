@@ -1501,7 +1501,15 @@ namespace falkonry_csharp_client.Tests
                 var randomNumber1 = System.Convert.ToString(rnd.Next(1, 10000));
                 asmt.Name = "TestAssessment" + randomNumber1;
                 asmt.Datastream = datastream.Id;
-                var options = new SortedDictionary<string, string>();
+                var options = new SortedDictionary<string, string>
+                     {
+                        {"startTimeIdentifier", "time"},
+                        {"endTimeIdentifier", "end"},
+                        {"timeFormat", "iso_8601"},
+                        {"timeZone", time.Zone },
+                        { "entityIdentifier", datastream.Field.EntityIdentifier},
+                        { "valueIdentifier" , "Health"}
+                    };
                 var assessment = _falkonry.CreateAssessment(asmt);
 
                 var data1 = "time,end," + datastream.Field.EntityIdentifier
@@ -1562,7 +1570,15 @@ namespace falkonry_csharp_client.Tests
                 var randomNumber1 = System.Convert.ToString(rnd.Next(1, 10000));
                 asmt.Name = "TestAssessment" + randomNumber1;
                 asmt.Datastream = datastream.Id;
-                var options = new SortedDictionary<string, string>();
+                var options = new SortedDictionary<string, string>
+                    {
+                        {"startTimeIdentifier", "time"},
+                        {"endTimeIdentifier", "end"},
+                        {"timeFormat", "iso_8601"},
+                        {"timeZone", time.Zone },
+                        { "entityIdentifier", datastream.Field.EntityIdentifier},
+                        { "valueIdentifier" , "Health"}
+                    };
                 var assessment = _falkonry.CreateAssessment(asmt);
 
                 var folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);

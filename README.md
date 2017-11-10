@@ -417,6 +417,14 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
 
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+    options.Add("startTimeIdentifier", "time");
+	options.Add("endTimeIdentifier", "end");
+	options.Add("timeFormat", "iso_8601");
+	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("entityIdentifier", "entities");
+	options.Add("valueIdentifier", "Health");
+
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     Assessment assessment = falkonry.getAssessment('assessment-id');
@@ -622,6 +630,14 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
 
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+	options.Add("startTimeIdentifier", "time");
+	options.Add("endTimeIdentifier", "end");
+	options.Add("timeFormat", "iso_8601");
+	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("entityIdentifier", "entities");
+	options.Add("valueIdentifier", "Health");
+
     string token = "Add your token here";   
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
@@ -633,6 +649,14 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 ```
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
+
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+	options.Add("startTimeIdentifier", "time");
+	options.Add("endTimeIdentifier", "end");
+	options.Add("timeFormat", "iso_8601");
+	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("entityIdentifier", "car");
+	options.Add("valueIdentifier", "Health");
 
     string token = "Add your token here";   
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
@@ -646,6 +670,14 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
 
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+	options.Add("startTimeIdentifier", "time");
+	options.Add("endTimeIdentifier", "end");
+	options.Add("timeFormat", "iso_8601");
+	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("entityIdentifier", "entities"); // check from file
+	options.Add("valueIdentifier", "value"); // check from file
+
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string path = "Insert the path to your file here";
@@ -657,6 +689,14 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 ```
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
+
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+	options.Add("startTimeIdentifier", "time");
+	options.Add("endTimeIdentifier", "end");
+	options.Add("timeFormat", "iso_8601");
+	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("entityIdentifier", "entities"); // check from file
+	options.Add("valueIdentifier", "value"); // check from file
 
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
