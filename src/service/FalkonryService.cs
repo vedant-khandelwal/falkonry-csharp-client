@@ -213,33 +213,79 @@ namespace falkonry_csharp_client.service
                 string endTimeIdentifier;
                 string timeFormat;
                 string timeZone;
+                string entityName;
                 string entityIdentifier;
                 string valueIdentifier;
+                string tagIdentifier;
+                string additionalTag;
+                var firstReqParam = true;
 
-               
+
                 if (options.TryGetValue("startTimeIdentifier", out startTimeIdentifier))
                 {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+
                     url += "startTimeIdentifier=" + Uri.EscapeDataString(startTimeIdentifier);
                 }
                 if (options.TryGetValue("endTimeIdentifier", out endTimeIdentifier))
                 {
-                    url += "&endTimeIdentifier=" + Uri.EscapeDataString(endTimeIdentifier);
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+
+                    url += "endTimeIdentifier=" + Uri.EscapeDataString(endTimeIdentifier);
                 }
                 if (options.TryGetValue("timeFormat", out timeFormat))
                 {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
                     url += "&timeFormat=" + Uri.EscapeDataString(timeFormat);
                 }
                 if (options.TryGetValue("timeZone", out timeZone))
                 {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
                     url += "&timeZone=" + Uri.EscapeDataString(timeZone);
                 }
-                if (options.TryGetValue("entityIdentifier", out entityIdentifier))
+                if (!options.ContainsKey("entityName") && options.TryGetValue("entityIdentifier", out entityIdentifier))
                 {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
                     url += "&entityIdentifier=" + Uri.EscapeDataString(entityIdentifier);
                 }
                 if (options.TryGetValue("valueIdentifier", out valueIdentifier))
                 {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
                     url += "&valueIdentifier=" + Uri.EscapeDataString(valueIdentifier);
+                }
+                if (options.TryGetValue("additionalTag", out additionalTag))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+                    url += "&additionalTag=" + Uri.EscapeDataString(additionalTag);
+                }
+                if (options.TryGetValue("tagIdentifier", out tagIdentifier))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+                    url += "&tagIdentifier=" + Uri.EscapeDataString(tagIdentifier);
                 }
 
                 return _http.PostData(url, data);

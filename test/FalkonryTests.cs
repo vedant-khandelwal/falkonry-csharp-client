@@ -1526,6 +1526,73 @@ namespace falkonry_csharp_client.Tests
         }
 
         [TestMethod()]
+        public void addFactsForSingleEntity()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            var ds = new DatastreamRequest();
+
+            var Field = new Field();
+            var Signal = new Signal();
+            Signal.ValueIdentifier = "value";
+            Signal.TagIdentifier = "tag";
+            Signal.IsSignalPrefix = true;
+            //Signal.Delimiter = "_";
+            Field.Signal = Signal;
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            ds.Name = "TestDS" + randomNumber;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+
+                datastream = _falkonry.GetDatastream(datastream.Id);
+
+                // add assessment
+                var asmt = new AssessmentRequest();
+                var randomNumber1 = System.Convert.ToString(rnd.Next(1, 10000));
+                asmt.Name = "TestAssessment" + randomNumber1;
+                asmt.Datastream = datastream.Id;
+                var options = new SortedDictionary<string, string>
+                     {
+                        {"startTimeIdentifier", "time"},
+                        {"endTimeIdentifier", "end"},
+                        {"timeFormat", "iso_8601"},
+                        {"timeZone", time.Zone },
+                        { "valueIdentifier" , "Health"}
+                    };
+                var assessment = _falkonry.CreateAssessment(asmt);
+
+                var data1 = "time,end,Health" + "\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Unit1,Normal";
+                var response = _falkonry.AddFacts(assessment.Id, data1, options);
+
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false);
+            }
+        }
+
+        [TestMethod()]
         public void addFactsFromStream()
         {
             var rnd = new System.Random();
@@ -1576,8 +1643,8 @@ namespace falkonry_csharp_client.Tests
                         {"endTimeIdentifier", "end"},
                         {"timeFormat", "iso_8601"},
                         {"timeZone", time.Zone },
-                        { "entityIdentifier", datastream.Field.EntityIdentifier},
-                        { "valueIdentifier" , "Health"}
+                        {"entityIdentifier", "car"},
+                        {"valueIdentifier" , "Health"}
                     };
                 var assessment = _falkonry.CreateAssessment(asmt);
 
@@ -1603,8 +1670,8 @@ namespace falkonry_csharp_client.Tests
     // [TestClass()]
     public class GetFacts
     {
-        //Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "ffwaqz371ae52m4j2f7e3o408b2bf1cv");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+
 
         [TestMethod()]
         public void getFacts()

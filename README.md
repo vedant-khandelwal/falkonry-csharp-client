@@ -31,6 +31,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	* Add live input data (json format) from a stream to Datastream (Used for live monitoring) 
 	* Add live input data (csv format) from a stream to Datastream (Used for live monitoring) 
     * Add facts data (json format) to Assessment
+	* Add facts data (json format) to single entity datastream's Assessment 
 	* Add facts data (csv format) to Assessment
 	* Add facts data (json format) from a stream to Assessment
 	* Add facts data (csv format) from a stream to  Assessment
@@ -645,6 +646,25 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string response = falkonry.addFacts('assessment-id',data, options);
 
 ```
+#### Add facts data (json format) to single entity datastream's Assessment 
+```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+	options.Add("startTimeIdentifier", "time");
+	options.Add("endTimeIdentifier", "end");
+	options.Add("timeFormat", "iso_8601");
+	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("valueIdentifier", "Health");
+
+    string token = "Add your token here";   
+    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    String data = "{\"time\" : \"2011-03-26T12:00:00Z\", \"end\" : \"2012-06-01T00:00:00Z\", \"Health\" : \"Normal\"}";
+    string response = falkonry.addFacts('assessment-id',data, options);
+
+```
 #### Add facts data (csv format) to Assessment
 ```
     using falkonry_csharp_client;
@@ -666,6 +686,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 ```
 #### Add facts data (json format) from a stream to  Assessment
     
+Sample JSONFile:
+{"time" : "2011-03-26T12:00:00.000Z", "car" : "HI3821", "end" : "2012-06-01T00:00:00.000Z", "Health" : "Normal"}
+{"time" : "2014-02-10T23:00:00.000Z", "car" : "HI3821", "end" : "2014-03-20T12:00:00.000Z", "Health" : "Spalling"}
+
 ```
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
@@ -675,8 +699,8 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	options.Add("endTimeIdentifier", "end");
 	options.Add("timeFormat", "iso_8601");
 	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
-	options.Add("entityIdentifier", "entities"); // check from file
-	options.Add("valueIdentifier", "value"); // check from file
+	options.Add("entityIdentifier", "car");
+	options.Add("valueIdentifier", "Health");
 
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
@@ -686,6 +710,11 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 ```
 #### Add facts data (csv format) from a stream to  Assessment
     
+Sample CSVFile
+	time,car,end,Health
+	2011-03-26T12:00:00Z,HI3821,2012-06-01T00:00:00Z,Normal
+	2014-02-10T23:00:00Z,HI3821,2014-03-20T12:00:00Z,Spalling
+
 ```
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
@@ -695,8 +724,8 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	options.Add("endTimeIdentifier", "end");
 	options.Add("timeFormat", "iso_8601");
 	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
-	options.Add("entityIdentifier", "entities"); // check from file
-	options.Add("valueIdentifier", "value"); // check from file
+	options.Add("entityIdentifier", "car");
+	options.Add("valueIdentifier", "Health");
 
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
