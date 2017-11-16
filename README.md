@@ -342,12 +342,12 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	// Create EntityMetaRequest
 	List<EntityMetaRequest> entityMetaRequestList = new List<EntityMetaRequest>();
 	EntityMetaRequest entityMetaRequest1 = new EntityMetaRequest();
-	entityMetaRequest1.label = "User readbale label";
+	entityMetaRequest1.label = "User readable label";
 	entityMetaRequest1.sourceId = "1234-21342134";
 	entityMetaRequest1.path = "//root/branch1/";
 
 	EntityMetaRequest entityMetaRequest2 = new EntityMetaRequest();
-	entityMetaRequest2.label = "User readbale label2";
+	entityMetaRequest2.label = "User readable label2";
 	entityMetaRequest2.sourceId = "1234-213421rawef";
 	entityMetaRequest2.path = "//root/branch2/";
 
@@ -776,12 +776,12 @@ Sample CSVFile
 	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
 	options.Add("startTime", "2011-01-01T01:00:00.000Z"); // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
 	options.Add("endTime", "2011-06-01T01:00:00.000Z");  // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
-	options.Add("responseFormat", "application/json");  // also avaibale options 1. text/csv 2. application/json
+	options.Add("responseFormat", "application/json");  // also available options 1. text/csv 2. application/json
 
 	HttpResponse httpResponse = falkonry.getHistoricalOutput(assessment, options);
-	// If data is not readily avaiable then, a tracker id will be sent with 202 status code. While falkonry will genrate ouptut data
+	// If data is not readily available then, a tracker id will be sent with 202 status code. While falkonry will genrate ouptut data
 	// Client should do timely pooling on the using same method, sending tracker id (__id) in the query params
-	// Once data is avaiable server will response with 200 status code and data in json/csv format.
+	// Once data is available server will response with 200 status code and data in json/csv format.
 
 	if (httpResponse.statusCode == 202)
 	{

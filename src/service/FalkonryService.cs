@@ -208,12 +208,10 @@ namespace falkonry_csharp_client.service
             try
             {
                 var url = "/assessment/" + assessment + "/facts?";
-                string isJson;
                 string startTimeIdentifier;
                 string endTimeIdentifier;
                 string timeFormat;
                 string timeZone;
-                string entityName;
                 string entityIdentifier;
                 string valueIdentifier;
                 string tagIdentifier;

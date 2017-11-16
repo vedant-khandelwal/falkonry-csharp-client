@@ -5,9 +5,9 @@ using System.Diagnostics;
 using System.Web.Script.Serialization;
 using System.IO;
 /*INSTRUCTIONS: TO RUN ANY TESTS, SIMPLY UNCOMMENT THE '//[TestClass()] ' header before every class of tests to run that particular class of tests. 
-* You should try executing method by method in case classwise tests take too long or fail */
+* You should try executing method by method in case class wise tests take too long or fail */
 
-/* Also insert your url and your token in the: 
+/* Also insert your URL and your token in the: 
  * Falkonry falkonry = new Falkonry("https://localhost:8080", "");
  *  fields*/
 
@@ -20,7 +20,7 @@ namespace falkonry_csharp_client.Tests
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
         List<Datastream> _datastreams = new List<Datastream>();
 
-        // Create StandAlone Datrastream with Wide format
+        // Create StandAlone Datastream with Wide format
         [TestMethod()]
         public void CreateStandaloneDatastream()
         {
@@ -363,7 +363,7 @@ namespace falkonry_csharp_client.Tests
 
         }
 
-        //Can not cretate datastream without time format
+        //Can not create datastream without time format
         [TestMethod()]
         public void CreateDatastreamWithoutTimeFormat()
         {
@@ -578,7 +578,7 @@ namespace falkonry_csharp_client.Tests
             }
         }
 
-        // Create StandAlone Datrastream with microsecond precision
+        // Create StandAlone Datastream with microsecond precision
         [TestMethod()]
         public void CreateMicrosecondsDatastream()
         {
@@ -667,12 +667,12 @@ namespace falkonry_csharp_client.Tests
                 datastream = _falkonry.GetDatastream(datastream.Id);
                 var entityMetaRequestList = new List<EntityMetaRequest>();
                 var entityMetaRequest1 = new EntityMetaRequest();
-                entityMetaRequest1.Label = "User readbale label";
+                entityMetaRequest1.Label = "User readable label";
                 entityMetaRequest1.SourceId = "1234-21342134";
                 entityMetaRequest1.Path = "//root/branch1/";
 
                 var entityMetaRequest2 = new EntityMetaRequest();
-                entityMetaRequest2.Label = "User readbale label2";
+                entityMetaRequest2.Label = "User readable label2";
                 entityMetaRequest2.SourceId = "1234-213421rawef";
                 entityMetaRequest2.Path = "//root/branch2/";
 
@@ -744,7 +744,7 @@ namespace falkonry_csharp_client.Tests
                 Assert.AreEqual(assessmentCreated.Name, asmtRequest.Name);
                 Assert.AreNotEqual(null, fetchedassessment.Id);
 
-                // check for apriori condition list
+                // check for aprioricondition list
                 Assert.AreEqual(fetchedassessment.AprioriConditionList.Length == 0, true);
 
                 // Delete assessment by id
@@ -1861,12 +1861,12 @@ namespace falkonry_csharp_client.Tests
                 var options = new SortedDictionary<string, string>();
                 options.Add("startTime", "2011-04-04T01:00:00.000Z"); // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
                 options.Add("endTime", "2011-05-05T01:00:00.000Z");  // in the format YYYY-MM-DDTHH:mm:ss.SSSZ
-                options.Add("responseFormat", "application/json");  // also avaibale options 1. text/csv 2. application/json
+                options.Add("responseFormat", "application/json");  // also available options 1. text/csv 2. application/json
 
                 var httpResponse = _falkonry.GetHistoricalOutput(assessment, options);
-                // If data is not readily avaiable then, a tracker id will be sent with 202 status code. While falkonry will genrate ouptut data
+                // If data is not readily available then, a tracker id will be sent with 202 status code. While falkonry will generate output data
                 // Client should do timely pooling on the using same method, sending tracker id (__id) in the query params
-                // Once data is avaiable server will response with 200 status code and data in json/csv format.
+                // Once data is available server will response with 200 status code and data in json/csv format.
 
                 if (httpResponse.StatusCode == 202)
                 {
@@ -1885,11 +1885,11 @@ namespace falkonry_csharp_client.Tests
 
                     // if status is 202 call the same request again
 
-                    // if statsu is 200, output data will be present in httpResponse.response field
+                    // if status is 200, output data will be present in httpResponse.response field
                 }
                 if (httpResponse.StatusCode > 400)
                 {
-                    // Some Error has occured. Please httpResponse.response for detail message
+                    // Some Error has occurred. Please httpResponse.response for detail message
                 }
             }
             catch (System.Exception exception)
