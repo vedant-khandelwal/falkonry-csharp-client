@@ -31,8 +31,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	* Add live input data (json format) from a stream to Datastream (Used for live monitoring) 
 	* Add live input data (csv format) from a stream to Datastream (Used for live monitoring) 
     * Add facts data (json format) to Assessment
-	* Add facts data (json format) to single entity datastream's Assessment 
+	* Add facts data (json format) to single entity datastream's Assessment
 	* Add facts data (csv format) to Assessment
+	* Add facts data with tags (csv format) to Assessment
+	* Add facts data with additionalTag (csv format) to Assessment
 	* Add facts data (json format) from a stream to Assessment
 	* Add facts data (csv format) from a stream to  Assessment
 	* Get facts data
@@ -422,7 +424,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("startTimeIdentifier", "time");
 	options.Add("endTimeIdentifier", "end");
 	options.Add("timeFormat", "iso_8601");
-	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("timeZone", "GMT");
 	options.Add("entityIdentifier", "entities");
 	options.Add("valueIdentifier", "Health");
 
@@ -635,7 +637,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	options.Add("startTimeIdentifier", "time");
 	options.Add("endTimeIdentifier", "end");
 	options.Add("timeFormat", "iso_8601");
-	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("timeZone", "GMT");
 	options.Add("entityIdentifier", "entities");
 	options.Add("valueIdentifier", "Health");
 
@@ -655,7 +657,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	options.Add("startTimeIdentifier", "time");
 	options.Add("endTimeIdentifier", "end");
 	options.Add("timeFormat", "iso_8601");
-	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("timeZone", "GMT");
 	options.Add("valueIdentifier", "Health");
 
     string token = "Add your token here";   
@@ -674,9 +676,51 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	options.Add("startTimeIdentifier", "time");
 	options.Add("endTimeIdentifier", "end");
 	options.Add("timeFormat", "iso_8601");
-	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("timeZone", "GMT");
 	options.Add("entityIdentifier", "car");
 	options.Add("valueIdentifier", "Health");
+
+    string token = "Add your token here";   
+    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    string data = "time,end,car,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal";
+    string response = falkonry.addFacts('assessment-id',data, options);
+```
+
+```
+#### Add facts data with tags (csv format) to Assessment
+```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+	options.Add("startTimeIdentifier", "time");
+	options.Add("endTimeIdentifier", "end");
+	options.Add("timeFormat", "iso_8601");
+	options.Add("timeZone", "GMT");
+	options.Add("entityIdentifier", "car");
+	options.Add("valueIdentifier", "Health");
+	options.Add("tagIdentifier", "tag");
+
+    string token = "Add your token here";   
+    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    string data = "time,end,car,Health,Tag\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal,testTag1";
+    string response = falkonry.addFacts('assessment-id',data, options);
+```
+####  Add facts data with additionalTag (csv format) to Assessment
+```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+	options.Add("startTimeIdentifier", "time");
+	options.Add("endTimeIdentifier", "end");
+	options.Add("timeFormat", "iso_8601");
+	options.Add("timeZone", "GMT");
+	options.Add("entityIdentifier", "car");
+	options.Add("valueIdentifier", "Health");
+	options.Add("additionalTag", "testTag");
 
     string token = "Add your token here";   
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
@@ -698,7 +742,7 @@ Sample JSONFile:
 	options.Add("startTimeIdentifier", "time");
 	options.Add("endTimeIdentifier", "end");
 	options.Add("timeFormat", "iso_8601");
-	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("timeZone", "GMT");
 	options.Add("entityIdentifier", "car");
 	options.Add("valueIdentifier", "Health");
 
@@ -723,7 +767,7 @@ Sample CSVFile
 	options.Add("startTimeIdentifier", "time");
 	options.Add("endTimeIdentifier", "end");
 	options.Add("timeFormat", "iso_8601");
-	options.Add("timeZone", "yyyy-MM-ddTHH:mm:ss.fffZ");
+	options.Add("timeZone", "GMT");
 	options.Add("entityIdentifier", "car");
 	options.Add("valueIdentifier", "Health");
 

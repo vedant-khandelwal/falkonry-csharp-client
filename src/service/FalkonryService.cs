@@ -253,7 +253,7 @@ namespace falkonry_csharp_client.service
                         url += "&";
                     url += "&timeZone=" + Uri.EscapeDataString(timeZone);
                 }
-                if (!options.ContainsKey("entityName") && options.TryGetValue("entityIdentifier", out entityIdentifier))
+                if (options.TryGetValue("entityIdentifier", out entityIdentifier))
                 {
                     if (firstReqParam)
                         firstReqParam = false;
