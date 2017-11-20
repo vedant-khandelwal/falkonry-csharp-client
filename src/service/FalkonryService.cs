@@ -207,84 +207,7 @@ namespace falkonry_csharp_client.service
         {
             try
             {
-                var url = "/assessment/" + assessment + "/facts?";
-                string startTimeIdentifier;
-                string endTimeIdentifier;
-                string timeFormat;
-                string timeZone;
-                string entityIdentifier;
-                string valueIdentifier;
-                string tagIdentifier;
-                string additionalTag;
-                var firstReqParam = true;
-
-
-                if (options.TryGetValue("startTimeIdentifier", out startTimeIdentifier))
-                {
-                    if (firstReqParam)
-                        firstReqParam = false;
-                    else
-                        url += "&";
-
-                    url += "startTimeIdentifier=" + Uri.EscapeDataString(startTimeIdentifier);
-                }
-                if (options.TryGetValue("endTimeIdentifier", out endTimeIdentifier))
-                {
-                    if (firstReqParam)
-                        firstReqParam = false;
-                    else
-                        url += "&";
-
-                    url += "endTimeIdentifier=" + Uri.EscapeDataString(endTimeIdentifier);
-                }
-                if (options.TryGetValue("timeFormat", out timeFormat))
-                {
-                    if (firstReqParam)
-                        firstReqParam = false;
-                    else
-                        url += "&";
-                    url += "&timeFormat=" + Uri.EscapeDataString(timeFormat);
-                }
-                if (options.TryGetValue("timeZone", out timeZone))
-                {
-                    if (firstReqParam)
-                        firstReqParam = false;
-                    else
-                        url += "&";
-                    url += "&timeZone=" + Uri.EscapeDataString(timeZone);
-                }
-                if (options.TryGetValue("entityIdentifier", out entityIdentifier))
-                {
-                    if (firstReqParam)
-                        firstReqParam = false;
-                    else
-                        url += "&";
-                    url += "&entityIdentifier=" + Uri.EscapeDataString(entityIdentifier);
-                }
-                if (options.TryGetValue("valueIdentifier", out valueIdentifier))
-                {
-                    if (firstReqParam)
-                        firstReqParam = false;
-                    else
-                        url += "&";
-                    url += "&valueIdentifier=" + Uri.EscapeDataString(valueIdentifier);
-                }
-                if (options.TryGetValue("additionalTag", out additionalTag))
-                {
-                    if (firstReqParam)
-                        firstReqParam = false;
-                    else
-                        url += "&";
-                    url += "&additionalTag=" + Uri.EscapeDataString(additionalTag);
-                }
-                if (options.TryGetValue("tagIdentifier", out tagIdentifier))
-                {
-                    if (firstReqParam)
-                        firstReqParam = false;
-                    else
-                        url += "&";
-                    url += "&tagIdentifier=" + Uri.EscapeDataString(tagIdentifier);
-                }
+                var url = get_add_facts_url(assessment, options);
 
                 return _http.PostData(url, data);
             }
@@ -390,7 +313,7 @@ namespace falkonry_csharp_client.service
         {
             try
             {
-                var url = "/assessment/" + assessment + "/facts";
+                var url = get_add_facts_url(assessment, options);
                 return _http.Upstream(url, stream);
             }
             catch (Exception)
@@ -555,6 +478,95 @@ namespace falkonry_csharp_client.service
             {
 
                 throw;
+            }
+        }
+
+        private string get_add_facts_url(string assessment, SortedDictionary<string, string> options)
+        {
+            var url = "/assessment/" + assessment + "/facts?";
+            try
+            {
+                string startTimeIdentifier;
+                string endTimeIdentifier;
+                string timeFormat;
+                string timeZone;
+                string entityIdentifier;
+                string valueIdentifier;
+                string tagIdentifier;
+                string additionalTag;
+                var firstReqParam = true;
+                if (options.TryGetValue("startTimeIdentifier", out startTimeIdentifier))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+
+                    url += "startTimeIdentifier=" + Uri.EscapeDataString(startTimeIdentifier);
+                }
+                if (options.TryGetValue("endTimeIdentifier", out endTimeIdentifier))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+
+                    url += "endTimeIdentifier=" + Uri.EscapeDataString(endTimeIdentifier);
+                }
+                if (options.TryGetValue("timeFormat", out timeFormat))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+                    url += "&timeFormat=" + Uri.EscapeDataString(timeFormat);
+                }
+                if (options.TryGetValue("timeZone", out timeZone))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+                    url += "&timeZone=" + Uri.EscapeDataString(timeZone);
+                }
+                if (options.TryGetValue("entityIdentifier", out entityIdentifier))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+                    url += "&entityIdentifier=" + Uri.EscapeDataString(entityIdentifier);
+                }
+                if (options.TryGetValue("valueIdentifier", out valueIdentifier))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+                    url += "&valueIdentifier=" + Uri.EscapeDataString(valueIdentifier);
+                }
+                if (options.TryGetValue("additionalTag", out additionalTag))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+                    url += "&additionalTag=" + Uri.EscapeDataString(additionalTag);
+                }
+                if (options.TryGetValue("tagIdentifier", out tagIdentifier))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+                    url += "&tagIdentifier=" + Uri.EscapeDataString(tagIdentifier);
+                }
+
+                return url;
+            }
+            catch(Exception e)
+            {
+                return url;
             }
         }
 
