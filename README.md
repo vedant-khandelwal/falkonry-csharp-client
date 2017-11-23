@@ -678,7 +678,6 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	options.Add("endTimeIdentifier", "end");
 	options.Add("timeFormat", "iso_8601");
 	options.Add("timeZone", "GMT");
-	options.Add("entityIdentifier", "car");
 	options.Add("valueIdentifier", "Health");
 
     string token = "Add your token here";   
@@ -714,8 +713,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
     
 Sample JSONFile:
-{"time" : "2011-03-26T12:00:00.000Z", "car" : "HI3821", "end" : "2012-06-01T00:00:00.000Z", "Health" : "Normal"}
-{"time" : "2014-02-10T23:00:00.000Z", "car" : "HI3821", "end" : "2014-03-20T12:00:00.000Z", "Health" : "Spalling"}
+```
+	{"time" : "2011-03-26T12:00:00.000Z", "car" : "HI3821", "end" : "2012-06-01T00:00:00.000Z", "Health" : "Normal"}
+	{"time" : "2014-02-10T23:00:00.000Z", "car" : "HI3821", "end" : "2014-03-20T12:00:00.000Z", "Health" : "Spalling"}
+```
 
 ```
     using falkonry_csharp_client;
