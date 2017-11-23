@@ -34,7 +34,6 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	* Add facts data (json format) with addition tag to Assessment of multi entity datastream
 	* Add facts data (csv format) to Assessment of single entity datastream
 	* Add facts data (csv format) with tags Assessment of single entity datastream
-	* Add facts data with additionalTag (csv format) to Assessment
 	* Add facts data (json format) from a stream to Assessment of multi entity datastream
 	* Add facts data (csv format) from a stream to  Assessment of multi entity datastream
 	* Get facts data
