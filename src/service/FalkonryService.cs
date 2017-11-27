@@ -566,11 +566,15 @@ namespace falkonry_csharp_client.service
             }
             else
             {
-                url += "?streaming=" + Uri.EscapeDataString("true");
+                url += "?streaming=true" ;
             }
             if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
             {
                 url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
+            }
+            else
+            {
+                url += "&hasMoreData=true" ;
             }
             if (options.TryGetValue("timeFormat", out timeFormatValue))
             {
