@@ -763,8 +763,7 @@ namespace falkonry_csharp_client.Tests
      [TestClass()]
     public class TestAddHistoricalData
     {
-        //Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "n4qlyqyl7eejz9i2sc1bpi5bz6ry3wvx");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         // Add narrow input data (json format) to multi thing Datastream
         [TestMethod()]
@@ -2094,7 +2093,7 @@ namespace falkonry_csharp_client.Tests
     // [TestClass()]
     public class GetDatastreamData
     {
-        //Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         [TestMethod()]
         public void getData()
