@@ -174,7 +174,7 @@ namespace falkonry_csharp_client.Tests
             var inputList = new List<Input>();
             var currents = new Input();
             currents.Name = "current";
-            currents.ValueType = new helper.models.ValueType();
+            currents.ValueType = new ValueType();
             currents.EventType = new EventType();
             currents.ValueType.Type = "Numeric";
             currents.EventType.Type = "Samples";
@@ -182,7 +182,7 @@ namespace falkonry_csharp_client.Tests
 
             var vibration = new Input();
             vibration.Name = "vibration";
-            vibration.ValueType = new helper.models.ValueType();
+            vibration.ValueType = new ValueType();
             vibration.EventType = new EventType();
             vibration.ValueType.Type = "Numeric";
             vibration.EventType.Type = "Samples";
@@ -764,7 +764,7 @@ namespace falkonry_csharp_client.Tests
      [TestClass()]
     public class TestAddHistoricalData
     {
-        Falkonry _falkonry1 = new Falkonry("https://localhost:8080", "auth-token");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         // Add narrow input data (json format) to multi thing Datastream
         [TestMethod()]
