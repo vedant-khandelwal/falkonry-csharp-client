@@ -76,18 +76,7 @@ namespace falkonry_csharp_client.service
         {
             try
             {
-                string streamingValue;
-                string hasMoreDataValue;
-                var url = "/datastream/" + datastream;
-                if (options.TryGetValue("streaming", out streamingValue))
-                {
-                    url += "?streaming=" + Uri.EscapeDataString(streamingValue);
-                }
-                if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
-                {
-                    url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
-                }
-
+                var url = getInputIngestionUrl(datastream, options);
                 var status = _http.PostData(url, data);
                 return JsonConvert.DeserializeObject<InputStatus>(status);
             }
@@ -102,18 +91,7 @@ namespace falkonry_csharp_client.service
         {
             try
             {
-                var url = "/datastream/" + datastream;
-                string streamingValue;
-                string hasMoreDataValue;
-                if (options.TryGetValue("streaming", out streamingValue))
-                {
-
-                    url += "?streaming=" + Uri.EscapeDataString(streamingValue);
-                }
-                if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
-                {
-                    url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
-                }
+                var url = getInputIngestionUrl(datastream, options);
                 var status = _http.Upstream(url, data);
                 return JsonConvert.DeserializeObject<InputStatus>(status);
             }
@@ -208,7 +186,6 @@ namespace falkonry_csharp_client.service
             try
             {
                 var url = get_add_facts_url(assessment, options);
-
                 return _http.PostData(url, data);
             }
             catch (Exception)
@@ -568,6 +545,62 @@ namespace falkonry_csharp_client.service
             {
                 return url;
             }
+        }
+
+        private String getInputIngestionUrl(string datastreamId, SortedDictionary<string, string> options = null)
+        {
+            string streamingValue;
+            string hasMoreDataValue;
+            string timeFormatValue;
+            string timeZoneValue;
+            string timeIdentifierValue;
+            string entityIdentifierValue;
+            string signalIdentifierValue;
+            string valueIdentifierValue;
+
+            var url = "/datastream/" + datastreamId;
+
+            if (options.TryGetValue("streaming", out streamingValue))
+            {
+                url += "?streaming=" + Uri.EscapeDataString(streamingValue);
+            }
+            else
+            {
+                url += "?streaming=true" ;
+            }
+            if (options.TryGetValue("hasMoreData", out hasMoreDataValue))
+            {
+                url += "&hasMoreData=" + Uri.EscapeDataString(hasMoreDataValue);
+            }
+            else
+            {
+                url += "&hasMoreData=true" ;
+            }
+            if (options.TryGetValue("timeFormat", out timeFormatValue))
+            {
+                url += "&timeFormat=" + Uri.EscapeDataString(timeFormatValue);
+            }
+            if (options.TryGetValue("timeZone", out timeZoneValue))
+            {
+                url += "&timeZone=" + Uri.EscapeDataString(timeZoneValue);
+            }
+            if (options.TryGetValue("timeIdentifier", out timeIdentifierValue))
+            {
+                url += "&timeIdentifier=" + Uri.EscapeDataString(timeIdentifierValue);
+            }
+            if (options.TryGetValue("entityIdentifier", out entityIdentifierValue))
+            {
+                url += "&entityIdentifier=" + Uri.EscapeDataString(entityIdentifierValue);
+            }
+            if (options.TryGetValue("signalIdentifier", out signalIdentifierValue))
+            {
+                url += "&signalIdentifier=" + Uri.EscapeDataString(signalIdentifierValue);
+            }
+            if (options.TryGetValue("valueIdentifier", out valueIdentifierValue))
+            {
+                url += "&valueIdentifier=" + Uri.EscapeDataString(valueIdentifierValue);
+            }
+            return url;
         }
 
     }
