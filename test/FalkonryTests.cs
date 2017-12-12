@@ -4,6 +4,7 @@ using falkonry_csharp_client.helper.models;
 using System.Diagnostics;
 using System.Web.Script.Serialization;
 using System.IO;
+using falkonry_csharp_client;
 /*INSTRUCTIONS: TO RUN ANY TESTS, SIMPLY UNCOMMENT THE '//[TestClass()] ' header before every class of tests to run that particular class of tests. 
 * You should try executing method by method in case class wise tests take too long or fail */
 
@@ -158,7 +159,7 @@ namespace falkonry_csharp_client.Tests
         }
 
         // Create Datastream for wide style data from a single entity
-        [TestMethod()]
+        //[TestMethod()]
         public void createDatastreamWideFormatSingleEntity()
         {
             var time = new Time();
@@ -173,7 +174,7 @@ namespace falkonry_csharp_client.Tests
             var inputList = new List<Input>();
             var currents = new Input();
             currents.Name = "current";
-            currents.ValueType = new ValueType();
+            currents.ValueType = new helper.models.ValueType();
             currents.EventType = new EventType();
             currents.ValueType.Type = "Numeric";
             currents.EventType.Type = "Samples";
@@ -181,7 +182,7 @@ namespace falkonry_csharp_client.Tests
 
             var vibration = new Input();
             vibration.Name = "vibration";
-            vibration.ValueType = new ValueType();
+            vibration.ValueType = new helper.models.ValueType();
             vibration.EventType = new EventType();
             vibration.ValueType.Type = "Numeric";
             vibration.EventType.Type = "Samples";
@@ -763,7 +764,7 @@ namespace falkonry_csharp_client.Tests
      [TestClass()]
     public class TestAddHistoricalData
     {
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+        Falkonry _falkonry1 = new Falkonry("https://localhost:8080", "auth-token");
 
         // Add narrow input data (json format) to multi thing Datastream
         [TestMethod()]
@@ -1026,10 +1027,265 @@ namespace falkonry_csharp_client.Tests
 
         }
 
-        
 
-        
+        [TestMethod()]
+        // Add historical input data(csv format) to Datastream with time identifier missing
+        public void AddDataCsvMissingTimeIdentifier()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var time = new Time();
+            //time.Zone = "GMT";
+            time.Identifier = " Timestamp";
+            time.Format = "iso_8601";
+            ds.Name = "Test " + randomNumber;
 
+            var Field = new Field();
+
+            Field.Time = time;
+            ds.Field = Field;
+            Field.EntityIdentifier = "signal";
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "time,signal,value\n" + "2016-05-05 12:00:00,current,12.4\n2016-03-01 01:01:01,vibration,20.4";
+                SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+                //options.Add("timeIdentifier", "time");
+                options.Add("timeZone", "GMT");
+                options.Add("timeFormat", "YYYY-MM-DD HH:mm:ss");
+                options.Add("fileFormat", "csv");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+                options.Add("entityIdentifier", "signal");
+
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, "Missing time identifier.", true);
+            }
+
+        }
+
+        [TestMethod()]
+        // Add historical input data(csv format) to Datastream with time identifier missing
+        public void AddDataCsvMissingTimeZone()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var time = new Time();
+            //time.Zone = "GMT";
+            time.Identifier = " Timestamp";
+            time.Format = "iso_8601";
+            ds.Name = "Test " + randomNumber;
+
+            var Field = new Field();
+
+            Field.Time = time;
+            ds.Field = Field;
+            Field.EntityIdentifier = "signal";
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "time,signal,value\n" + "2016-05-05 12:00:00,current,12.4\n2016-03-01 01:01:01,vibration,20.4";
+                SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                //options.Add("timeZone", "GMT");
+                options.Add("timeFormat", "YYYY-MM-DD HH:mm:ss");
+                options.Add("fileFormat", "csv");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+                options.Add("entityIdentifier", "signal");
+
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, "Missing time zone.", true);
+            }
+
+        }
+
+        [TestMethod()]
+        // Add historical input data(csv format) to Datastream with time identifier missing
+        public void AddDataCsvMissingTimeFormat()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var time = new Time();
+            //time.Zone = "GMT";
+            time.Identifier = " Timestamp";
+            time.Format = "iso_8601";
+            ds.Name = "Test " + randomNumber;
+
+            var Field = new Field();
+
+            Field.Time = time;
+            ds.Field = Field;
+            Field.EntityIdentifier = "signal";
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "time,signal,value\n" + "2016-05-05 12:00:00,current,12.4\n2016-03-01 01:01:01,vibration,20.4";
+                SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeZone", "GMT");
+                options.Add("fileFormat", "csv");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+                options.Add("entityIdentifier", "signal");
+
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, "Missing time format.", true);
+            }
+
+        }
+
+        [TestMethod()]
+        // Add historical input data(csv format) to Datastream with time identifier missing
+        public void AddDataCsvMissingEntityIdentifier()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var time = new Time();
+            //time.Zone = "GMT";
+            time.Identifier = " Timestamp";
+            time.Format = "iso_8601";
+            ds.Name = "Test " + randomNumber;
+
+            var Field = new Field();
+
+            Field.Time = time;
+            ds.Field = Field;
+            Field.EntityIdentifier = "signal";
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "time,signal,value\n" + "2016-05-05 12:00:00,current,12.4\n2016-03-01 01:01:01,vibration,20.4";
+                SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeZone", "GMT");
+                options.Add("timeFormat", "YYYY-MM-DD HH:mm:ss");
+                options.Add("fileFormat", "csv");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+                //options.Add("entityIdentifier", "signal");
+
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, "Missing entity Identifier.", true);
+            }
+
+        }
+
+        [TestMethod()]
+        // Add historical input data(csv format) to Datastream(Used for model revision)
+        public void AddDataCsvDifferentTimeZone()
+        {
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            var ds = new DatastreamRequest();
+            var time = new Time();
+            //time.Zone = "GMT";
+            time.Identifier = " Timestamp";
+            time.Format = "iso_8601";
+            ds.Name = "Test " + randomNumber;
+
+            var Field = new Field();
+            
+            Field.Time = time;
+            ds.Field = Field;
+            Field.EntityIdentifier = "signal";
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            datasource.Host = "https://test.piserver.com/piwebapi";
+            datasource.ElementTemplateName = "SampleElementTempalte";
+            ds.DataSource = datasource;
+
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                var data = "time,signal,value\n" + "2016-05-05 12:00:00,current,12.4\n2016-03-01 01:01:01,vibration,20.4";
+                SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+                options.Add("timeIdentifier", "time");
+                options.Add("timeZone", "GMT");
+                options.Add("timeFormat", "YYYY-MM-DD HH:mm:ss");
+                options.Add("fileFormat", "csv");
+                options.Add("streaming", "false");
+                options.Add("hasMoreData", "false");
+                options.Add("entityIdentifier", "signal");
+
+                var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, null, false);
+            }
+
+        }
 
     }
 
