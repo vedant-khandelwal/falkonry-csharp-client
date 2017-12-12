@@ -454,8 +454,8 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     options.Add("streaming", "false");
     options.Add("hasMoreData", "false");
     options.Add("timeIdentifier", "time");
-    options.Add("timeZone", time.Zone);
-    options.Add("timeFormat", time.Format);
+    options.Add("timeZone", "GMT");
+    options.Add("timeFormat", "YYYY-MM-DD HH:mm:ss");
     options.Add("signalIdentifier", "signal");
     options.Add("valueIdentifier", "value");
     var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
@@ -508,7 +508,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	var options = new SortedDictionary<string, string>();
 	options.Add("timeIdentifier", "time");
 	options.Add("timeFormat", "iso_8601");
-	options.Add("timeZone", time.Zone);
+	options.Add("timeZone", "GMT");
 	options.Add("streaming", "false");
 	options.Add("hasMoreData", "false");
 	options.Add("entityIdentifier", "Unit");
