@@ -22,10 +22,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     * Retrieve Assessment by Id
     * Delete Assessment
 	* Get Condition List Of Assessment
-	* Add narrow input data (json format) to multi thing Datastream
-    * Add narrow input data (csv format) single thing to Datastream
-    * Add wide input data (json format) to single thing Datastream
-    * Add wide input data (csv format) to multi thing Datastream 
+	* Add narrow input data (json format) to multi entity Datastream
+    * Add narrow input data (csv format) single entity to Datastream
+    * Add wide input data (json format) to single entity Datastream
+    * Add wide input data (csv format) to multi entity Datastream 
 	* Add live input data (json format) to Datastream (Used for live monitoring) 
 	* Add live input data (csv format) to Datastream (Used for live monitoring) 
 	* Add live input data (json format) from a stream to Datastream (Used for live monitoring) 
@@ -440,7 +440,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	// Condition Listshould contain "Normal" as label
 ```
 
-#### Add narrow input data (json format) to multi thing Datastream 
+#### Add narrow input data (json format) to multi entity Datastream 
     
 ```
     using falkonry_csharp_client;
@@ -461,7 +461,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
 ```
 
-#### Add narrow input data (csv format) single thing to Datastream 
+#### Add narrow input data (csv format) single entity to Datastream 
 ```
 	using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
@@ -479,7 +479,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
                
 ```
 
-#### Add wide input data (json format) to single thing Datastream
+#### Add wide input data (json format) to single entity Datastream
 ```
 	using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
@@ -496,7 +496,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 
 ```
 
-#### Add wide input data (csv format) to multi thing Datastream
+#### Add wide input data (csv format) to multi entity Datastream
 ```
 	using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
