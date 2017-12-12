@@ -766,7 +766,7 @@ namespace falkonry_csharp_client.Tests
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
-        // Add narrow input data (json format) to multi thing Datastream
+        // Add narrow input data (json format) to multi entity Datastream
         [TestMethod()]
         public void AddDataNarrowFormatJson()
         {
@@ -821,7 +821,7 @@ namespace falkonry_csharp_client.Tests
 
         }
 
-        // Add narrow input data (csv format) single thing to Datastream
+        // Add narrow input data (csv format) single entity to Datastream
         [TestMethod()]
         public void AddDataNarrowFormatCsv()
         {
@@ -874,7 +874,7 @@ namespace falkonry_csharp_client.Tests
 
         }
 
-        // Add wide input data (json format) to single thing Datastream
+        // Add wide input data (json format) to single entity Datastream
         [TestMethod()]
         public void AddWideDataJson()
         {
@@ -1029,7 +1029,7 @@ namespace falkonry_csharp_client.Tests
 
 
         [TestMethod()]
-        // Add historical input data(csv format) to Datastream with time identifier missing
+        // Cannot add historical input data(csv format) to Datastream with time identifier missing
         public void AddDataCsvMissingTimeIdentifier()
         {
             var rnd = new System.Random();
@@ -1081,7 +1081,7 @@ namespace falkonry_csharp_client.Tests
         }
 
         [TestMethod()]
-        // Add historical input data(csv format) to Datastream with time identifier missing
+        // Cannot add historical input data(csv format) to Datastream with time identifier missing
         public void AddDataCsvMissingTimeZone()
         {
             var rnd = new System.Random();
@@ -1133,7 +1133,7 @@ namespace falkonry_csharp_client.Tests
         }
 
         [TestMethod()]
-        // Add historical input data(csv format) to Datastream with time identifier missing
+        // Cannot add historical input data(csv format) to Datastream with time identifier missing
         public void AddDataCsvMissingTimeFormat()
         {
             var rnd = new System.Random();
@@ -1184,7 +1184,7 @@ namespace falkonry_csharp_client.Tests
         }
 
         [TestMethod()]
-        // Add historical input data(csv format) to Datastream with time identifier missing
+        // anAdd historical input data(csv format) to Datastream with time identifier missing
         public void AddDataCsvMissingEntityIdentifier()
         {
             var rnd = new System.Random();
@@ -1237,7 +1237,7 @@ namespace falkonry_csharp_client.Tests
 
         [TestMethod()]
         // Add historical input data(csv format) to Datastream(Used for model revision)
-        public void AddDataCsvDifferentTimeZone()
+        public void AddDataCsvDifferentTimeFormat()
         {
             var rnd = new System.Random();
             var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
@@ -1289,7 +1289,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-     [TestClass()]
+    // [TestClass()]
     public class TestAddHistorianDataFromStream
     {
 
