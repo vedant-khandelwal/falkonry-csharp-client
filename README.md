@@ -30,13 +30,12 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	* Add live input data (csv format) to Datastream (Used for live monitoring) 
 	* Add live input data (json format) from a stream to Datastream (Used for live monitoring) 
 	* Add live input data (csv format) from a stream to Datastream (Used for live monitoring) 
-    * Add facts data (json format) to Assessment
-	* Add facts data (json format) to single entity datastream's Assessment
-	* Add facts data (csv format) to Assessment
-	* Add facts data with tags (csv format) to Assessment
-	* Add facts data with additionalTag (csv format) to Assessment
-	* Add facts data (json format) from a stream to Assessment
-	* Add facts data (csv format) from a stream to  Assessment
+    * Add facts data (json format) to Assessment of single entity datastream
+	* Add facts data (json format) with addition tag to Assessment of multi entity datastream
+	* Add facts data (csv format) to Assessment of single entity datastream
+	* Add facts data (csv format) with tags Assessment of single entity datastream
+	* Add facts data (json format) from a stream to Assessment of multi entity datastream
+	* Add facts data (csv format) from a stream to  Assessment of multi entity datastream
 	* Get facts data
 	* Get Datastream Input data
     * Get Historian Output from Assessment
@@ -664,28 +663,9 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     byte[] bytes = System.IO.File.ReadAllBytes(path);
 
     InputStatus inputstatus = falkonry.addInputStream('datastream-id', bytes, options);
-```
-#### Add facts data (json format) to Assessment
-```
-    using falkonry_csharp_client;
-    using falkonry_csharp_client.helper.models;
-
-	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
-	options.Add("startTimeIdentifier", "time");
-	options.Add("endTimeIdentifier", "end");
-	options.Add("timeFormat", "iso_8601");
-	options.Add("timeZone", "GMT");
-	options.Add("entityIdentifier", "entities");
-	options.Add("valueIdentifier", "Health");
-
-    string token = "Add your token here";   
-    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
-    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-    String data = "{\"time\" : \"2011-03-26T12:00:00Z\", \"entities\" : \"entity1\", \"end\" : \"2012-06-01T00:00:00Z\", \"Health\" : \"Normal\"}";
-    string response = falkonry.addFacts('assessment-id',data, options);
 
 ```
-#### Add facts data (json format) to single entity datastream's Assessment 
+#### Add facts data (json format) to Assessment of single entity datastream  
 ```
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
@@ -704,7 +684,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string response = falkonry.addFacts('assessment-id',data, options);
 
 ```
-#### Add facts data (csv format) to Assessment
+#### Add facts data (json format) with addition tag to Assessment of multi entity datastream
 ```
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
@@ -714,18 +694,38 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	options.Add("endTimeIdentifier", "end");
 	options.Add("timeFormat", "iso_8601");
 	options.Add("timeZone", "GMT");
-	options.Add("entityIdentifier", "car");
+	options.Add("entityIdentifier", "entities");
+	options.Add("valueIdentifier", "Health");
+	options.Add("additionalTag", "testTag");
+
+    string token = "Add your token here";   
+    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    String data = "{\"time\" : \"2011-03-26T12:00:00Z\", \"entities\" : \"entity1\", \"end\" : \"2012-06-01T00:00:00Z\", \"Health\" : \"Normal\"}";
+    string response = falkonry.addFacts('assessment-id',data, options);
+
+```
+#### Add facts data (csv format) to Assessment of single entity datastream
+```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+	options.Add("startTimeIdentifier", "time");
+	options.Add("endTimeIdentifier", "end");
+	options.Add("timeFormat", "iso_8601");
+	options.Add("timeZone", "GMT");
 	options.Add("valueIdentifier", "Health");
 
     string token = "Add your token here";   
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-    string data = "time,end,car,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal";
+    string data = "time,end,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Normal";
     string response = falkonry.addFacts('assessment-id',data, options);
 ```
 
 ```
-#### Add facts data with tags (csv format) to Assessment
+#### Add facts data (csv format) with tags Assessment of multi entity datastream
 ```
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
@@ -744,32 +744,16 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string data = "time,end,car,Health,Tag\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal,testTag1";
     string response = falkonry.addFacts('assessment-id',data, options);
-```
-####  Add facts data with additionalTag (csv format) to Assessment
-```
-    using falkonry_csharp_client;
-    using falkonry_csharp_client.helper.models;
 
-	SortedDictionary<string, string> options = new SortedDictionary<string, string>();
-	options.Add("startTimeIdentifier", "time");
-	options.Add("endTimeIdentifier", "end");
-	options.Add("timeFormat", "iso_8601");
-	options.Add("timeZone", "GMT");
-	options.Add("entityIdentifier", "car");
-	options.Add("valueIdentifier", "Health");
-	options.Add("additionalTag", "testTag");
-
-    string token = "Add your token here";   
-    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
-    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-    string data = "time,end,car,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,IL9753,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,HI3821,Normal";
-    string response = falkonry.addFacts('assessment-id',data, options);
 ```
-#### Add facts data (json format) from a stream to  Assessment
+#### Add facts data (json format) from a stream to Assessment of multi entity datastream
+
     
 Sample JSONFile:
-{"time" : "2011-03-26T12:00:00.000Z", "car" : "HI3821", "end" : "2012-06-01T00:00:00.000Z", "Health" : "Normal"}
-{"time" : "2014-02-10T23:00:00.000Z", "car" : "HI3821", "end" : "2014-03-20T12:00:00.000Z", "Health" : "Spalling"}
+```
+	{"time" : "2011-03-26T12:00:00.000Z", "car" : "HI3821", "end" : "2012-06-01T00:00:00.000Z", "Health" : "Normal"}
+	{"time" : "2014-02-10T23:00:00.000Z", "car" : "HI3821", "end" : "2014-03-20T12:00:00.000Z", "Health" : "Spalling"}
+```
 
 ```
     using falkonry_csharp_client;
@@ -789,7 +773,7 @@ Sample JSONFile:
     byte[] bytes = System.IO.File.ReadAllBytes(path);
     string response = falkonry.AddFactsStream('assessment-id',bytes, options);
 ```
-#### Add facts data (csv format) from a stream to  Assessment
+#### Add facts data (csv format) from a stream to  Assessment of multi entity datastream
     
 Sample CSVFile
 	time,car,end,Health
