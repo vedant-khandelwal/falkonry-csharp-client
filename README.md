@@ -22,10 +22,10 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     * Retrieve Assessment by Id
     * Delete Assessment
 	* Get Condition List Of Assessment
-    * Add historical input data (json format) to Datastream (Used for model revision) 
-	* Add historical input data (csv format) to Datastream (Used for model revision) 
-	* Add historical input data (json format) from a stream to Datastream (Used for model revision) 
-	* Add historical input data (csv format) from a stream to Datastream (Used for model revision) 
+	* Add narrow input data (json format) to multi entity Datastream
+    * Add narrow input data (csv format) single entity to Datastream
+    * Add wide input data (json format) to single entity Datastream
+    * Add wide input data (csv format) to multi entity Datastream 
 	* Add live input data (json format) to Datastream (Used for live monitoring) 
 	* Add live input data (csv format) to Datastream (Used for live monitoring) 
 	* Add live input data (json format) from a stream to Datastream (Used for live monitoring) 
@@ -439,7 +439,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	// Condition Listshould contain "Normal" as label
 ```
 
-#### Add historical input data (json format) to Datastream (Used for model revision) 
+#### Add narrow input data (json format) to multi entity Datastream 
     
 ```
     using falkonry_csharp_client;
@@ -448,17 +448,19 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-    string data = "{\"time\" :\"2016-03-01 01:01:01\", \"current\" : 12.4, \"vibration\" : 3.4, \"state\" : \"On\"}";
-    
-    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
+    var data = "{\"time\" :\"2016-03-01 01:01:01\", \"signal\":\"current\",\"value\" : 12.4,\"car\" : \"car1\"}";
+    var options = new SortedDictionary<string, string>();
+    options.Add("streaming", "false");
+    options.Add("hasMoreData", "false");
     options.Add("timeIdentifier", "time");
+    options.Add("timeZone", "GMT");
     options.Add("timeFormat", "YYYY-MM-DD HH:mm:ss");
-    options.Add("fileFormat", "json");
-	options.Add("streaming", "false");
-	options.Add("hasMoreData", "false");
-    InputStatus inputstatus = falkonry.addInput('datastream-id', data, options);
+    options.Add("signalIdentifier", "signal");
+    options.Add("valueIdentifier", "value");
+    var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
 ```
-	#### Add historical input data (csv format) to Datastream (Used for model revision) 
+
+#### Add narrow input data (csv format) single entity to Datastream 
 ```
 	using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
@@ -466,19 +468,54 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-    string data = "time, entities, signal1, signal2, signal3, signal4" + "\n"
-	        + "1467729675422, entity1, 41.11, 62.34, 77.63, 4.8" + "\n"
-	        + "1467729675445, entity1, 43.91, 82.64, 73.63, 3.8";
-    
-    SortedDictionary<string, string> options = new SortedDictionary<string, string>();
-    options.Add("timeIdentifier", "time");
-    options.Add("timeFormat", "millis");
-    options.Add("fileFormat", "csv");
-	options.Add("streaming", "false");
-	options.Add("hasMoreData", "false");
-    InputStatus inputstatus = falkonry.addInput('datastream-id', data, options);
+    var data = "time,signal,value\n" + "2016-05-05 12:00:00,current,12.4\n2016-03-01 01:01:01,vibration,20.4";
+    var options = new SortedDictionary<string, string>();
+                
+    options.Add("streaming", "false");
+    options.Add("hasMoreData", "false");
+                
+    var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+               
+```
+
+#### Add wide input data (json format) to single entity Datastream
+```
+	using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+
+    var data = "{\"time\" :\"2016-03-01 01:01:01\", \"current\" : 12.4, \"vibration\" : 3.4, \"state\" : \"On\"}";
+    var options = new SortedDictionary<string, string>();
+    options.Add("streaming", "false");
+    options.Add("hasMoreData", "false");
+    var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+               
 
 ```
+
+#### Add wide input data (csv format) to multi entity Datastream
+```
+	using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+
+    var data = "time,Unit,current,vibration,state\n 2016-05-05T12:00:00.000Z,Unit1,12.4,3.4,On";
+	var options = new SortedDictionary<string, string>();
+	options.Add("timeIdentifier", "time");
+	options.Add("timeFormat", "iso_8601");
+	options.Add("timeZone", "GMT");
+	options.Add("streaming", "false");
+	options.Add("hasMoreData", "false");
+	options.Add("entityIdentifier", "Unit");
+    var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
+               
+
+```
+
 #### Add historical input data (json format) from a stream to Datastream (Used for model revision) 
     
 ```
