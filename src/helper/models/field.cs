@@ -25,5 +25,11 @@
             get;
             set;
         }
+
+        public string BatchIdentifier
+        {
+            get;
+            set;
+        }
     }
 }
