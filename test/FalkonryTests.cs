@@ -14,12 +14,12 @@ using falkonry_csharp_client;
 
 namespace falkonry_csharp_client.Tests
 {
-    [TestClass()]
+    //[TestClass()]
     public class TestsDatastream
     {
 
         //Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
         List<Datastream> _datastreams = new List<Datastream>();
 
         // Create StandAlone Datastream with Wide format
@@ -645,10 +645,10 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass()]
+   // [TestClass()]
     public class TestAddEntityMeta
     {
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         [TestMethod()]
         // Add EntityMeta to a Datastream, Get EntityMeta of a Datastream
@@ -719,10 +719,10 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass()]
+    // [TestClass()]
     public class TestAssessment
     {
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         [TestMethod()]
         // Test Add assessment
@@ -783,11 +783,11 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-    [TestClass()]
+    // [TestClass()]
     public class TestAddHistoricalData
     {
         //Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         // Add historical narrow input data (json format) to multi entity Datastreamm(Used for model revision)
         [TestMethod()]
@@ -1666,11 +1666,11 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass()]
+    // [TestClass()]
     public class TestAddHistorianDataFromStream
     {
 
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
 
         [TestMethod()]
@@ -1827,10 +1827,10 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-    [TestClass()]
+    // [TestClass()]
     public class TestAddStreamingData
     {
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         // Add live input data (json format) to Datastream (Used for live monitoring) 
         [TestMethod()]
@@ -2044,12 +2044,12 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    //[TestClass]
+    // [TestClass]
     public class AddDataFromStream
 
     {
 
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
 
         [TestMethod()]
@@ -2160,10 +2160,10 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-    [TestClass()]
+    // [TestClass()]
     public class AddFacts
     {
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         [TestMethod()]
         public void addFacts()
@@ -2734,10 +2734,10 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass()]
+    // [TestClass()]
     public class GetFacts
     {
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
 
         [TestMethod()]
@@ -2917,10 +2917,10 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-    [TestClass()]
+    // [TestClass()]
     public class GetDatastreamData
     {
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         [TestMethod()]
         public void getData()
@@ -2978,10 +2978,11 @@ namespace falkonry_csharp_client.Tests
             }
         }
     }
+
     // [TestClass]
     public class FetchHistoricalOutput
     {
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         [TestMethod()]
         public void TestHistoricalOutput()
@@ -3078,7 +3079,7 @@ namespace falkonry_csharp_client.Tests
     // [TestClass]
     public class DatastreamLiveMonitoring
     {
-        Falkonry _falkonry = new Falkonry("https://192.168.2.243:8080", "npp766l2hghmhrc7ygrbldjnkb9rn7mg");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         //[TestMethod()]
         public void DatastreamLiveMonitoringOn()
