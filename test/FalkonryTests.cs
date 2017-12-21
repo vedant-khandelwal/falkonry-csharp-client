@@ -14,7 +14,7 @@ using falkonry_csharp_client;
 
 namespace falkonry_csharp_client.Tests
 {
-    [TestClass()]
+    // [TestClass()]
     public class TestsDatastream
     {
 
@@ -2778,7 +2778,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    [TestClass()]
+    // [TestClass()]
     public class GetFacts
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
