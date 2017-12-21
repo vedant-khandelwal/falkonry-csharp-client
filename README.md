@@ -8,6 +8,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 ## Features
 
     * Create Datastream for narrow/historian style data from a single entity
+	* Create Batch Datastream for narrow/historian style data from a single entity
 	* Create Datastream for narrow/historian style data from a multiple entities
 	* Create Datastream for wide style data from a single entity
 	* Create Datastream for wide style data from a multiple entities
@@ -35,6 +36,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	* Add live input data (json format) from a stream to Datastream (Used for live monitoring) 
 	* Add live input data (csv format) from a stream to Datastream (Used for live monitoring) 
     * Add facts data (json format) to Assessment of single entity datastream
+	* Add facts data (json format) to Assessment of single entity Batch datastream
 	* Add facts data (json format) with addition tag to Assessment of multi entity datastream
 	* Add facts data (csv format) to Assessment of single entity datastream
 	* Add facts data (csv format) with tags Assessment of single entity datastream
@@ -75,6 +77,39 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	Signal.ValueIdentifier = "value";
 	Signal.TagIdentifier = "tag";
 	Signal.IsSignalPrefix = true;
+	Field.Signal = Signal;
+	Field.Time = time;
+	ds.Field = Field;
+	ds.DataSource = datasource;
+	var rnd = new System.Random();
+	var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+	ds.Name = "TestDS" + randomNumber;
+	ds.Field.Time = time;
+	ds.DataSource = datasource;
+	var datastream = _falkonry.CreateDatastream(ds);
+```
+
+#### Create Batch Datastream for narrow/historian style data from a single entity
+    
+```
+    using falkonry_csharp_client;
+    using falkonry_csharp_client.helper.models;
+    
+    string token="Add your token here";   
+    Falkonry falkonry = new Falkonry("http://localhost:8080", token);
+    
+	var time = new Time();
+	time.Zone = "GMT";
+	time.Identifier = "time";
+	time.Format = "iso_8601";
+
+	var datasource = new Datasource();
+	datasource.Type = "PI";
+	var ds = new DatastreamRequest();
+	var Field = new Field();
+	var Signal = new Signal();
+	Signal.ValueIdentifier = "value";
+	Field.BatchIdentifier = "Batch";
 	Field.Signal = Signal;
 	Field.Time = time;
 	ds.Field = Field;
@@ -789,11 +824,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     string token = "Add your token here";   
     SortedDictionary<string, string> options = new SortedDictionary<string, string>();
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
-    String data = "{\"time\" : \"2011-03-26T12:00:00.000Z\", \"end\" : \"2012-06-01T00:00:00.000Z\", \"Health\" : \"Normal\", \"Batch\" : \"batch1\"}";
-    options.Add("startTimeIdentifier", "time");
-	options.Add("endTimeIdentifier", "end");
-	options.Add("timeFormat", "iso_8601");
-	options.Add("timeZone", "GMT");
+    String data = "{\"Health\" : \"Normal\", \"Batch\" : \"batch1\"}";
 	options.Add("valueIdentifier", "Health");
 	options.Add("batchIdentifier", "Batch");
 	string response = falkonry.addFacts('assessment-id',data, options);
@@ -913,7 +944,7 @@ Sample CSVFile
     string response = falkonry.AddFactsStream('assessment-id',bytes, options);
 ```
 
-#### Get facts data of Assessment    
+#### Get facts data of Assessment
 ```
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
@@ -922,6 +953,7 @@ Sample CSVFile
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string assessment = "id of the assessment here";
     string response = falkonry.getFacts('assessment',options);
+
 ```
 
 #### Get Datastream Input data

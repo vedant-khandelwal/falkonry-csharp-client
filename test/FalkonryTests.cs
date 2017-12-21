@@ -14,11 +14,10 @@ using falkonry_csharp_client;
 
 namespace falkonry_csharp_client.Tests
 {
-    //[TestClass()]
+    [TestClass()]
     public class TestsDatastream
     {
 
-        //Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
         List<Datastream> _datastreams = new List<Datastream>();
 
@@ -95,6 +94,55 @@ namespace falkonry_csharp_client.Tests
                 Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
                 Assert.AreEqual(ds.Field.Signal.ValueIdentifier, datastream.Field.Signal.ValueIdentifier);
                 Assert.AreEqual(ds.Field.Signal.SignalIdentifier, datastream.Field.Signal.SignalIdentifier);
+                Assert.AreEqual(datastream.Field.EntityName, datastream.Name);
+                _falkonry.DeleteDatastream(datastream.Id);
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false); ;
+            }
+        }
+
+        // Create Datastream for older narrow/historian style data from a single entity
+        [TestMethod()]
+        public void createDatastreamOlderNarrowFormatSingleEntity()
+        {
+            var time = new Time();
+            time.Zone = "GMT";
+            time.Identifier = "time";
+            time.Format = "iso_8601";
+
+            var datasource = new Datasource();
+            datasource.Type = "PI";
+            var ds = new DatastreamRequest();
+            var Field = new Field();
+            var Signal = new Signal();
+            Signal.ValueIdentifier = "value";
+            Signal.TagIdentifier = "tag";
+            Signal.IsSignalPrefix = true;
+            Signal.Delimiter = "-";
+            Field.Signal = Signal;
+            Field.Time = time;
+            ds.Field = Field;
+            ds.DataSource = datasource;
+            var rnd = new System.Random();
+            var randomNumber = System.Convert.ToString(rnd.Next(1, 10000));
+            ds.Name = "TestDS" + randomNumber;
+            ds.Field.Time = time;
+            ds.DataSource = datasource;
+            try
+            {
+                var datastream = _falkonry.CreateDatastream(ds);
+                Assert.AreEqual(ds.Name, datastream.Name, false);
+                Assert.AreNotEqual(null, datastream.Id);
+                Assert.AreEqual(ds.Field.Time.Format, datastream.Field.Time.Format);
+                Assert.AreEqual(ds.Field.Time.Identifier, datastream.Field.Time.Identifier);
+                Assert.AreEqual(ds.DataSource.Type, datastream.DataSource.Type);
+                Assert.AreEqual(ds.Field.Signal.ValueIdentifier, datastream.Field.Signal.ValueIdentifier);
+                Assert.AreEqual(ds.Field.Signal.TagIdentifier, datastream.Field.Signal.TagIdentifier);
+                Assert.AreEqual(ds.Field.Signal.IsSignalPrefix, datastream.Field.Signal.IsSignalPrefix);
+                Assert.AreEqual(ds.Field.Signal.Delimiter, datastream.Field.Signal.Delimiter);
                 Assert.AreEqual(datastream.Field.EntityName, datastream.Name);
                 _falkonry.DeleteDatastream(datastream.Id);
             }
@@ -645,7 +693,7 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-   // [TestClass()]
+    // [TestClass()]
     public class TestAddEntityMeta
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
@@ -1978,7 +2026,7 @@ namespace falkonry_csharp_client.Tests
                 var inputstatus = _falkonry.AddInput(datastream.Id, data, options);
 
                 options["streaming"] = "true";
-               
+
                 inputstatus = _falkonry.AddInput(datastream.Id, data, options);
                 _falkonry.DeleteDatastream(datastream.Id);
             }
@@ -2160,7 +2208,7 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-    // [TestClass()]
+    [TestClass()]
     public class AddFacts
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
@@ -2292,18 +2340,14 @@ namespace falkonry_csharp_client.Tests
                 asmt.Datastream = datastream.Id;
                 var optionsFacts = new SortedDictionary<string, string>
                      {
-                        {"startTimeIdentifier", "time"},
-                        {"endTimeIdentifier", "end"},
-                        {"timeFormat", "iso_8601"},
-                        {"timeZone", time.Zone },
                         { "entityIdentifier", datastream.Field.EntityIdentifier},
                         { "valueIdentifier" , "Health"},
                         { "batchIdentifier" , "Batch"}
                     };
                 var assessment = _falkonry.CreateAssessment(asmt);
 
-                var data1 = "time,end," + datastream.Field.EntityIdentifier
-              + ",Health,Batch\n2011-03-31T00:00:00.000Z,2011-04-01T00:00:00.000Z,Unit1,Normal,batch1\n2011-03-31T00:00:00.000Z,2011-04-01T00:00:00.000Z,Unit1,Normal,batch2";
+                var data1 = datastream.Field.EntityIdentifier
+              + ",Health,Batch\nUnit1,Normal,batch1\nUnit1,Normal,batch2";
                 var response = _falkonry.AddFacts(assessment.Id, data1, optionsFacts);
 
                 _falkonry.DeleteDatastream(datastream.Id);
@@ -2734,11 +2778,10 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    // [TestClass()]
+    [TestClass()]
     public class GetFacts
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
-
 
         [TestMethod()]
         public void getFacts()
@@ -2816,6 +2859,7 @@ namespace falkonry_csharp_client.Tests
                 /// Get Facts
                 var factsData = _falkonry.getFacts(assessment.Id, options);
                 Assert.AreEqual(factsData.Response.Length > 0, true);
+                Assert.AreEqual(factsData.Response.ToLower().Contains(optionsFacts["startTimeIdentifier".ToLower()]), true);
 
                 _falkonry.DeleteDatastream(datastream.Id);
             }
@@ -2890,22 +2934,19 @@ namespace falkonry_csharp_client.Tests
 
                 var optionsFacts = new SortedDictionary<string, string>
                      {
-                        {"startTimeIdentifier", "time"},
-                        {"endTimeIdentifier", "end"},
-                        {"timeFormat", "iso_8601"},
-                        {"timeZone", time.Zone },
                         { "entityIdentifier", datastream.Field.EntityIdentifier},
                         { "valueIdentifier" , "Health"},
                         { "batchIdentifier" , "Batch"}
                     };
 
-                var data1 = "time,end," + datastream.Field.EntityIdentifier
-              + ",Health,Batch\n2011-03-31T00:00:00.000Z,2011-04-01T00:00:00.000Z,Unit1,Normal,batch1\n2011-03-31T00:00:00.000Z,2011-04-01T00:00:00.000Z,Unit1,Normal,batch2";
+                var data1 = datastream.Field.EntityIdentifier
+              + ",Health,Batch\nUnit1,Normal,batch1\nUnit1,Normal,batch2";
                 var response = _falkonry.AddFacts(assessment.Id, data1, optionsFacts);
 
                 /// Get Facts
                 var factsData = _falkonry.getFacts(assessment.Id, options);
                 Assert.AreEqual(factsData.Response.Length > 0, true);
+                Assert.AreEqual(factsData.Response.ToLower().Contains(optionsFacts["batchIdentifier"].ToLower()), true);
 
                 _falkonry.DeleteDatastream(datastream.Id);
             }

@@ -14,5 +14,23 @@
             get;
             set;
         }
+
+        public string TagIdentifier
+        {
+            get;
+            set;
+        }
+
+        public string Delimiter
+        {
+            get;
+            set;
+        }
+
+        public bool IsSignalPrefix
+        {
+            get;
+            set;
+        }
     }
 }
