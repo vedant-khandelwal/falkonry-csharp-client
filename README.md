@@ -867,7 +867,6 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
     string data = "time,end,Health\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Normal\n2011-03-31T00:00:00Z,2011-04-01T00:00:00Z,Normal";
     string response = falkonry.addFacts('assessment-id',data, options);
-```
 
 ```
 #### Add facts data (csv format) with tags Assessment of multi entity datastream
@@ -900,7 +899,6 @@ Sample JSONFile:
 	{"time" : "2014-02-10T23:00:00.000Z", "car" : "HI3821", "end" : "2014-03-20T12:00:00.000Z", "Health" : "Spalling"}
 ```
 
-```
     using falkonry_csharp_client;
     using falkonry_csharp_client.helper.models;
 
