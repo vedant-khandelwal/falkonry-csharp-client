@@ -41,7 +41,7 @@ Falkonry C# Client to access [Falkonry Condition Prediction](falkonry.com) APIs
 	* Add facts data (csv format) to Assessment of single entity datastream
 	* Add facts data (csv format) with tags Assessment of single entity datastream
 	* Add facts data (json format) from a stream to Assessment of multi entity datastream
-	* Add facts data (csv format) from a stream to  Assessment of multi entity datastream
+	* Add facts data (csv format) from a stream to Assessment of multi entity datastream
 	* Get facts data
 	* Get Datastream Input data
     * Get Historian Output from Assessment
@@ -916,7 +916,9 @@ Sample JSONFile:
     byte[] bytes = System.IO.File.ReadAllBytes(path);
     string response = falkonry.AddFactsStream('assessment-id',bytes, options);
 ```
-#### Add facts data (csv format) from a stream to  Assessment of multi entity datastream
+#### Add facts data (csv format) from a stream to Assessment of multi entity datastream
+
+```
     
 Sample CSVFile
 	time,car,end,Health
