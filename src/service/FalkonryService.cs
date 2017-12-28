@@ -471,6 +471,8 @@ namespace falkonry_csharp_client.service
                 string valueIdentifier;
                 string tagIdentifier;
                 string additionalTag;
+                string batchIdentifier;
+
                 var firstReqParam = true;
                 if (options.TryGetValue("startTimeIdentifier", out startTimeIdentifier))
                 {
@@ -478,7 +480,6 @@ namespace falkonry_csharp_client.service
                         firstReqParam = false;
                     else
                         url += "&";
-
                     url += "startTimeIdentifier=" + Uri.EscapeDataString(startTimeIdentifier);
                 }
                 if (options.TryGetValue("endTimeIdentifier", out endTimeIdentifier))
@@ -504,7 +505,7 @@ namespace falkonry_csharp_client.service
                         firstReqParam = false;
                     else
                         url += "&";
-                    url += "&timeZone=" + Uri.EscapeDataString(timeZone);
+                    url += "timeZone=" + Uri.EscapeDataString(timeZone);
                 }
                 if (options.TryGetValue("entityIdentifier", out entityIdentifier))
                 {
@@ -512,7 +513,7 @@ namespace falkonry_csharp_client.service
                         firstReqParam = false;
                     else
                         url += "&";
-                    url += "&entityIdentifier=" + Uri.EscapeDataString(entityIdentifier);
+                    url += "entityIdentifier=" + Uri.EscapeDataString(entityIdentifier);
                 }
                 if (options.TryGetValue("valueIdentifier", out valueIdentifier))
                 {
@@ -520,7 +521,7 @@ namespace falkonry_csharp_client.service
                         firstReqParam = false;
                     else
                         url += "&";
-                    url += "&valueIdentifier=" + Uri.EscapeDataString(valueIdentifier);
+                    url += "valueIdentifier=" + Uri.EscapeDataString(valueIdentifier);
                 }
                 if (options.TryGetValue("additionalTag", out additionalTag))
                 {
@@ -528,7 +529,7 @@ namespace falkonry_csharp_client.service
                         firstReqParam = false;
                     else
                         url += "&";
-                    url += "&additionalTag=" + Uri.EscapeDataString(additionalTag);
+                    url += "additionalTag=" + Uri.EscapeDataString(additionalTag);
                 }
                 if (options.TryGetValue("tagIdentifier", out tagIdentifier))
                 {
@@ -536,7 +537,15 @@ namespace falkonry_csharp_client.service
                         firstReqParam = false;
                     else
                         url += "&";
-                    url += "&tagIdentifier=" + Uri.EscapeDataString(tagIdentifier);
+                    url += "tagIdentifier=" + Uri.EscapeDataString(tagIdentifier);
+                }
+                if (options.TryGetValue("batchIdentifier", out batchIdentifier))
+                {
+                    if (firstReqParam)
+                        firstReqParam = false;
+                    else
+                        url += "&";
+                    url += "batchIdentifier=" + Uri.EscapeDataString(batchIdentifier);
                 }
 
                 return url;
@@ -557,6 +566,7 @@ namespace falkonry_csharp_client.service
             string entityIdentifierValue;
             string signalIdentifierValue;
             string valueIdentifierValue;
+            string batchIdentifierValue;
 
             var url = "/datastream/" + datastreamId;
 
@@ -599,6 +609,10 @@ namespace falkonry_csharp_client.service
             if (options.TryGetValue("valueIdentifier", out valueIdentifierValue))
             {
                 url += "&valueIdentifier=" + Uri.EscapeDataString(valueIdentifierValue);
+            }
+            if (options.TryGetValue("batchIdentifier", out batchIdentifierValue))
+            {
+                url += "&batchIdentifier=" + Uri.EscapeDataString(batchIdentifierValue);
             }
             return url;
         }
