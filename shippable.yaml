@@ -2,8 +2,8 @@ language: none
 
 build:
   pre_ci_boot:
-    image_name: microsoft/dotnet
-    image_tag: latest
+    image_name: microsoft/dotnet-framework-build
+    image_tag: 3.5
     pull: true
   ci:
-    - dotnet test
+    - msbuild.exe /t:Build /p:Configuration=Release /p:OutputPath=out
