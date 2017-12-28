@@ -1,0 +1,10 @@
+language: none
+
+build:
+  pre_ci_boot:
+    image_name: microsoft/dotnet
+    image_tag: latest
+    pull: true
+  ci:
+    - cd test
+    - dotnet run
