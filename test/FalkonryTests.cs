@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Web.Script.Serialization;
 using System.IO;
 using falkonry_csharp_client;
+using Newtonsoft.Json;
 /*INSTRUCTIONS: TO RUN ANY TESTS, SIMPLY UNCOMMENT THE '//[TestClass()] ' header before every class of tests to run that particular class of tests. 
 * You should try executing method by method in case class wise tests take too long or fail */
 
@@ -3117,6 +3118,53 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
+     [TestClass]
+    public class GetStreamingOutput
+    {
+        internal class FalkonryEvent
+        {
+            // ReSharper disable once InconsistentNaming
+            public string entity { get; set; }
+            // ReSharper disable once InconsistentNaming
+            public string time { get; set; }
+            // ReSharper disable once InconsistentNaming
+            public string value { get; set; }
+            public override string ToString()
+            {
+                return $"{{time: '{time}', entity: '{entity}', value: '{value}'}}";
+            }
+        }
+        //Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "n4qlyqyl7eejz9i2sc1bpi5bz6ry3wvx");
+
+        private void EventSource_Message(object sender, EventSource.ServerSentEventArgs e)
+        {
+            var falkonryEvent = JsonConvert.DeserializeObject<FalkonryEvent>(e.Data);
+        }
+
+        [TestMethod()]
+        public void TestStreamingOutput()
+        {
+            string assessment = "492gcthqjbr48d";
+            Dictionary<string, EventSource> _eventSource = new Dictionary<string, EventSource>();
+            try
+            {
+
+                EventSource eventSource = null;
+                eventSource = _falkonry.GetOutput(assessment,null,null);
+                eventSource.Message += EventSource_Message;
+                _eventSource.Add(assessment, eventSource);
+                // eventSource.Error += EventSource_NewError;
+
+            }
+            catch (System.Exception exception)
+            {
+
+                Assert.AreEqual(exception.Message, null, false);
+            }
+        }
+    }
+
     // [TestClass]
     public class DatastreamLiveMonitoring
     {
@@ -3200,5 +3248,7 @@ namespace falkonry_csharp_client.Tests
         }
 
     }
+
+    
 }
 
