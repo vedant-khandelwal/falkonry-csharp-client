@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using falkonry_csharp_client.helper.models;
 using System.Diagnostics;
@@ -3130,13 +3130,13 @@ namespace falkonry_csharp_client.Tests
             public string time { get; set; }
             // ReSharper disable once InconsistentNaming
             public string value { get; set; }
+            public string batch { get; set; }
             public override string ToString()
             {
-                return $"{{time: '{time}', entity: '{entity}', value: '{value}'}}";
+                return $"{{time: '{time}', entity: '{entity}', value: '{value}', batch: '{batch}'}}";
             }
         }
-        //Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
-        Falkonry _falkonry = new Falkonry("https://dev.falkonry.ai", "n4qlyqyl7eejz9i2sc1bpi5bz6ry3wvx");
+        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
         private void EventSource_Message(object sender, EventSource.ServerSentEventArgs e)
         {
@@ -3154,14 +3154,14 @@ namespace falkonry_csharp_client.Tests
             
         }
 
-        private void EventSource_NewError(object sender, EventSource.ServerSentErrorEventArgs e)
+        private void EventSource_Error(object sender, EventSource.ServerSentErrorEventArgs e)
         {
             Assert.AreEqual(e.Exception.Message, null, false);
         }
         [TestMethod()]
         public void TestStreamingOutput()
         {
-            string assessment = "492gcthqjbr48d-";
+            string assessment = "assessment-id";
             Dictionary<string, EventSource> _eventSource = new Dictionary<string, EventSource>();
             try
             {
@@ -3169,12 +3169,12 @@ namespace falkonry_csharp_client.Tests
                 EventSource eventSource = null;
                 eventSource = _falkonry.GetOutput(assessment,null,null);
                 eventSource.Message += EventSource_Message;
-                eventSource.Error += EventSource_NewError;
+                eventSource.Error += EventSource_Error;
+                //Use the array to handle multiple assessment's output
                 _eventSource.Add(assessment, eventSource);
+                //Live streaming output takes time that's why adding delay
                 Thread.Sleep(60000);
                 Assert.AreEqual(null, null, true);
-                
-
             }
             catch (System.Exception exception)
             {
