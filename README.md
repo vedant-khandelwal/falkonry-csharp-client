@@ -1025,23 +1025,7 @@ Sample CSVFile
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
     string assessment_id ="assessment ID here";
-    System.IO.Stream streamrecieved = falkonry.getOutput(assessment_id, null, null);
-    //The folder path below by default is debug in bin.
-    string folder_path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-    //Alternatively, you can also specify the path of the folder in thr folder_path variable
-    //The outflow will get saved in an outflow.txt file there
-    string path = folder_path + "/outflow.txt";
-
-    System.IO.StreamReader streamreader = new System.IO.StreamReader(streamrecieved);
-    System.IO.StreamWriter streamwriter = new System.IO.StreamWriter(path);
-    string line;
-    using (streamwriter)
-    {
-        while ((line = streamreader.ReadLine()) != null)
-        {
-            streamwriter.WriteLine(line);
-        }
-    }
+    EventSource eventSource = falkonry.getOutput(assessment_id, null, null);
 
 ```
 #### Datastream On (Start live monitoring of datastream)
