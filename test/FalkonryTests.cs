@@ -6,6 +6,7 @@ using System.Web.Script.Serialization;
 using System.IO;
 using falkonry_csharp_client;
 using Newtonsoft.Json;
+using System.Threading;
 /*INSTRUCTIONS: TO RUN ANY TESTS, SIMPLY UNCOMMENT THE '//[TestClass()] ' header before every class of tests to run that particular class of tests. 
 * You should try executing method by method in case class wise tests take too long or fail */
 
@@ -3139,13 +3140,28 @@ namespace falkonry_csharp_client.Tests
 
         private void EventSource_Message(object sender, EventSource.ServerSentEventArgs e)
         {
-            var falkonryEvent = JsonConvert.DeserializeObject<FalkonryEvent>(e.Data);
+            try
+            {
+                var falkonryEvent = JsonConvert.DeserializeObject<FalkonryEvent>(e.Data);
+                Assert.AreNotEqual(falkonryEvent.time, null);
+                Assert.AreNotEqual(falkonryEvent.entity, null);
+                Assert.AreNotEqual(falkonryEvent.value, null);
+            }
+            catch(System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, null, false);
+            }
+            
         }
 
+        private void EventSource_NewError(object sender, EventSource.ServerSentErrorEventArgs e)
+        {
+            Assert.AreEqual(e.Exception.Message, null, false);
+        }
         [TestMethod()]
         public void TestStreamingOutput()
         {
-            string assessment = "492gcthqjbr48d";
+            string assessment = "492gcthqjbr48d-";
             Dictionary<string, EventSource> _eventSource = new Dictionary<string, EventSource>();
             try
             {
@@ -3153,13 +3169,15 @@ namespace falkonry_csharp_client.Tests
                 EventSource eventSource = null;
                 eventSource = _falkonry.GetOutput(assessment,null,null);
                 eventSource.Message += EventSource_Message;
+                eventSource.Error += EventSource_NewError;
                 _eventSource.Add(assessment, eventSource);
-                // eventSource.Error += EventSource_NewError;
+                Thread.Sleep(60000);
+                Assert.AreEqual(null, null, true);
+                
 
             }
             catch (System.Exception exception)
             {
-
                 Assert.AreEqual(exception.Message, null, false);
             }
         }
