@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Net;
 using System.Collections.Generic;
 using falkonry_csharp_client.helper.models;
 using System.Diagnostics;
@@ -3130,7 +3131,9 @@ namespace falkonry_csharp_client.Tests
             public string time { get; set; }
             // ReSharper disable once InconsistentNaming
             public string value { get; set; }
+
             public string batch { get; set; }
+
             public override string ToString()
             {
                 return $"{{time: '{time}', entity: '{entity}', value: '{value}', batch: '{batch}'}}";
@@ -3138,6 +3141,9 @@ namespace falkonry_csharp_client.Tests
         }
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
 
+
+        EventSource eventSource = null;
+        //Handles live streaming output
         private void EventSource_Message(object sender, EventSource.ServerSentEventArgs e)
         {
             try
@@ -3151,29 +3157,45 @@ namespace falkonry_csharp_client.Tests
             {
                 Assert.AreEqual(exception.Message, null, false);
             }
-            
         }
 
+        //Handles any error while fetching the live streaming output
         private void EventSource_Error(object sender, EventSource.ServerSentErrorEventArgs e)
         {
-            Assert.AreEqual(e.Exception.Message, null, false);
+            try
+            {
+                if (((System.Net.HttpWebResponse)((System.Net.WebException)e.Exception).Response).StatusCode == HttpStatusCode.NotFound && eventSource!= null)
+                {
+                    //Dispose the event
+                    eventSource.Dispose();
+                    Assert.AreEqual(e.Exception.Message, null, false);
+                }
+            }
+            catch (System.Exception exception)
+            {
+                Assert.AreEqual(exception.Message, null, false);
+                return;
+            }
         }
+
         [TestMethod()]
         public void TestStreamingOutput()
         {
             string assessment = "assessment-id";
-            Dictionary<string, EventSource> _eventSource = new Dictionary<string, EventSource>();
             try
             {
-
-                EventSource eventSource = null;
+                
                 eventSource = _falkonry.GetOutput(assessment,null,null);
+
+                //On successfull live streaming output EventSource_Message will be triggered
                 eventSource.Message += EventSource_Message;
+
+                //On any error while getting live streaming output, EventSource_Error will be triggered
                 eventSource.Error += EventSource_Error;
-                //Use the array to handle multiple assessment's output
-                _eventSource.Add(assessment, eventSource);
-                //Live streaming output takes time that's why adding delay
+                //Keep test cases run for 60 sec
                 Thread.Sleep(60000);
+
+                eventSource.Dispose();
                 Assert.AreEqual(null, null, true);
             }
             catch (System.Exception exception)
