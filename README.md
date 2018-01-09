@@ -1024,52 +1024,26 @@ Sample CSVFile
     string token="Add your token here";   
     Falkonry falkonry = new Falkonry("http://localhost:8080", token);
 
-	//Handles live streaming output
+	string assessment_id ="assessment ID here";
+
+	//On successfull live streaming output EventSource_Message will be triggered
 	private void EventSource_Message(object sender, EventSource.ServerSentEventArgs e)
     {
-        try
-        {
-            var falkonryEvent = JsonConvert.DeserializeObject<FalkonryEvent>(e.Data);
-            Assert.AreNotEqual(falkonryEvent.time, null);
-            Assert.AreNotEqual(falkonryEvent.entity, null);
-            Assert.AreNotEqual(falkonryEvent.value, null);
-        }
-        catch(System.Exception exception)
-        {
-            Assert.AreEqual(exception.Message, null, false);
-        }
+        try { var falkonryEvent = JsonConvert.DeserializeObject<FalkonryEvent>(e.Data); }
+        catch(System.Exception exception) 
+        { //log error in case of error parsing the output event }
             
     }
 
-	//Handles any error while fetching the live streaming output
-    private void EventSource_Error(object sender, EventSource.ServerSentErrorEventArgs e)
-    {
-        try
-        {
-            if (((System.Net.HttpWebResponse)((System.Net.WebException)e.Exception).Response).StatusCode == HttpStatusCode.NotFound && eventSource!= null)
-            {
-                //Dispose the event
-                eventSource.Dispose();
-                Assert.AreEqual(e.Exception.Message, null, false);
-            }
-        }
-        catch (System.Exception exception)
-        {
-            Assert.AreEqual(exception.Message, null, false);
-            return;
-        }
-    }
-
-    string assessment_id ="assessment ID here";
-    EventSource eventSource = falkonry.GetOutput(assessment,null,null);
-
-	//On successfull live streaming output EventSource_Message will be triggered
-	eventSource.Message += EventSource_Message;
-
 	//On any error while getting live streaming output, EventSource_Error will be triggered
+    private void EventSource_Error(object sender, EventSource.ServerSentErrorEventArgs e)
+    { // Error handling }
+	
+	EventSource eventSource = falkonry.GetOutput(assessment,null,null);
+	eventSource.Message += EventSource_Message;
     eventSource.Error += EventSource_Error;
 
-	//To stop listening to output
+	// NOTE: To stop listening to output
 	eventSource.Dispose();
 
 ```

@@ -3120,7 +3120,7 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-     [TestClass]
+    // [TestClass]
     public class GetStreamingOutput
     {
         internal class FalkonryEvent
@@ -3147,14 +3147,10 @@ namespace falkonry_csharp_client.Tests
         private void EventSource_Message(object sender, EventSource.ServerSentEventArgs e)
         {
             try
-            {
-                var falkonryEvent = JsonConvert.DeserializeObject<FalkonryEvent>(e.Data);
-                Assert.AreNotEqual(falkonryEvent.time, null);
-                Assert.AreNotEqual(falkonryEvent.entity, null);
-                Assert.AreNotEqual(falkonryEvent.value, null);
-            }
+            { var falkonryEvent = JsonConvert.DeserializeObject<FalkonryEvent>(e.Data); }
             catch(System.Exception exception)
             {
+                // exception in parsing the event
                 Assert.AreEqual(exception.Message, null, false);
             }
         }
@@ -3162,20 +3158,8 @@ namespace falkonry_csharp_client.Tests
         //Handles any error while fetching the live streaming output
         private void EventSource_Error(object sender, EventSource.ServerSentErrorEventArgs e)
         {
-            try
-            {
-                if (((System.Net.HttpWebResponse)((System.Net.WebException)e.Exception).Response).StatusCode == HttpStatusCode.NotFound && eventSource!= null)
-                {
-                    //Dispose the event
-                    eventSource.Dispose();
-                    Assert.AreEqual(e.Exception.Message, null, false);
-                }
-            }
-            catch (System.Exception exception)
-            {
-                Assert.AreEqual(exception.Message, null, false);
-                return;
-            }
+            // error connecting to Falkonry service for output streaming
+            Assert.AreEqual(e.Exception.Message, null, false);
         }
 
         [TestMethod()]
@@ -3192,7 +3176,8 @@ namespace falkonry_csharp_client.Tests
 
                 //On any error while getting live streaming output, EventSource_Error will be triggered
                 eventSource.Error += EventSource_Error;
-                //Keep test cases run for 60 sec
+                
+                //Keep stream open for 60sec
                 Thread.Sleep(60000);
 
                 eventSource.Dispose();
