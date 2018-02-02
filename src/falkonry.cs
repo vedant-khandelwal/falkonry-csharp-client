@@ -243,6 +243,50 @@ namespace falkonry_csharp_client
             }
         }
 
+        public OutputStateRequest onStartOutput(OutputStateRequest outputState) {
+            try
+            {
+                _falkonryService.startOutput(outputState);
+            }
+            catch (Exception)
+            {
+                throw;    
+            }
+        }
+
+        public void onStopOutput(string outputState) {
+            try
+            {
+                _falkonryService.stopOutput(outputState);
+            }
+            catch (Exception)
+            {
+                throw;    
+            }
+        }
+
+        public void streamInputData(string outputStateId) {
+            try
+            {
+                _falkonryService.streamInputData(outputStateId);
+            }
+            catch (Exception)
+            {
+                throw;    
+            }
+        }
+
+        public void getOutputStreamData(string outputStateId) {
+            try
+            {
+                _falkonryService.getOutputData(outputStateId);
+            }
+            catch (Exception)
+            {
+                throw;    
+            }
+        }
+
         public HttpResponse getFacts(string assessment, SortedDictionary<string, string> options)
         {
             try

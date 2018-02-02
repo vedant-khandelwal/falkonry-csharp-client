@@ -458,6 +458,62 @@ namespace falkonry_csharp_client.service
             }
         }
 
+        // Start Output
+        public OutputStateResponse startOutput(OutputStateRequest outputState)
+        {
+            try
+            {
+                var data = JsonConvert.SerializeObject(outputState, Formatting.Indented,
+                    new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+                var OutputStateRes = _http.Post("/output/start",data);
+
+                return JsonConvert.DeserializeObject<OutputStateResponse>(OutputStateRes);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        //Stop output
+        public void stopOutput(string outputStateId)
+        {
+            try
+            {
+                _http.Post("/output/" + outputStateId + "stop");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        //Stream input data
+        public void streamInputData(string outputStateId)
+        {
+            try
+            {
+                _http.Post("/output/" + outputStateId + "/ingest");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        //Get streaming output data
+        public void getOutputData(string outputStateId)
+        {
+            try
+            {
+                _http.Post("/output/" + outputStateId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         private string get_add_facts_url(string assessment, SortedDictionary<string, string> options)
         {
             var url = "/assessment/" + assessment + "/facts?";

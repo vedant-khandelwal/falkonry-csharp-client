@@ -17,11 +17,11 @@ using System.Threading;
 
 namespace falkonry_csharp_client.Tests
 {
-    // [TestClass()]
+   [TestClass()]
     public class TestsDatastream
     {
 
-        Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
+        Falkonry _falkonry = new Falkonry("https://192.168.2.225:8080", "2yw9hdchvp7wtwvb8nrmtymt67tg8k88");
         List<Datastream> _datastreams = new List<Datastream>();
 
         // Create StandAlone Datastream with Wide format
@@ -2211,7 +2211,7 @@ namespace falkonry_csharp_client.Tests
         }
     }
 
-    [TestClass()]
+    // [TestClass()]
     public class AddFacts
     {
         Falkonry _falkonry = new Falkonry("https://localhost:8080", "auth-token");
@@ -3274,6 +3274,5 @@ namespace falkonry_csharp_client.Tests
 
     }
 
-    
 }
 
